@@ -30,7 +30,7 @@ write_csv(dat2, here("literature_search", "all_search_combined", "pop_reliabilit
 
 
 total_rows <- nrow(dat2)
-num_chunks <- ceiling(total_rows / 306) # Use ceiling to ensure all data is included
+num_chunks <- ceiling(total_rows / 304) # Use ceiling to ensure all data is included
 
 # Create a sequence that assigns each row to a chunk
 chunk_assignment <- rep(1:num_chunks, each=306, length.out=total_rows)
