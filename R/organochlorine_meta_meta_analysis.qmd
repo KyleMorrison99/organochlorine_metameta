@@ -7,7 +7,7 @@ format:
     toc: true
     toc-location: left
     toc-depth: 2
-    code-fold: true
+    code-fold: false 
     code-download: true
     theme: darkly
 execute:
@@ -19,9 +19,8 @@ editor:
   default-output: console
 ---
 
-# **Load Packages & Data**
-
-## *Load Packages*
+# **Packages & Data**
+## *Packages*
 
 ```{r}
 rm(list = ls())
@@ -51,7 +50,7 @@ pacman::p_load(tidyverse,
 
 ```
 
-## *Load Data*
+## *Data*
 ```{r}
 # Read the CSV files
 data <- read_csv(here("data", "organochlorine_meta_meta_data.csv"))
@@ -59,20 +58,7 @@ study <- read_csv(here("data", "organochlorine_meta_meta_studies.csv"))
 
 
 data <- left_join(data, study, by = "ma_aut_year")
-# Table of the dataset
- kable(data, "html") %>%
-    kable_styling("bordered", position = "left") %>%
-    scroll_box(width = "250%", height = "800px")
 
-
-# Summary of the data set
-kable(summary(data), "html") %>%
-    kable_styling("bordered", position = "left") %>%
-    scroll_box(width = "250%", height = "500px")
-```
-
-# *Data wrangling & cleaning*
-```{r}
 data <- data %>%
   mutate(ma_es_measure = recode(
     ma_es_measure,
@@ -93,16 +79,16 @@ data <- data %>%
     "fishers z" = "Fisher's Z",
     "log OR (odds ratio)" = "log Odds ratio")) 
 
+# Table of the dataset
+# kable(data, "html") %>%
+#    scroll_box(width = "250%", height = "400px")
 ```
 
-# *Data exploration and reporting of methodological items*
+## *Polar plots*
 ```{r}
 
-library(patchwork)
+# ── 1. Shared palettes, labels, and theme ─────────────────────────────────────
 
-###############################################################################
-# 1.  Shared palettes, labels, and theme --------------------------------------
-###############################################################################
 # Blue gradient (light → dark)
 blue_pal <- colorRampPalette(brewer.pal(9, "Blues"))(100)
 
@@ -113,7 +99,7 @@ greek_labs <- c(
   "trans-Nonachlor" = "trans-\nNonachlor"
 )
 
-# Minimal circular-plot theme (re-used by every plot)
+# Minimal circular‑plot theme (re‑used by every plot)
 base_circular_theme <- theme_minimal(base_size = 11) +
   theme(
     axis.text.x        = element_text(colour = "grey12", size = 10),
@@ -124,28 +110,27 @@ base_circular_theme <- theme_minimal(base_size = 11) +
     plot.title         = element_text(size = 15, face = "bold", hjust = .5),
     plot.subtitle      = element_text(size = 12, hjust = .5),
     plot.tag           = element_text(face = "bold", size = 16),
-    plot.tag.position  = c(0.02, 0.98),   # ⟵ upper-left
+    plot.tag.position  = c(0.02, 0.98),
     text               = element_text(colour = "grey12")
   )
 
-###############################################################################
-# 2.  Self-contained helper to build & (optionally) save a circular bar plot --
-###############################################################################
+# ── 2. Self‑contained helper to build *and* save a circular bar plot ──────────
+
 make_circular_plot <- function(
   df, x_var, title,
   legend_title   = "Count",
   collapse_under = 0,
   greek          = FALSE,
   label_offset   = 0.05,
-  file_name      = NULL,   # e.g. "my_plot" or "my_plot.jpg"; NULL → don’t save
+  file_name      = NULL,   # write “basename” here (no extension needed)
   scale_max      = NULL,
-  width          = 18,    
-  height         = 19,     
+  width          = 18,     # cm
+  height         = 19,     # cm
   dpi            = 300,
-  tag            = NULL    # NEW: plot tag (e.g. "a", "b")
+  tag            = NULL
 ) {
 
-  # 2.1 Count observations & optionally collapse rare categories
+  # 2·1 Count observations & optionally collapse rare categories ---------------
   df_sum <- df %>%
     count({{ x_var }}, name = "n") %>%
     mutate({{ x_var }} := as.character({{ x_var }}),
@@ -155,7 +140,7 @@ make_circular_plot <- function(
     summarise(n = sum(n), .groups = "drop") %>%
     mutate(lbl = str_wrap({{ x_var }}, 5))
 
-  # 2.2 Plot basics
+  # 2·2 Plot basics ------------------------------------------------------------
   max_val <- if (is.null(scale_max)) max(df_sum$n) else scale_max
 
   p <- ggplot(df_sum, aes(x = reorder(lbl, n), y = n, fill = n)) +
@@ -192,13 +177,13 @@ make_circular_plot <- function(
     coord_polar() +
     labs(
       title    = title,
-      subtitle = glue("Total observations = {sum(df_sum$n)}"),
-      tag      = tag,           # ← include the tag
+      subtitle = glue("Total meta-analytic model estimates = {sum(df_sum$n)}"),
+      tag      = tag,
       x = NULL, y = NULL
     ) +
     base_circular_theme
 
-  # 2.3 Optional Greek-letter relabelling
+  # 2·3 Optional Greek‑letter relabelling --------------------------------------
   if (greek) {
     p <- p + scale_x_discrete(labels = function(x) {
       out  <- x
@@ -208,93 +193,84 @@ make_circular_plot <- function(
     })
   }
 
-  # 2.4 Save as high-res JPG if requested
+  # 2·4 Save as high‑resolution PNG **and** PDF --------------------------------
   if (!is.null(file_name)) {
-
-    # Ensure figures/ exists
     if (!dir.exists("figures")) dir.create("figures")
 
-    # Append .jpg if missing
-    file_name <- if (grepl("\\.jpg$", file_name, ignore.case = TRUE))
-                   file_name
-                 else
-                   paste0(file_name, ".jpg")
+    base_name <- tools::file_path_sans_ext(file_name)  # strip any ext
 
-    ggsave(
-      filename = file.path("figures", file_name),
-      plot     = p,
-      width    = width,
-      height   = height,
-      dpi      = dpi,
-      units    = "cm",
-      bg       = "white"
-    )
+    save_plot <- function(ext, device) {
+      ggsave(
+        filename = file.path("figures", paste0(base_name, ".", ext)),
+        plot     = p,
+        width    = width,
+        height   = height,
+        dpi      = dpi,
+        units    = "cm",
+        bg       = "white",
+        device   = device
+      )
+    }
+
+    save_plot("png", "png")   # raster version
+    save_plot("pdf", "pdf")   # vector version
   }
 
-  invisible(p)   # return plot (invisible so it won’t flood the console)
+  invisible(p)
 }
 
-###############################################################################
-# 3.  Example usage -----------------------------------------------------------
-###############################################################################
-# Your data frame `data` must contain:
-#   • chemical_id
-#   • health_outcome_group
-#   • ma_es_measure
+# ── 3. Create example plots (replace `data` with your own dataframe) ─────────
+# Assumes your data frame is called `data`
 
-# (A) Pesticide summary — tagged “a”
+# A) Pesticide summary
 pest_plot <- make_circular_plot(
   df             = data,
   x_var          = chemical_id,
-  title          = "Number of observations by pesticide",
-  legend_title   = "Observation Count",
-  collapse_under = 5,      # merge categories with <5 obs into “Other”
-  greek          = TRUE,   # apply Greek-letter labels where applicable
+  title          = "Summary of organochlorine pesticides",
+  legend_title   = "Count",
+  collapse_under = 5,
+  greek          = TRUE,
   scale_max      = 30,
-  label_offset   = 0.07,   # a little higher than default
-  tag            = "A)",
-  file_name      = "pesticide_summary"    # figures/pesticide_summary.jpg
+  label_offset   = 0.07,
+  tag            = "a)",
+  file_name      = "pesticide_summary"
 )
 
-# (B) Health-outcome summary — tagged “b”
+# B) Health‑outcome summary
 health_plot <- make_circular_plot(
   df             = data,
   x_var          = health_outcome_group,
-  title          = "Number of observations by health-outcome group",
-  legend_title   = "Observation Count",
+  title          = "Summary of adverse health outcomes",
+  legend_title   = "Count",
   scale_max      = 40,
   label_offset   = 0.07,
-  tag            = "B)",
-  file_name      = "health_outcome_summary"  # figures/health_outcome_summary.jpg
+  tag            = "b)",
+  file_name      = "health_outcome_summary"
 ) +
   theme(
-    legend.position      = "bottom",
-    legend.box.margin    = margin(t = 0.75, unit = "cm")
-  )
+    legend.position   = "bottom",
+    legend.box.margin = margin(t = 0.75, unit = "cm")
+)
 
-# OPTIONAL: stitch side-by-side for quick inspection
-(pest_plot | health_plot) +
-  plot_annotation(tag_levels = NULL)  # tags already baked in
-
+# C) Meta‑analytic effect‑size measures
 es_plot <- make_circular_plot(
   df           = data,
   x_var        = ma_es_measure,
-  title        = "Summary of meta-analysis effect-size measures",
-  legend_title   = "Observation Count",
+  title        = "Summary of meta‑analysis effect‑size measures",
+  legend_title = "Count",
   scale_max    = 80,
-  file_name    = "ma_es_measure_summary"  # saves figures/ma_es_measure_summary.jpg
+  file_name    = "ma_es_measure_summary"
 )
-
 ```
 
-# *Effect Size Calculations & Conversions*
+# **Effect size calculations & conversions**
 
-## **Log odds ratio**
+## *Log odds ratio*
 To address the issue of differing effect size metrics reported across the included meta-analyses, we developed a custom conversion function (convert_to_logOR()) that standardises all reported effect sizes to the log odds ratio (logOR) scale.
 
 This function systematically converts various metrics—including odds ratios, standardised mean differences, risk ratios (with or without baseline risk adjustment), Fisher’s z values, and logistic regression coefficients—to logOR values, using established methodological approximations (e.g., Borenstein et al., 2021).
 
-### **convert_to_logOR()**
+### *convert_to_logOR()*
 ```{r}
 # ──────────────────────────────────────────────────────────────────────────────
 #  convert_to_logOR()
@@ -392,7 +368,6 @@ convert_to_logOR <- function(effect_measure,
   }
 }
 
-
 dat_quant <- data %>%
   ## ── 1. Convert every row to log(OR) + its CI ────────────────────────────
   rowwise() %>%
@@ -427,7 +402,7 @@ dat_quant <- data %>%
   filter(!is.na(logOR))
 ```
 
-### **Checking for duplicate effect sizes**
+### *Checking for duplicate effect sizes*
 No duplicates were found (i.e., no duplicate point estimate, confidence intervals, chemical identity, and health outcome group)
 ```{r}
 dat_quant <- dat_quant %>% 
@@ -446,7 +421,7 @@ dat_quant <- dat_quant %>%
 
 ```
 
-### **Testing the impact of the conversion strategy** 
+### *Testing the impact of the conversion strategy* 
 ```{r}
 mod_test <- rma.mv(yi = logOR,  
               V = se^2, 
@@ -471,20 +446,20 @@ orch_ma_es <- orchard_plot(
   alpha      = 0.5                # transparency of the raw points
 ) +
   scale_fill_brewer(palette = "Dark2", guide = "none") +  # Dark2 colours, no legend
-  theme_bw(base_size = 12) +
+  theme_bw(base_size = 15) +
   theme(
     panel.grid = element_blank(),
     plot.title  = element_text(face = "bold"),
     plot.margin = margin(10, 10, 10, 10)
   )
 
+# ggsave(here("figures","orchard_ma_es_measure.png"), orch_ma_es,
+#        width = 11, height = 5, dpi = 300, bg = "transparent")
 
-# Optional: save a high‑res PNG (transparent background)
-# ggsave("orchard_ma_es_measure.png", orch_ma_es,
-#        width = 8, height = 5, dpi = 300, bg = "transparent")
 ```
+Confirms that there is no significant influence of the conversion strategy on effect size estimates
 
-### **Odds ratio/SD relationship & Distribution of log odds ratio estimates **
+### *Log Odds ratio/SD relationship & distribution of log odds ratio estimates*
 ```{r}
 # Create OR type label and back-transform to original odds ratio scale
 dat_or <- dat_quant %>%
@@ -494,8 +469,7 @@ dat_or <- dat_quant %>%
     OR_value = exp(logOR)
   )
 
-# Use two distinct Dark2 colours
-accent_cols <- brewer.pal(8, "Dark2")[c(2, 7)]
+accent_cols <- brewer.pal(8, "Blues")[c(2, 7)]
 names(accent_cols) <- c("Converted OR", "Original OR")
 
 or_hist_facet <- ggplot(dat_or, aes(x = OR_value, fill = OR_type)) +
@@ -509,22 +483,21 @@ or_hist_facet <- ggplot(dat_or, aes(x = OR_value, fill = OR_type)) +
   facet_wrap(~ OR_type, ncol = 1, scales = "free_y") +
   labs(
     title = "Distribution of Odds Ratios by Source",
-    x     = "Odds Ratio (log10 scale)",
+    x     = "Log Odds Ratio",
     y     = "Frequency"
   ) +
-  theme_bw(base_size = 12) +
+  theme_bw(base_size = 15) +
   theme(
     panel.grid.major.y = element_blank(),
     plot.title         = element_text(face = "bold", hjust = 0.5),
     strip.text         = element_text(face = "bold")
   )
 
-print(or_hist_facet)
-
-
+# ggsave(here("figures","ma_es_measure_dist.png"), or_hist_facet,
+#        width = 11, height = 8, dpi = 300, bg = "transparent")
 ```
 
-### **Creating & Implementing the Variance-Covariance matrix**
+### *Creating & implementing the variance-covariance matrix*
 ```{r}
 dat_quant <- dat_quant %>%
   mutate(pair = paste0(health_outcome_group, chemical_id))
@@ -537,7 +510,7 @@ VCV <- impute_covariance_matrix(
 
 ```
 
-## **lnH & its VCV**
+## *lnH & it's VCV*
 ```{r}
 dat_H2 <- dat_quant %>%
   filter(n_ps_e > 2) %>%
@@ -574,11 +547,9 @@ VCV_H2 <- impute_covariance_matrix(
   r       = 0.5
 )
 
-
-
 ```
 
-## Plot heterogeneity distributions (extracted vs back-transformed)
+### *Plot heterogeneity distributions (extracted vs back-transformed)*
 ```{r}
 dist_df <- dat_H2 %>%
   transmute(
@@ -599,7 +570,7 @@ het_plot <- ggplot(dist_df, aes(x = value, fill = statistic)) +
     x     = NULL,
     y     = "Frequency"
   ) +
-  theme_bw(base_size = 12) +
+  theme_bw(base_size = 15) +
   theme(
     panel.grid.major.y = element_blank(),
     panel.grid.minor   = element_blank(),
@@ -608,16 +579,12 @@ het_plot <- ggplot(dist_df, aes(x = value, fill = statistic)) +
     plot.margin        = margin(10, 10, 10, 10)
   )
 
-print(het_plot)
-
+# ggsave(here("figures","ma_het_measure_dist.png"), het_plot, width = 11, height = 8, dpi = 300, bg = "transparent")
 
 ```
 
-# *Modelling individually*
-
-## **Modelling overall effect on odds and heterogeneity**
-
-### **log odds ratio**
+# **Modelling overall effect on log odds ratio & heterogeneity**
+## *lnOR*
 ```{r}
 mod_overall <- rma.mv(yi = logOR,  
                         V = VCV, 
@@ -626,7 +593,8 @@ mod_overall <- rma.mv(yi = logOR,
                         data = dat_quant,
                         test = "t")
 
-mod_overall <- robust(mod_overall, dat_quant$pair) #The robust() function computes robust standard errors that account for non-normality and/or heteroscedasticity in the residuals.
+mod_overall <- robust(mod_overall, dat_quant$pair) 
+
 summary(mod_overall)
 
 
@@ -635,12 +603,11 @@ overall_results <- tibble(
   lnOR = as.numeric(mod_overall$b),
   lnOR_ci_lower = mod_overall$ci.lb,
   lnOR_ci_upper = mod_overall$ci.ub,
-  lnOR_p_value = mod_overall$pval
+  lnOR_p_value = mod_overall$pval,
+  lnOR_tau2 = sum(mod_overall$sigma2)
 )
 
 i2_values  <- i2_ml(mod_overall)
-
-# Forest plot logOR
 
 overall_plot_OR <- dat_quant %>%
   mutate(
@@ -659,10 +626,9 @@ overall_value_OR <- data.frame(
   OR_ci_lower = exp(mod_overall$ci.lb),
   OR_ci_upper = exp(mod_overall$ci.ub)
 )
-
 ```
 
-### **lnH**
+## *lnH*
 ```{r}
 mod_overall_H2 <- rma.mv(
   yi = lnH, 
@@ -725,12 +691,9 @@ I2_text <- paste0("I² = ", round(overall_results_H2$I2, 1),
                   "% [", round(overall_results_H2$I2_ci_lower, 1), 
                   "–", round(overall_results_H2$I2_ci_upper, 1), "%]")
 
-
-
-
 ```
 
-# Overall orchard plots
+## *Overall orchard plots for lnOR and lnH*
 ```{r, include=FALSE}
 overall_plot <- orchard_plot(
   object = mod_overall,
@@ -747,11 +710,9 @@ overall_plot_H2 <- orchard_plot(
   group = "ma_id",
   xlab = "lnH")
  
-
-print(overall_plot_H2)
-
 ```
 
+## *Forest plots for each individual primary meta-analytic estimate - with conversion to odds ratio and i2*
 ```{r}
 fp_OR <- ggplot(overall_plot_OR, aes(x = OR, y = ma_e_id)) +
   geom_point(shape = 18, size = 4) +
@@ -802,11 +763,9 @@ fp_lnH <- ggplot(dat_H2, aes(x = I2, y = ma_e_id)) +
 
  fp_combined <- fp_OR / fp_lnH +             # plots top → bottom
    plot_annotation(tag_levels = "A")
-
-
 ```
 
-### **Overall odds ratio and heterogeneity plot**
+## *galaxy plot*
 ```{r}
 merged_overall_results <- bind_cols(overall_results, overall_results_H2)
 
@@ -830,8 +789,6 @@ ggplot(merged_overall_results, aes(x = lnOR, y = I2)) +
   ) +
   theme_minimal(base_size = 13)
 ```
-
-
 
 ```{r}
 # Prepare merged dataset for plotting (merge OR and I2 data by ma_e_id)
@@ -888,9 +845,6 @@ pred_int_I2 <- data.frame(
   I2_pred_upper = pmin(100, pmax(0, (exp(2 * pred_upper_H2[1]) - 1)/exp(2 * pred_upper_H2[1])  * 100)),
   I2 = pmin(100, pmax(0, (exp(2 * mu_H2[1]) - 1)/exp(2 * mu_H2[1])  * 100))
 )
-
-
-
 
 # Calculate t critical value
 t_crit <- qt(0.975, df = df)
@@ -981,15 +935,6 @@ galaxy_plot <- ggplot(galaxy_data, aes(x = OR, y = I2, size = 1 / se)) +
     axis.text        = element_text(size = 12)
   )
 
-## ── marginal histograms (Blues 7) ───────────────────────────────────────
-ggMarginal(
-  galaxy_plot,
-  type   = "histogram",
-  fill   = "#2171B5",   # Blues 7
-  colour = "black"
-)
-
-
 # Capture the plot returned by ggMarginal
 galaxy_plot_out <- ggMarginal(
   galaxy_plot,
@@ -1007,9 +952,9 @@ ggsave(
 
 ```
 
-## **Meta-regression**
+# **Meta-regression: Organochlorine pesticides**
 
-### **Organochlorine pesticides odds ratio**
+## *Organochlorine pesticides odds ratio*
 ```{r}
 # Get a list of chemicals
 chemicals <- unique(dat_quant$chemical_id)
@@ -1065,7 +1010,7 @@ results_list <- map_dfr(chemicals, function(chem) {
 })
 ```
 
-#### **Organochlorine pesticides odds ratio plot**
+### *Organochlorine pesticides odds ratio plot*
 ```{r}
 plot_data_chemical <- results_list %>% 
   filter(!is.na(logOR)) %>% 
@@ -1087,11 +1032,11 @@ forest_plot_chemical <- ggplot(plot_data_chemical, aes(y = reorder(chemical_id, 
                  height = 0.2,
                  alpha = ifelse(plot_data_chemical$pval > 0.05, 0.6, 1)) +
   geom_vline(xintercept = 1, linetype = "dashed", color = "red") +
-  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = min(OR_ci_lower , na.rm = TRUE) - 0.2),
+  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = min(OR_ci_lower , na.rm = TRUE) - 0.5),
             hjust = 0, size = 5,
             fontface = ifelse(plot_data_chemical$pval < 0.05, "bold", "plain")) +
-  xlab("OR") +
-  ylab("OCP") +
+  xlab("odds ratio") +
+  ylab("organochlorine pesticide") +
   theme_minimal() +
   theme(legend.position = "none",
         panel.border = element_rect(colour = "black", fill = NA, size = 1),
@@ -1103,11 +1048,13 @@ forest_plot_chemical <- ggplot(plot_data_chemical, aes(y = reorder(chemical_id, 
         axis.text.y = element_text(size = 15),
         axis.text.x = element_text(size = 15))
 
-forest_plot_chemical
+#ggsave(here("figures","forest_plot_chemical.png"), forest_plot_chemical,
+ #       width = 11, height = 8, dpi = 300, bg = "transparent")
+
+
 ```
 
-
-### **Organochlorine pesticides lnH**
+## *Organochlorine pesticides heterogeneity*
 ```{r}
 # Run separate meta-analyses for each chemical_id
 results_list2 <- map_dfr(chemicals, function(chem) {
@@ -1162,7 +1109,7 @@ results_list2 <- map_dfr(chemicals, function(chem) {
 
 ```
 
-
+### *Organochlorine pesticides lnH plot*
 ```{r}
 plot_data_chemical_H2 <- results_list2 %>% 
   filter(!is.na(lnH)) %>% 
@@ -1187,11 +1134,7 @@ plot_data_chemical_merged <- left_join(plot_data_chemical, plot_data_chemical_H2
     OR_ci_lower = exp(ci.lb),
     OR_ci_upper = exp(ci.ub)
   )
-```
 
-
-#### **Organochlorine pesticides lnH plot**
-```{r}
 plot_data_chemical_lnH <- results_list2 %>% 
   filter(!is.na(lnH)) %>% 
   mutate(chemical_id = factor(chemical_id))
@@ -1205,11 +1148,11 @@ forest_plot_chemical_lnH <- ggplot(plot_data_chemical_H2, aes(y = reorder(chemic
                  height = 0.2,
                  alpha = ifelse(plot_data_chemical_H2$pval > 0.05, 0.6, 1)) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
-  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = min(ci.lb, na.rm = TRUE) - 0.2),
+  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = min(ci.lb, na.rm = TRUE) - 0.5),
             hjust = 0, size = 5,
             fontface = ifelse(plot_data_chemical_H2$pval < 0.05, "bold", "plain")) +
   xlab("lnH") +
-  ylab("OCP") +
+  ylab("organochlorine pesticide") +
   theme_minimal() +
   theme(legend.position = "none",
         panel.border = element_rect(colour = "black", fill = NA, size = 1),
@@ -1221,85 +1164,95 @@ forest_plot_chemical_lnH <- ggplot(plot_data_chemical_H2, aes(y = reorder(chemic
         axis.text.y = element_text(size = 15),
         axis.text.x = element_text(size = 15))
 
-forest_plot_chemical_lnH
+# ggsave(here("figures","forest_plot_chemical_lnH.png"), forest_plot_chemical_lnH,
+   #     width = 11, height = 8, dpi = 300, bg = "transparent")
+
+
 ```
 
+## *galaxy plot organochlorine pesticide*
 ```{r}
-# ── 1. Add a numeric ID for labelling ───────────────────────────────────────────
+# ── 0. Data with numeric IDs ──────────────────────────────────────────────
 plot_data_chemical_merged <- plot_data_chemical_merged %>% 
-  arrange(desc(OR)) %>%          # keep or change ordering as needed
-  mutate(label_id = row_number())  # 1, 2, 3 …
+  arrange(OR) %>% 
+  mutate(label_id = row_number())
 
-# ── 2. Galaxy plot ──────────────────────────────────────────────────────────────
+# ── 1. Plot without legends ───────────────────────────────────────────────
 galaxy_chemicals <- ggplot(
   plot_data_chemical_merged,
   aes(
-    x     = OR,
-    y     = I2,
-    label = label_id,            # numeric labels
-    size  = k,                   # bubble size
-    color = pval < 0.05          # TRUE = significant
+    x    = OR,
+    y    = I2,
+    size = k,
+    fill = pval < 0.05
   )
 ) +
-  geom_point(alpha = 0.55) +
-  geom_text_repel(size = 5, box.padding = 1, max.overlaps = Inf) +
+  ## Points with black outline
+  geom_point(shape = 21, colour = "black", stroke = 0.3, alpha = 0.70) +
 
-  ## Reference lines
+  ## Numeric labels
+  geom_text_repel(
+    aes(label = label_id),
+    colour        = "black",
+    segment.color = "black",
+    size          = 5,
+    box.padding   = 1,
+    max.overlaps  = Inf
+  ) +
+
+  ## Reference lines & quadrant text (unchanged) )---------------------------
   geom_vline(xintercept = 1,  linetype = "dashed", colour = "firebrick") +
   geom_hline(yintercept = 50, linetype = "dashed", colour = "grey40") +
   geom_hline(yintercept = 25, linetype = "dashed", colour = "grey40") +
   geom_hline(yintercept = 75, linetype = "dashed", colour = "grey40") +
+  annotate("text", x = 0.05, y = 85,
+           label = "lack of association\nlow consistency",
+           hjust = 0, size = 4.2) +
+  annotate("text", x = 1.55, y = 85,
+           label = "positive association\nlow consistency",
+           hjust = 0, size = 4.2) +
+  annotate("text", x = 1.55, y = 15,
+           label = "positive association\nhigh consistency",
+           hjust = 0, size = 4.2) +
+  annotate("text", x = 0.05, y = 15,
+           label = "lack of association\nhigh consistency",
+           hjust = 0, size = 4.2) +
 
-  ## Quadrant annotations
-  annotate("text", x = 0.05, y = 85, label = "lack of association\nlow consistency",   hjust = 0, size = 4.2) +
-  annotate("text", x = 1.55, y = 85, label = "positive association\nlow consistency",  hjust = 0, size = 4.2) +
-  annotate("text", x = 1.55, y = 15, label = "positive association\nhigh consistency", hjust = 0, size = 4.2) +
-  annotate("text", x = 0.05, y = 15, label = "lack of association\nhigh consistency",  hjust = 0, size = 4.2) +
-
-  ## Scales & legends
-  scale_color_manual(
-    values = c("grey60", "#2171B5"),
-    breaks = c(FALSE, TRUE),
-    labels = c("No", "Yes"),
-    name   = "Significant (p < 0.05)"
-  ) +
-  scale_size(
-    range = c(4, 10),
-    name  = "k (effect sizes)"
-  ) +
+  ## Scales (still needed for colours/sizes, but silent) -------------------
+  scale_fill_manual(values = c("grey60", "#2171B5"), guide = "none") +
+  scale_size(range = c(4, 10), guide = "none") +
   scale_x_continuous(limits = c(0, 2), breaks = seq(0, 2, 0.5)) +
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
 
   labs(
     x = "Odds ratio",
-    y = "Heterogeneity (I², %)"
+    y = "Heterogeneity (I², %)",
+    caption = "blue = significant (p < 0.05), grey = non-significant | bubble area = k"     
   ) +
 
-  ## Theme tweaks
+  ## Theme tweaks ----------------------------------------------------------
   theme_minimal(base_size = 13) +
   theme(
     panel.grid      = element_blank(),
     panel.border    = element_rect(colour = "black", fill = NA, size = 0.6),
-legend.position = "bottom",
-    legend.box      = "vertical",     # stack colour legend above size legend
-    legend.margin   = margin(t = 4),    axis.text       = element_text(size = 12)
-  ) +
-  guides(
-    color = guide_legend(override.aes = list(size = 6, alpha = 1)),
-    size  = guide_legend()
+    axis.text       = element_text(size = 12),
+    legend.position = "none",          # <-- kills every legend
+    plot.caption    = element_text(size = 8, hjust = 1, vjust = 0)
   )
 
 # ── 3. Save figure ──────────────────────────────────────────────────────────────
-ggsave(
-  here::here("figures", "galaxy_plot_chemical.jpg"),
-  galaxy_chemicals,
-  width  = 7, height = 5, dpi = 300
-)
+#ggsave(
+#  here::here("figures", "galaxy_plot_chemical.jpg"),
+#  galaxy_chemicals,
+#  width  = 8, height = 5, dpi = 300
+#)
 
 
 ```
 
-### **Health outcome odds ratio**
+# **Meta-regression: Adverse Health Outcomes**
+
+## *Adverse health outcome odds ratio*
 ```{r}
 dat_quant$health_outcome_group <- as.factor(dat_quant$health_outcome_group)
 
@@ -1309,16 +1262,14 @@ mutate(health_outcome_group = recode(
     "Endocrine, nutritional or metabolic diseases" = "Endocrine diseases",
     "Diseases of the circulatory system" = "Diseases of the\ncirculatory system",
     "Pregnancy, childbirth or the puerperium" = "Pregnancy or\nchildbirth",
-    "Certain conditions originating in the perinatal period" = "Perinatal period",
+    "Conditions originating in the perinatal period" = "Perinatal period",
     "Mental, behavioural or neurodevelopmental disorders" = "Neurodevelopmental\ndisorders",
     "Diseases of the musculoskeletal system or connective tissue" = "Diseases of the\nmusculoskeletal system",
     "Symptoms, signs or clinical findings, not elsewhere classified" = "Symptoms not\nelsewhere classified",
     "Diseases of the respiratory system" = "Diseases of the\nrespiratory system",
     "Diseases of the genitourinary system" = "Diseases of the\ngenitourinary system"
   ))
-```
 
-```{r}
 # Get a list of outcome groups
 outcomes <- unique(dat_quant$health_outcome_group)
 
@@ -1373,25 +1324,32 @@ results_health <- map_dfr(outcomes, function(outcome) {
 })
 ```
 
+### *Adverse health outcome odds ratio plot*
 ```{r}
 plot_data_health <- results_health %>% 
   filter(!is.na(logOR)) %>% 
-  arrange(logOR) 
+  arrange(logOR)  %>% 
+  mutate(
+    OR = exp(logOR),
+    OR_ci_lower = exp(ci.lb),
+    OR_ci_upper = exp(ci.ub)
+  )
 
-forest_plot_health <- ggplot(plot_data_health, aes(y = reorder(health_outcome_group, logOR), x = logOR)) +
+
+forest_plot_health <- ggplot(plot_data_health, aes(y = reorder(health_outcome_group, OR), x = OR)) +
   geom_point(aes(size = k), 
              color = ifelse(plot_data_health$pval > 0.05, "grey", "black"),
              alpha = 1) +
   scale_size(range = c(5, 13)) +
-  geom_errorbarh(aes(xmin = ci.lb, xmax = ci.ub),
+  geom_errorbarh(aes(xmin = OR_ci_lower , xmax = OR_ci_upper),
                  height = 0.2,
                  alpha = ifelse(plot_data_health$pval > 0.05, 0.6, 1)) +
-  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
-  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = min(ci.lb, na.rm = TRUE) - 0.2),
+  geom_vline(xintercept = 1, linetype = "dashed", color = "red") +
+  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = min(OR_ci_lower, na.rm = TRUE) - 0.5),
             hjust = 0, size = 5,
             fontface = ifelse(plot_data_health$pval < 0.05, "bold", "plain")) +
-  xlab("logOR") +
-  ylab("Health Outcome") +
+  xlab("odds ratio") +
+  ylab("Adverse Health Outcome") +
   theme_minimal() +
   theme(legend.position = "none",
         panel.border = element_rect(colour = "black", fill = NA, size = 1),
@@ -1403,9 +1361,12 @@ forest_plot_health <- ggplot(plot_data_health, aes(y = reorder(health_outcome_gr
         axis.text.y = element_text(size = 15),
         axis.text.x = element_text(size = 15))
 
-forest_plot_health
+ # ggsave(here("figures","forest_plot_health.png"), forest_plot_health,
+ #       width = 12, height = 6, dpi = 300, bg = "transparent")
+
 ```
 
+## *Adverse health outcome lnH*
 ```{r}
 dat_H2 <- dat_H2 %>% 
 mutate(health_outcome_group = recode(
@@ -1413,13 +1374,13 @@ mutate(health_outcome_group = recode(
     "Endocrine, nutritional or metabolic diseases" = "Endocrine diseases",
     "Diseases of the circulatory system" = "Diseases of the\ncirculatory system",
     "Pregnancy, childbirth or the puerperium" = "Pregnancy or\nchildbirth",
-    "Certain conditions originating in the perinatal period" = "Perinatal period",
+    "Conditions originating in the perinatal period" = "Perinatal period",
     "Mental, behavioural or neurodevelopmental disorders" = "Neurodevelopmental\ndisorders",
     "Diseases of the musculoskeletal system or connective tissue" = "Diseases of the\nmusculoskeletal system",
     "Symptoms, signs or clinical findings, not elsewhere classified" = "Symptoms not\nelsewhere classified",
     "Diseases of the respiratory system" = "Diseases of the\nrespiratory system",
     "Diseases of the genitourinary system" = "Diseases of the\ngenitourinary system"
-  ))
+  )) 
 
 # Get a list of outcome groups
 outcomes <- unique(dat_H2$health_outcome_group)
@@ -1475,6 +1436,7 @@ results_health_H2 <- map_dfr(outcomes, function(outcome) {
 })
 ```
 
+### *Adverse health outcome lnH plot*
 ```{r}
 plot_data_health_H2 <- results_health_H2 %>% 
   filter(!is.na(lnH)) %>% 
@@ -1498,11 +1460,8 @@ plot_data_health_merged <- left_join(plot_data_health, plot_data_health_H2 %>%
     OR = exp(logOR),
     OR_ci_lower = exp(ci.lb),
     OR_ci_upper = exp(ci.ub)
-  )
+  ) 
 
-```
-
-```{r}
 forest_plot_lnH_health <- ggplot(plot_data_health_H2, aes(y = reorder(health_outcome_group, lnH), x = lnH)) +
   geom_point(aes(size = k), 
              color = ifelse(plot_data_health_H2$pval > 0.05, "grey", "black"),
@@ -1512,7 +1471,7 @@ forest_plot_lnH_health <- ggplot(plot_data_health_H2, aes(y = reorder(health_out
                  height = 0.2,
                  alpha = ifelse(plot_data_health_H2$pval > 0.05, 0.6, 1)) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
-  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = min(ci.lb, na.rm = TRUE) - 0.2),
+  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = min(ci.lb, na.rm = TRUE) - 0.5),
             hjust = 0, size = 5,
             fontface = ifelse(plot_data_health_H2$pval < 0.05, "bold", "plain")) +
   xlab("lnH") +
@@ -1528,95 +1487,93 @@ forest_plot_lnH_health <- ggplot(plot_data_health_H2, aes(y = reorder(health_out
         axis.text.y = element_text(size = 15),
         axis.text.x = element_text(size = 15))
 
-forest_plot_lnH_health
+# ggsave(here("figures","forest_plot_lnH_health.png"), forest_plot_lnH_health,
+#        width = 12, height = 6, dpi = 300, bg = "transparent")
 ```
 
-
-# Association of lnOR and Heterogeneity
-
+## *galaxy plot adverse health outcome*
 ```{r}
-galaxy_health <- ggplot(plot_data_health_merged, aes(x = OR, y = I2, label = health_outcome_group, size = k, color = pval < 0.05 | pval < 0.05)) +
-  geom_point(alpha = 0.5) +
-  geom_text_repel(size = 6, max.overlaps = Inf, box.padding = 1, min.segment.length = 0) +
-  geom_vline(xintercept = 1, linetype = "dashed", color = "firebrick") +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "grey40") +
-  geom_hline(yintercept = 25, linetype = "dashed", color = "grey40") +
-  geom_hline(yintercept = 75, linetype = "dashed", color = "grey40") +
-  
-  # Quadrant text
-  # annotate("text", x = -0.095, y = 95, label = "lack of association\nlow consistency", hjust = 0, size = 4) +
-  # annotate("text", x = 0.06, y = 95, label = "positive association\nlow consistency", hjust = 0, size = 4) +
-  # annotate("text", x = 0.06, y = 3, label = "positive association\nhigh consistency", hjust = 0, size = 4) +
-  # annotate("text", x = -0.095, y = 3, label = "lack of association\nhigh consistency", hjust = 0, size = 4) +
 
-  scale_color_manual(values = c("grey50", "#08519c"), labels = c("No", "Yes")) +
-  scale_size(range = c(8, 13)) +
-  scale_x_continuous(limits = c(0.5, 2), breaks = seq(0.5, 2, by = 0.25)) +
-  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 25)) +
-  labs(
-    x = "Odds Ratio",
-    y = "Heterogeneity (I\u00b2 %)",
-    color = "OR p < 0.05:",
-    size = "k:"
+# ── 0. Data with numeric IDs ──────────────────────────────────────────────
+plot_data_health_merged <- plot_data_health_merged %>% 
+  arrange(OR) %>% 
+  mutate(label_id = row_number())
+
+galaxy_health <- ggplot(plot_data_health_merged,   aes(
+    x    = OR,
+    y    = I2,
+    size = k,
+    fill = pval < 0.05
+  )
+) +
+  ## Points with black outline
+  geom_point(shape = 21, colour = "black", stroke = 0.3, alpha = 0.70) +
+
+  ## Numeric labels
+  geom_text_repel(
+    aes(label = label_id),
+    colour        = "black",
+    segment.color = "black",
+    size          = 5,
+    box.padding   = 1,
+    max.overlaps  = Inf
   ) +
+
+  ## Reference lines & quadrant text (unchanged) ---------------------------
+  geom_vline(xintercept = 1,  linetype = "dashed", colour = "firebrick") +
+  geom_hline(yintercept = 50, linetype = "dashed", colour = "grey40") +
+  geom_hline(yintercept = 25, linetype = "dashed", colour = "grey40") +
+  geom_hline(yintercept = 75, linetype = "dashed", colour = "grey40") +
+  annotate("text", x = 0.05, y = 85,
+           label = "lack of association\nlow consistency",
+           hjust = 0, size = 4.2) +
+  annotate("text", x = 1.55, y = 85,
+           label = "positive association\nlow consistency",
+           hjust = 0, size = 4.2) +
+  annotate("text", x = 1.55, y = 15,
+           label = "positive association\nhigh consistency",
+           hjust = 0, size = 4.2) +
+  annotate("text", x = 0.05, y = 15,
+           label = "lack of association\nhigh consistency",
+           hjust = 0, size = 4.2) +
+
+  ## Scales (still needed for colours/sizes, but silent) -------------------
+  scale_fill_manual(values = c("grey60", "#2171B5"), guide = "none") +
+  scale_size(range = c(4, 10), guide = "none") +
+  scale_x_continuous(limits = c(0, 2), breaks = seq(0, 2, 0.5)) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
+
+  labs(
+    x = "Odds ratio",
+    y = "Heterogeneity (I², %)",
+    caption = "blue = significant (p < 0.05), grey = non-significant | bubble area = k"     
+  ) +
+
+  ## Theme tweaks ----------------------------------------------------------
   theme_minimal(base_size = 13) +
   theme(
-    legend.position = "bottom",
-    legend.box = "vertical",
-    legend.margin = margin(),
-    panel.grid = element_blank(),
-    panel.border = element_rect(color = "black", fill = NA, size = 0.6),
-    axis.title.y = element_blank(),
-    axis.title.x = element_text(size = 14),
-    axis.text = element_text(size = 12)
-  ) +
-  guides(
-    color = "none",
-    size = guide_legend(
-    override.aes = list(
-      shape = 21,         
-      fill = NA,     
-      color = "grey50",    
-      alpha = 1           
-    ),
-    order = 2
+    panel.grid      = element_blank(),
+    panel.border    = element_rect(colour = "black", fill = NA, size = 0.6),
+    axis.text       = element_text(size = 12),
+    legend.position = "none",          # <-- kills every legend
+    plot.caption    = element_text(size = 8, hjust = 1, vjust = 0)
   )
-  )
+
+
+# ── 3. Save figure ──────────────────────────────────────────────────────────────
+#ggsave(
+#  here::here("figures", "galaxy_health.png"),
+#  galaxy_chemicals,
+#  width  = 8, height = 5, dpi = 300
+#)
+
 ```
 
-```{r}
+# **Sensitivity Analysis**
 
-combined_plot <- plot_grid(galaxy_chemicals, galaxy_health, 
-                           labels = c('A','B'),
-                           label_size = 14,
-                           nrow = 2,
-                           #align = "v",
-                           rel_heights = c(1, 1.4))
+## *CEESAT*
 
-# Add a single y-axis label
-ggdraw() + 
-  draw_label("Heterogeneity (I\u00b2 %)",
-             x = 0.02, 
-             y = 0.6, 
-             angle = 90,
-             vjust = 0.5, 
-             size = 14) +
-  draw_plot(combined_plot,
-            x = 0.05, 
-            width = 0.95)
-```
-
-
-# *Sensitivity Analysis*
-
-
-## 
-
-
-
-## incorperating CEESAT results
-
-
+### *CEESAT plot*
 ```{r}
 # Start the data manipulation
 percent_ceesat_score <- study %>% 
@@ -1649,7 +1606,7 @@ percent_ceesat_score <- study %>%
       `8.1 Have the authors considered limitations in the synthesis?`                             = "CEESAT2_8.1"
     ),
     question = factor(question, levels = rev(levels(question))),
-    score    = factor(score, levels = levels(score)[c(4, 1, 3, 2)])
+    score    = factor(score, levels = levels(score)[c(4, 1, 3, 2)]) 
   )
 
 
@@ -1683,9 +1640,6 @@ ceesat_figure <- ggplot(data = percent_ceesat_score, aes(x = question, y = perce
   ylab("Percentage") + 
   xlab("CEESAT Question") 
 
-
-ceesat_figure
-
 total_n <- sum(percent_ceesat_score$n)
 percentages <- tibble(
   red_percentage = sum(percent_ceesat_score$n[percent_ceesat_score$score == "red"]) / total_n * 100,
@@ -1694,13 +1648,14 @@ percentages <- tibble(
   gold_percentage = sum(percent_ceesat_score$n[percent_ceesat_score$score == "gold"]) / total_n * 100
 )
 
- percentages
+ 
+#  ggsave(here("figures", "ceesat_figure.jpg"),ceesat_figure, width = 25, height = 15, units = "cm", scale = 2, dpi = 300)
+
 
 ```
 
-
+### *Leave red out odds ratio*
 ```{r}
-
 # ── USER SETTINGS -----------------------------------------------------------
 effect_col   <- "logOR"      # ← change to "lnRR", "lnH", …
 variance_col <- "se"         # ← matching SE column (e.g. "lnRR_se")
@@ -1760,7 +1715,7 @@ results_ceesat <- map2_dfr(ceesat_cols, seq_along(ceesat_cols), \(col, idx) {
   if (!is_rma(mod)) {
     tibble(
       CEESAT_item = col,
-      Estimate    = NA_real_, SE = NA_real_, tval = NA_real_,
+      logOR    = NA_real_, SE = NA_real_, tval = NA_real_,
       pval        = NA_real_, ci.lb = NA_real_, ci.ub = NA_real_,
       n_effects   = n_study_vec[idx]
     )
@@ -1768,7 +1723,7 @@ results_ceesat <- map2_dfr(ceesat_cols, seq_along(ceesat_cols), \(col, idx) {
     s <- summary(mod)
     tibble(
       CEESAT_item = col,
-      Estimate    = as.numeric(s$beta),
+      logOR    = as.numeric(s$beta),
       SE          = s$se,
       tval        = s$tval,
       pval        = s$pval,
@@ -1778,6 +1733,16 @@ results_ceesat <- map2_dfr(ceesat_cols, seq_along(ceesat_cols), \(col, idx) {
     )
   }
 })
+
+
+
+ results_ceesat <-  results_ceesat %>% mutate(
+    OR = exp(logOR),
+    OR_ci_lower = exp(ci.lb),
+    OR_ci_upper = exp(ci.ub)
+  )
+
+
 
 # ── Pretty table ------------------------------------------------------------
 kable(results_ceesat, digits = 3,
@@ -1819,55 +1784,282 @@ counts <- effect_rows_excl %>%
 ###############################################################################
 
 plot_data <- results_ceesat %>%
-  filter(!is.na(Estimate)) %>%
+  filter(!is.na(OR)) %>%
   left_join(counts, by = "CEESAT_item") %>%
   mutate(item_label = paste0(
     CEESAT_item, " (",
-    n_effects_excl, " ES; ",
-    n_studies_excl, " ST)")
+    n_effects_excl, " k; ",
+    n_studies_excl, " n)")
   ) %>%
   arrange(match(CEESAT_item, rev(ceesat_cols))) %>%  # <-- reversed order here
   mutate(item_label = factor(item_label, levels = item_label))
 
+
+# add “overall (exclude nothing)” row ─────────────────────────────────────────
+overall_row <- tibble(
+  CEESAT_item    = "Overall",
+  OR             = 1.228666,
+  OR_ci_lower    = 1.137528,
+  OR_ci_upper    = 1.32710,
+  n_effects_excl = 0,   # nothing excluded
+  n_studies_excl = 0
+) %>% 
+  mutate(item_label = "Overall")   # <─ counts removed here
+
+plot_data <- bind_rows(overall_row, plot_data) %>% 
+  mutate(item_label = factor(item_label, levels = item_label))  
+
 leave_red_out_forest <- ggplot(
   plot_data,
   aes(x = item_label,
-      y = Estimate,
-      ymin = ci.lb,
-      ymax = ci.ub)
+      y = OR,
+      ymin = OR_ci_lower,
+      ymax = OR_ci_upper)
 ) +
+  geom_hline(yintercept = 1, linetype = "dashed", colour = "firebrick",   alpha      = 0.35  ) +
+    geom_hline(yintercept = 1.23, linetype = "dashed", colour = "#2171B5",   alpha      = 0.35  ) +
+
   geom_pointrange() +
   geom_text(
-    aes(label = sprintf("%.2f [%.2f, %.2f]", Estimate, ci.lb, ci.ub)),
+    aes(label = sprintf("%.2f [%.2f, %.2f]", OR, OR_ci_lower, OR_ci_upper)),
     vjust = -0.8,
-    size = 2.8
+    size  = 2.8
   ) +
-  geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
-  coord_flip() +
+ scale_y_continuous(
+    limits = c(0.75, 1.50),
+    breaks = c(0.75, 1.00, 1.25, 1.50),
+    labels = scales::number_format(accuracy = 0.01)  # keeps two-decimal labels
+  ) +  coord_flip() +
   theme_bw() +
   theme(
-    axis.text.y = element_text(size = 8),
+    axis.text.y  = element_text(size = 8),
     plot.caption = element_text(size = 9, face = "italic", colour = "grey30")
   ) +
   labs(
     x = "CEESAT item (rows with RED score removed)",
-    y = "log odds ratio",
-    caption =
-      "Point = pooled estimate after excluding studies scored RED for that criterion\n(ES = effect-size rows removed; ST = unique studies removed)"
-  )
+    y = "Odds ratio",
+    caption = "Point = pooled estimate after excluding studies scored RED for that criterion\n(k = effect-size rows removed; n = unique studies removed)"
+  ) +
 
-print(leave_red_out_forest)
+  ## ── NEW LAYER: firebrick diamond for the “Overall” row ────────────────────
+  geom_point(
+    data = filter(plot_data, CEESAT_item == "Overall"),
+    aes(x = item_label, y = OR),
+    shape = 23,            # filled diamond
+    size  = 3,
+    fill  = "firebrick",
+    colour= "black"
+  ) 
 
 
-## 4.2 only one study not removed so effect not presebted
-
+# ggsave(here("figures", "ceesat_forest_figure.jpg"),leave_red_out_forest, width = 10, height = 7, units = "cm", scale = 2, dpi = 300)
 ```
 
+### *Leave red out heterogeneity*
+```{r}
+
+# ── USER SETTINGS -----------------------------------------------------------
+effect_col   <- "lnH"      # ← change to "lnRR", "lnH", …
+variance_col <- "se"         # ← matching SE column (e.g. "lnRR_se")
+y_axis_label <- "I2"
+corr_r       <- 0.50         # assumed correlation (for VCV imputation)
+
+# ── Identify all CEESAT columns --------------------------------------------
+ceesat_cols <- grep("^CEESAT2_", names(dat_H2), value = TRUE)
+
+# ── Helpers & storage -------------------------------------------------------
+is_rma        <- function(x) inherits(x, c("rma", "rma.mv", "robust.rma"))
+ceesat_models <- ceesat_VCV <- vector("list", length(ceesat_cols))
+n_study_vec   <- integer(length(ceesat_cols))
+
+# ── MAIN LOOP — fit one model per CEESAT item -------------------------------
+for (i in seq_along(ceesat_cols)) {
+  
+  col_i <- ceesat_cols[i]
+  
+  # Drop RED-scored rows
+  data_i <- dat_H2 %>% 
+    filter(!is.na(.data[[col_i]]),
+           tolower(.data[[col_i]]) != "red") %>% 
+    mutate(pair = paste0(health_outcome_group, chemical_id))
+  
+  n_study_vec[i] <- nrow(data_i)
+  
+  # Skip if < 2 rows
+  if (nrow(data_i) < 2) {
+    ceesat_models[[i]] <- ceesat_VCV[[i]] <- NULL
+    next
+  }
+  
+  # Impute VCV
+  vcv <- impute_covariance_matrix(
+    vi      = (data_i[[variance_col]])^2,
+    cluster = data_i$pair,
+    r       = corr_r
+  )
+  if (is.list(vcv)) vcv <- vcv[[1]]
+  ceesat_VCV[[i]] <- vcv <- as.matrix(vcv)
+  
+  # Multilevel model + robust SEs
+  ceesat_models[[i]] <- rma.mv(
+    yi     = data_i[[effect_col]],
+    V      = vcv,
+    random = list(~1 | ma_id,
+                  ~1 | ma_e_id),
+    test   = "t",
+    data   = data_i
+  ) %>% robust(data_i$pair)
+}
+
+# ── Tidy model results ------------------------------------------------------
+results_ceesat2 <- map2_dfr(ceesat_cols, seq_along(ceesat_cols), \(col, idx) {
+  mod <- ceesat_models[[idx]]
+  if (!is_rma(mod)) {
+    tibble(
+      CEESAT_item = col,
+      lnH    = NA_real_, SE = NA_real_, tval = NA_real_,
+      pval        = NA_real_, ci.lb = NA_real_, ci.ub = NA_real_,
+      n_effects   = n_study_vec[idx]
+    )
+  } else {
+    s <- summary(mod)
+    tibble(
+      CEESAT_item = col,
+      lnH    = as.numeric(s$beta),
+      SE          = s$se,
+      tval        = s$tval,
+      pval        = s$pval,
+      ci.lb       = s$ci.lb,
+      ci.ub       = s$ci.ub,
+      n_effects   = mod$k          # retained studies
+    )
+  }
+})
+
+results_ceesat2 <-  results_ceesat2 %>% 
+mutate(
+    H2        = exp(2 * lnH),
+    H2_lb     = exp(2 * ci.lb),
+    H2_ub     = exp(2 * ci.ub),
+    I2        = pmin(100, pmax(0, (H2 - 1) / H2 * 100)),
+    I2_ci_lower = pmin(100, pmax(0, (H2_lb - 1) / H2_lb * 100)),
+    I2_ci_upper = pmin(100, pmax(0, (H2_ub - 1) / H2_ub * 100)),
+    I2_se     = (I2_ci_upper - I2_ci_lower) / (2 * 1.96)
+  )
 
 
-## leave-one-study-out analysis
+# ── Pretty table ------------------------------------------------------------
+kable(results_ceesat2, digits = 3,
+      caption = "Leave-one-RED-CEESAT-item-out sensitivity results") %>% 
+  kable_styling("striped", position = "left") %>% 
+  scroll_box(width = "100%", height = "400px")
+
+###############################################################################
+# NEW PART — counts of excluded rows and studies                             #
+###############################################################################
+
+# 1. How many *effect-size rows* were excluded? ------------------------------
+effect_rows_excl <- dat_H2 %>%
+  select(all_of(ceesat_cols)) %>%
+  mutate(across(everything(), tolower)) %>%
+  summarise(across(everything(), ~ sum(.x == "red", na.rm = TRUE))) %>%
+  pivot_longer(cols = everything(),
+               names_to = "CEESAT_item",
+               values_to = "n_effects_excl")
+
+# 2. How many *studies* were excluded? ---------------------------------------
+study_rows <- study %>%
+  filter(!ma_aut_year %in% c("brown_2006", "yang_2020", "adami_1995")) %>%
+  select(study_id = ma_aut_year, all_of(ceesat_cols))
+
+studies_excl <- study_rows %>%
+  pivot_longer(cols = -study_id, names_to = "CEESAT_item", values_to = "score") %>%
+  mutate(score = tolower(score)) %>%
+  group_by(CEESAT_item) %>%
+  summarise(n_studies_excl = n_distinct(study_id[score == "red"]), .groups = "drop")
+
+# 3. Merge counts ------------------------------------------------------------
+counts <- effect_rows_excl %>%
+  left_join(studies_excl, by = "CEESAT_item") %>%
+  mutate(across(c(n_effects_excl, n_studies_excl), ~ replace_na(.x, 0)))
+
+###############################################################################
+# Forest-style plot                                                           #
+###############################################################################
+
+plot_data <- results_ceesat2 %>%
+  filter(!is.na(I2)) %>%
+  left_join(counts, by = "CEESAT_item") %>%
+  mutate(item_label = paste0(
+    CEESAT_item, " (",
+    n_effects_excl, " k; ",
+    n_studies_excl, " n)")
+  ) %>%
+  arrange(match(CEESAT_item, rev(ceesat_cols))) %>%  # <-- reversed order here
+  mutate(item_label = factor(item_label, levels = item_label))
 
 
+# add “overall (exclude nothing)” row ─────────────────────────────────────────
+overall_row <- tibble(
+  CEESAT_item    = "Overall",
+  I2             = 54.8,
+  I2_ci_lower    = 37.3,
+  I2_ci_upper    = 67.4,
+  n_effects_excl = 0,   # nothing excluded
+  n_studies_excl = 0
+) %>% 
+  mutate(item_label = "Overall")   # <─ counts removed here
+
+plot_data <- bind_rows(overall_row, plot_data) %>% 
+  mutate(item_label = factor(item_label, levels = item_label))  
+
+leave_red_out_forest_het <- ggplot(
+  plot_data,
+  aes(x = item_label,
+      y = I2,
+      ymin = I2_ci_lower,
+      ymax = I2_ci_upper)
+) +
+  geom_hline(yintercept = 50, linetype = "dashed", colour = "firebrick",   alpha      = 0.35  ) +
+    geom_hline(yintercept = 54.8, linetype = "dashed", colour = "#2171B5",   alpha      = 0.35  ) +
+
+  geom_pointrange() +
+  geom_text(
+    aes(label = sprintf("%.2f [%.2f, %.2f]", I2, I2_ci_lower, I2_ci_upper)),
+    vjust = -0.8,
+    size  = 2.8
+  ) +
+ scale_y_continuous(
+    limits = c(0, 100),
+    breaks = c(0, 25, 50, 75, 100),
+    labels = scales::number_format(accuracy = 0.01)  # keeps two-decimal labels
+  ) +  coord_flip() +
+  theme_bw() +
+  theme(
+    axis.text.y  = element_text(size = 8),
+    plot.caption = element_text(size = 9, face = "italic", colour = "grey30")
+  ) +
+  labs(
+    x = "CEESAT item (rows with RED score removed)",
+    y = "Heterogeneity (I², %)",
+    caption = "Point = pooled estimate after excluding studies scored RED for that criterion\n(k = effect-size rows removed; n = unique studies removed)"
+  ) +
+
+  ## ── NEW LAYER: firebrick diamond for the “Overall” row ────────────────────
+  geom_point(
+    data = filter(plot_data, CEESAT_item == "Overall"),
+    aes(x = item_label, y = I2),
+    shape = 23,            # filled diamond
+    size  = 3,
+    fill  = "firebrick",
+    colour= "black"
+  ) 
+
+# ggsave(here("figures", "ceesat_forest_figure_het.jpg"),leave_red_out_forest_het, width = 10, height = 7, units = "cm", scale = 2, dpi = 300)
+```
+
+## **Leave-one-study-out cross validation**
+### *odds ratio*
 ```{r}
 ###############################################################################
 #  LEAVE-ONE-STUDY-OUT  MULTILEVEL  META-ANALYSIS  –  FULL  SCRIPT          #
@@ -1877,7 +2069,6 @@ print(leave_red_out_forest)
 #  USER SETTINGS -------------------------------------------------------------
 effect_col   <- "logOR"   # ← change to "lnRR", "lnH", etc.
 variance_col <- "se"      # ← matching SE column (e.g. "lnRR_se")
-y_axis_label <- "Overall log Odds Ratio"
 
 #  0.  PREPARE DATA ----------------------------------------------------------
 dat_quant <- dat_quant %>%                   # ensure leave_study exists
@@ -1933,22 +2124,25 @@ results_loo <- map2_dfr(study_levels, seq_along(study_levels), function(study, i
   if (inherits(mod, c("rma", "rma.mv", "robust.rma"))) {
     s <- summary(mod)
     tibble(study_id = study,
-           Estimate = as.numeric(s$beta),
+           logOR = as.numeric(s$beta),
            SE       = s$se,
            tval     = s$tval,
            pval     = s$pval,
            ci.lb    = s$ci.lb,
            ci.ub    = s$ci.ub,
-           k_left   = mod$k)
+           k_left   = mod$k,
+           tau2  = sum(mod$sigma2)  # total between-study variance
+)
   } else {
     tibble(study_id = study,
-           Estimate = NA_real_,
+           logOR = NA_real_,
            SE       = NA_real_,
            tval     = NA_real_,
            pval     = NA_real_,
            ci.lb    = NA_real_,
            ci.ub    = NA_real_,
-           k_left   = n_studies[idx])
+           k_left   = n_studies[idx],
+           tau2    = NA_real_,)
   }
 })
 
@@ -1959,50 +2153,117 @@ kable(results_loo, digits = 3,
   scroll_box(width = "100%", height = "400px")
 
 
-# 5.  FOREST PLOT  ----------------------------------------------------------
-plot_data <- results_loo %>%
-  filter(!is.na(Estimate)) %>%
+# ── 1. original leave-one-out table ──────────────────────────────────────────
+results_loo_plot_data <- results_loo %>%
+  filter(!is.na(logOR)) %>%
   mutate(
-    # reverse levels so study 1 is first → appears at top after coord_flip()
-    study_id = factor(study_id, levels = rev(study_levels))
+    study_id = factor(study_id, levels = rev(study_levels)),
+    OR            = exp(logOR),
+    OR_ci_lower   = exp(ci.lb),
+    OR_ci_upper   = exp(ci.ub)
   )
 
-loo_forest <- ggplot(
-  plot_data,
-  aes(x    = study_id,         # no reordering by effect size
-      y    = Estimate,
-      ymin = ci.lb,
-      ymax = ci.ub)) +
+overall_row <- tibble(
+  study_id    = "Overall",
+  OR             = 1.228666,
+  OR_ci_lower    = 1.137528,
+  OR_ci_upper    = 1.32710,
+  n_effects_excl = 0,   # nothing excluded
+  n_studies_excl = 0,
+  tau2 = sum(mod_overall$sigma2)
+)
+
+
+results_loo_plot_data <- bind_rows(results_loo_plot_data, overall_row)  %>% 
+    mutate(study_id = factor(study_id, levels = rev(study_id)))  
+
+    
+  
+# ── 3. redraw – style identical to the original plot ─────────────────────────
+loo_study_forest <- ggplot(
+  results_loo_plot_data,
+  aes(x = study_id,
+      y = OR,
+      ymin = OR_ci_lower,
+      ymax = OR_ci_upper)
+) +
+  geom_hline(yintercept = 1, linetype = "dashed", colour = "firebrick",   alpha      = 0.35  ) +
+    geom_hline(yintercept = 1.23, linetype = "dashed", colour = "#2171B5",   alpha      = 0.35  ) +
+
   geom_pointrange() +
-  geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
-  coord_flip() +
+ scale_y_continuous(
+    limits = c(0.75, 1.50),
+    breaks = c(0.75, 1.00, 1.25, 1.50),
+    labels = scales::number_format(accuracy = 0.01)  # keeps two-decimal labels
+  ) +  coord_flip() +
   theme_bw() +
   theme(
     axis.text.y  = element_text(size = 8),
     plot.caption = element_text(size = 9, face = "italic", colour = "grey30")
   ) +
   labs(
-    x        = "Study left out (ma_id order)",
-    y        = y_axis_label,
-    caption  = "Each point = overall estimate after excluding one study"
-  )
+    x = "Study left out (ma_id)",
+    y = "Odds ratio",
+    caption = "Each point = overall estimate after excluding one study"
+  ) +
 
-print(loo_forest)
+  ## ── NEW LAYER: firebrick diamond for the “Overall” row ────────────────────
+  geom_point(
+    data = filter(results_loo_plot_data, study_id == "Overall"),
+    aes(x = study_id, y = OR),
+    shape = 23,            # filled diamond
+    size  = 3,
+    fill  = "firebrick",
+    colour= "black"
+  ) 
+
+# ggsave(here("figures", "loo_study_forest.png"), loo_study_forest, width = 10, height = 7, units = "cm", scale = 2, dpi = 300)
 
 
 ```
 
+### *Differences in tau2*
+```{r}
+tau2_plot_df <- results_loo_plot_data %>% 
+  mutate(
+    tau2_diff = tau2 - 0.05731324
+,              # signed Δτ²
+    colour    = ifelse(tau2_diff > 0, "Higher",   # factor for colours
+                       ifelse(tau2_diff < 0, "Lower", "Overall"))
+  ) %>% 
+  slice(-n())                                     # drop the Overall bar itself
+  # keep it if you want a zero‑height bar for "Overall"
 
 
+loo_study_tau <- ggplot(tau2_plot_df, aes(x = reorder(study_id, tau2_diff),
+                         y = tau2_diff,
+                         fill = colour)) +
+  geom_col(width = 0.7, colour = "black") +
+  coord_flip() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  scale_y_continuous(
+    limits = c(-0.025, 0.025),
+    breaks = seq(-0.025, 0.025, by = 0.01)        # tweak tick spacing as you like
+  ) +
+  scale_fill_manual(values = c("Lower" = "firebrick",
+                               "Higher" = "#2171B5",
+                               "Overall" = "grey60"),
+                    guide = "none") +
+  labs(
+    x     = "Study omitted",
+    y     = expression(Delta~tau^2~"(vs. overall)"),
+    title = expression("Change in "~tau^2*" after excluding each study")
+  ) +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 8))
 
 
+# ggsave(here("figures", "loo_study_tau.png"), loo_study_tau, width = 10, height = 7, units = "cm", scale = 2, dpi = 300)
 
+```
 
-
-
-
-
-## Conduct a sensitivity analysis with just odds ratio 
+## *Just odds ratio without conversions*
+### *odds ratio*
 ```{r}
 dat_quant_OR <- dat_quant %>% filter(ma_es_measure == "Odds ratio")
 
@@ -2061,7 +2322,7 @@ overall_value_logOR_filter.OR <- data.frame(
 
 ```
 
-
+### *heterogeneity*
 ```{r}
 ###############################################################################
 # 1.  FILTER H² / I² DATA -----------------------------------------------------
@@ -2155,29 +2416,6 @@ print(I2_text_OR)
 
 ```
 
-
-```{r, include=FALSE}
-overall_plot_OR <- orchard_plot(
-  object = mod_overall_filter.OR,
-  data = dat_quant_OR,
-  group = "ma_id",
-  xlab = "logOR") +
-  scale_fill_manual(values = c(RColorBrewer::brewer.pal(8, "Dark2")))
-
-print(overall_plot_OR)
-
-overall_plot_H2 <- orchard_plot(
-  object = mod_overall_H2_OR,
-  data = dat_H2_OR,
-  group = "ma_id",
-  xlab = "lnH")
- 
-
-print(overall_plot_H2)
-```
-
-
-### **Overall odds ratio and heterogeneity plot**
 ```{r}
 merged_overall_results_OR <- bind_cols(overall_results_filter.OR, overall_results_H2_OR)
 
@@ -2202,8 +2440,7 @@ ggplot(merged_overall_results_OR, aes(x = lnOR, y = I2)) +
   theme_minimal(base_size = 13)
 ```
 
-
-
+### *galaxy plot odds ratio only*
 ```{r}
 # Prepare merged dataset for plotting (merge OR and I2 data by ma_e_id)
 galaxy_data_OR <- dat_quant_OR %>%
@@ -2256,263 +2493,332 @@ pred_int_OR <- data.frame(
 galaxy_data_OR$col <- rep("col", nrow(galaxy_data_OR))
 
 # Plot
-galaxy_plot_OR <- ggplot(galaxy_data_OR, aes(x = OR, y = I2, size = 1/se)) +
-  # Individual points (no error bars)
-  geom_point(aes(fill = col, color = col), shape = 21, alpha = 0.5) +
-
-  # Overall horizontal error bar (for OR)
-  geom_errorbarh(
-    data = overall_point_OR,
-    aes(xmin = OR_ci_lower, xmax = OR_ci_upper),
-    height = 2, 
-    size = 1.3
-  ) +
-  
-  geom_errorbarh(
-    data = pred_int_OR,
-    aes(xmin = OR_pred_lower, xmax = OR_pred_upper, y = overall_point_OR$I2),
-    height = 1.5,
-    color = "black",
-    size = 0.5,
-    linetype = "solid"
-  ) +
-  
-  # Overall vertical error bar (for I2)
-  geom_errorbar(
-    data = overall_point_OR,
-    aes(ymin = I2_ci_lower, ymax = I2_ci_upper),
-    width = 0.03, 
-    size = 1.3
-  ) +
-  
-  # Overall point (diamond)
+galaxy_plot_OR <- ggplot(galaxy_data_OR, aes(x = OR, y = I2, size = 1 / se)) +
+  ## 1. individual studies (Blues 4)
   geom_point(
-    data = overall_point_OR,
+    shape  = 21,
+    fill   = "#2171B5",   # Blues 4
+    colour = "#2171B5",
+    alpha  = 0.6
+  ) +
+
+  ## 2. overall horizontal CI (OR) – black
+  geom_errorbarh(
+    data   = overall_point_OR,
+    aes(xmin = OR_ci_lower, xmax = OR_ci_upper),
+    height = 2,
+    size   = 1.3,
+    colour = "black"
+  ) +
+
+  ## 5. overall vertical CI (I²) – black
+  geom_errorbar(
+    data   = overall_point_OR,
+    aes(ymin = I2_ci_lower, ymax = I2_ci_upper),
+    width  = 0.03,
+    size   = 1.3,
+    colour = "black"
+  ) +
+
+  ## 6. pooled effect point (diamond)
+  geom_point(
+    data   = overall_point_OR,
     aes(x = OR, y = I2),
-    shape = 23,  # Diamond shape
-    size = 3,
-    fill = "firebrick",
-    color = "black",
+    shape  = 23,
+    size   = 3,
+    fill   = "firebrick",
+    colour = "black",
     stroke = 1.2
   ) +
-  
-  scale_size(range = c(3, 12)) +
-  
-  annotate("text", x = 0, y = 85, label = "lack of association\nlow consistency", hjust = 0, size = 4.5) +
-  annotate("text", x = 1.55, y = 85, label = "positive association\nlow consistency", hjust = 0, size = 4.5) +
+
+  ## 7. quadrant labels
+  annotate("text", x = 0,    y = 85, label = "lack of association\nlow consistency",   hjust = 0, size = 4.5) +
+  annotate("text", x = 1.55, y = 85, label = "positive association\nlow consistency",  hjust = 0, size = 4.5) +
   annotate("text", x = 1.55, y = 15, label = "positive association\nhigh consistency", hjust = 0, size = 4.5) +
-  annotate("text", x = 0, y = 15, label = "lack of association\nhigh consistency", hjust = 0, size = 4.5) +
+  annotate("text", x = 0,    y = 15, label = "lack of association\nhigh consistency",  hjust = 0, size = 4.5) +
 
-  # Reference lines
-  geom_vline(xintercept = 1, linetype = "dashed" , color = "firebrick") +
-  geom_vline(xintercept = 0.5, linetype = "dashed", color = "grey40") +
-  geom_vline(xintercept = 1.5, linetype = "dashed", color = "grey40") +
-  geom_vline(xintercept = 2, linetype = "dashed", color = "grey40") +
-  geom_hline(yintercept = 50, linetype = "dashed", color = "grey40") +
-  geom_hline(yintercept = 25, linetype = "dashed", color = "grey40") +
-  geom_hline(yintercept = 75, linetype = "dashed", color = "grey40") +
+  ## 8. reference lines
+  geom_vline(xintercept = 1,   linetype = "dashed", colour = "firebrick") +
+  geom_vline(xintercept = 0.5, linetype = "dashed", colour = "grey40")    +
+  geom_vline(xintercept = 1.5, linetype = "dashed", colour = "grey40")    +
+  geom_hline(yintercept = 50,  linetype = "dashed", colour = "grey40")    +
+  geom_hline(yintercept = 25,  linetype = "dashed", colour = "grey40")    +
+  geom_hline(yintercept = 75,  linetype = "dashed", colour = "grey40")    +
 
-  # Axes
-  scale_x_continuous(limits = c(0, 2.5), breaks = seq(0, 2.5, by = 0.5)) +
-  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 25)) +
-  
-  scale_color_manual(values = "grey50") +
-  scale_fill_manual(values = "grey50") +
-  guides(fill = "none", color = "none") +
-
-  # Labels
+  ## 9. axes & theme
+  scale_x_continuous(limits = c(0, 2), breaks = seq(0, 2, 0.5)) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
+  scale_size(range = c(3, 12)) +
   labs(
-    x = "Odds Ratio",
-    y = "Heterogeneity (I\u00b2 %)",
+    x    = "Odds Ratio",
+    y    = "Heterogeneity (I\u00b2 %)",
     size = "Precision (1/SE):"
   ) +
   theme_minimal(base_size = 13) +
-  theme(legend.position = "bottom",
-        legend.text = element_text(size = 12),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.border = element_rect(color = "black", fill = NA, size = 0.8),
-        axis.title = element_text(size = 14),
-        axis.text = element_text(size = 12))
+  theme(
+    legend.position  = "bottom",
+    legend.text      = element_text(size = 12),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border     = element_rect(colour = "black", fill = NA, size = 0.8),
+    axis.title       = element_text(size = 14),
+    axis.text        = element_text(size = 12)
+  )
 
-ggMarginal(galaxy_plot_OR , groupColour = T, groupFill = T, type = "histogram")
+
+
+# Capture the plot returned by ggMarginal
+galaxy_plot_out_OR <- ggMarginal(
+  galaxy_plot_OR,
+  type   = "histogram",
+  fill   = "#2171B5",   # Blues 7
+  colour = "black"
+)
+
+# Save to figures
+ggsave(
+  here::here("figures", "galaxy_plot_OR.jpg"),
+  galaxy_plot_out_OR,
+  width  = 9, height = 7, dpi = 300
+)
+
+
 ```
 
-## run models with normal meta-regression rather than subgroup meta-regression
+## *different dependency*
+```{r}
+VCV.2 <- impute_covariance_matrix(
+  vi      = dat_quant$se^2,
+  cluster = dat_quant$pair,
+  r       = 0.8
+)
 
-```{r, include=FALSE}
-dat_quant$chemical_id <- as.factor(dat_quant$chemical_id)
-```
 
-```{r, results=FALSE}
-mod2 <- rma.mv(yi = logOR,
-               V = VCV,
-               mods = ~ chemical_id -1,
-               random = list(~1|ma_id,
-                             ~1|ma_e_id),
-               test = "t",
-               sparse = T,
-               data = dat_quant,
-               control = list(iter.max = 1000,
-                              rel.tol = 1e-8))
+VCV_H2.2<- impute_covariance_matrix(
+  vi      = dat_H2$se^2,   # <-- replace with the column holding SE² for lnH
+  cluster = dat_H2$pair,
+  r       = 0.8
+)
 
-summary(mod2)
-```
 
-```{r, echo=FALSE, out.height=600, out.width=1000, fig.width=11, fig.height=8}
-r2_mod2 <- r2_ml(mod2, dat_quant)
 
-k_n_data <- dat_quant %>% 
-  group_by(chemical_id) %>%
-  arrange(chemical_id) %>% 
-  summarise(k = n(), n = length(unique(ma_id)))
 
-res_tab1 <- broom::tidy(mod2)
-res_tab1$ci.lb <- mod2$ci.lb
-res_tab1$ci.ub <- mod2$ci.ub
-res_tab1$pval <-mod2$pval
-res_tab1 <- res_tab1 %>% 
+mod_overall.2 <- rma.mv(yi = logOR,  
+                        V = VCV.2, 
+                        random = list(~1|ma_id, 
+                                      ~1|ma_e_id), 
+                        data = dat_quant,
+                        test = "t") 
+
+
+
+mod_overall.2 <- robust(mod_overall.2, dat_quant$pair) #The robust() function computes robust standard errors that account for non-normality and/or heteroscedasticity in the residuals.
+summary(mod_overall.2)
+
+
+overall_value.2 <- data.frame(
+  OR = exp(mod_overall.2$b[1]),
+  ma_e_id = "Overall",
+  OR_ci_lower = exp(mod_overall.2$ci.lb),
+  OR_ci_upper = exp(mod_overall.2$ci.ub)
+)
+
+mod_overall_H2.2 <- rma.mv(
+  yi     = lnH,
+  V      = VCV_H2.2,
+  random = list(~1 | ma_id,
+                ~1 | ma_e_id),
+  data   = dat_H2,
+  test   = "t"
+) %>% 
+  robust(dat_H2$pair)   
+
+
+overall_results_H2.2 <- tibble(
+  lnH           = as.numeric(mod_overall_H2.2$b),
+  lnH_ci_lower  = mod_overall_H2.2$ci.lb,
+  lnH_ci_upper  = mod_overall_H2.2$ci.ub,
+  lnH_p_value   = mod_overall_H2.2$pval
+) %>% 
   mutate(
-    chemical_id = str_remove(term, "^chemical_id"),  # Remove 'Pchemical_id: ' prefix
-  ) %>% 
-  arrange(chemical_id)
+    # 1) H² and its CIs
+    H2        = exp(2 * lnH),
+    H2_lb     = exp(2 * lnH_ci_lower),
+    H2_ub     = exp(2 * lnH_ci_upper),
 
-res_tab1 <- res_tab1 %>% 
-  left_join(k_n_data, by = "chemical_id")
+    # 2) I² and its CIs (truncated to 0–100 %)
+    I2          = pmin(100, pmax(0, (H2    - 1) / H2    * 100)),
+    I2_ci_lower = pmin(100, pmax(0, (H2_lb - 1) / H2_lb * 100)),
+    I2_ci_upper = pmin(100, pmax(0, (H2_ub - 1) / H2_ub * 100))
+  )
 
-# Prepare the data for plotting and order chemical_id by estimate value
-plot_data1 <- res_tab1 %>%
-  as.data.frame() %>% 
-  filter(n > 1) %>% 
-  arrange(estimate)
 
-# Create the flipped forest plot
-forest_plot1 <- ggplot(plot_data1, aes(y = reorder(chemical_id, estimate), x = estimate)) +
-  geom_point(aes(size = k),  # Make point size proportional to k
-             color = ifelse(plot_data1$pval > 0.05, "grey", "black"), 
-             alpha = 1) +  # Add transparency for better visibility
-  scale_size(range = c(5, 13)) + # Set minimum size to 3 and maximum to 6
-  geom_errorbarh(aes(xmin = ci.lb, xmax = ci.ub), 
-                 height = 0.2,
-                 alpha = ifelse(plot_data1$pval > 0.05, 0.6, 1)) +  # Horizontal error bars
-  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +  # Reference line at 1
-  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = - 0.3),
-            hjust = 0, size = 5, # Add k values as text next to the points
-            fontface = ifelse(plot_data1$pval < 0.05, "bold", "plain")) + 
-  xlab("logOR") +
-  ylab("PFAS") +
-  #ggtitle("B") +
-  theme_minimal() +  # Use a minimal theme
-  annotate(geom = "text",
-           x = -0.15,
-           y = 8, 
-           label = paste0("italic(R)^{2} == ", round(r2_mod2[1],4)),
-           color ="black",
-           parse = TRUE, 
-           size = 5) +
-  labs(caption = "The plot displays only meta-analytic estimates that were pooled from at least two meta-analyses. Black estimates were statistically different from 0.") + 
-  theme(plot.caption = element_text(size = 10, color = "gray10", face = "italic"),
-        legend.position = "none",
-        panel.border = element_rect(colour = "black", fill = NA, size = 1),
-         plot.title = element_text(face = "bold", size = 16),
-       legend.title = element_text(size = 14),
-        legend.text = element_text(size = 13),
-        axis.title.x = element_text(size = 16),
-        axis.title.y = element_text(size = 16),
-        axis.text.y = element_text(size = 15),
-       axis.text.x = element_text(size = 15)) # +
-   # scale_x_break(c(4, 6)) +
-   # scale_x_continuous(breaks = seq(0, 4, by = 1), limits = c(-0.21, 4))
 
-forest_plot1
+###############################################################################
+# 6.  OVERALL I² ROW FOR FOREST/ORCHARD PLOTS --------------------------------
+###############################################################################
+overall_value_I2.2 <- data.frame(
+  I2          = overall_results_H2_OR$I2,
+  ma_e_id     = "Overall",
+  I2_ci_lower = overall_results_H2_OR$I2_ci_lower,
+  I2_ci_upper = overall_results_H2_OR$I2_ci_upper
+)
+
+# Nicely formatted I² text (for figure caption, etc.)
+I2_text2 <- glue::glue(
+  "I² = {round(overall_results_H2_OR$I2, 1)}% ",
+  "[{round(overall_results_H2_OR$I2_ci_lower, 1)}–",
+  "{round(overall_results_H2_OR$I2_ci_upper, 1)}%]"
+)
+
+
 ```
 
-- Now we do the same but using health outcome group as moderator.
+### *galaxy plot different dependency*
+```{r}
 
-```{r, results=FALSE}
-mod4 <- rma.mv(yi = logOR,  
-                  V = VCV,
-                  mods = ~ health_outcome_group -1,
-                   random = list(~1|ma_id,
-                                 ~1|ma_e_id),
-                   test = "t",
-                   sparse = T,
-                   data = dat_quant,
-                   control = list(iter.max = 1000, 
-                                  rel.tol = 1e-8))
-
-summary(mod4)
-```
-
-```{r, echo=FALSE, out.height=600, out.width=1000, fig.width=11, fig.height=8}
-r2_mod4 <- r2_ml(mod4, dat_quant)
-
-k_n_data3 <- dat_quant %>% 
-  group_by(health_outcome_group) %>%
-  arrange(health_outcome_group) %>% 
-  summarise(k = n(), n = length(unique(ma_id)))
-
-res_tab3 <- broom::tidy(mod4)
-res_tab3$ci.lb <- mod4$ci.lb
-res_tab3$ci.ub <- mod4$ci.ub
-res_tab3$pval <- mod4$pval
-res_tab3 <- res_tab3 %>% 
+# Prepare merged dataset for plotting (merge OR and I2 data by ma_e_id)
+galaxy_data.2<- dat_quant %>%
   mutate(
-    health_outcome_group = str_remove(term, "^health_outcome_group")  # Remove 'health_outcome_group ' prefix
+    OR = exp(logOR),
+    OR_ci_lower = exp(l_ci_logOR),
+    OR_ci_upper = exp(u_ci_logOR)
+  ) %>%
+  left_join(
+    dat_H2 %>% select(ma_e_id, I2, I2_ci_lower, I2_ci_upper, I2_se),
+    by = "ma_e_id"
   ) %>% 
-  arrange(health_outcome_group)
+  filter(!is.na(I2) & !is.na(OR))
 
-res_tab3 <- res_tab3 %>%
-  left_join(k_n_data3, by = "health_outcome_group")
+# Prepare overall result
+overall_point.2 <- data.frame(
+  OR = exp(mod_overall.2$b[1]),
+  ma_e_id = "Overall",
+  OR_ci_lower = exp(mod_overall.2$ci.lb),
+  OR_ci_upper = exp(mod_overall.2$ci.ub),
+  I2          = overall_results_H2_OR$I2,
+  ma_e_id     = "Overall",
+  I2_ci_lower = overall_results_H2_OR$I2_ci_lower,
+  I2_ci_upper = overall_results_H2_OR$I2_ci_upper)
 
-# Prepare the data for plotting and order health_outcome_group by estimate value
-plot_data3 <- res_tab3 %>%
-  as.data.frame() %>% 
-  #filter(k > 1) %>% 
-  filter(n > 1) %>% 
-  arrange(estimate)
 
-# Create the flipped forest plot
-forest_plot3 <- ggplot(plot_data3, aes(y = reorder(health_outcome_group, estimate), x = estimate)) +
-  geom_point(aes(size = k),  # Make point size proportional to k
-             color = ifelse(plot_data3$pval > 0.05, "grey", "black"),
-             alpha = 1) +  # Add transparency for better visibility 
-  scale_size(range = c(5, 13)) + # Set minimum size to 3 and maximum to 6
-  geom_errorbarh(aes(xmin = ci.lb, xmax = ci.ub), 
-                 height = 0.2,
-                 alpha = ifelse(plot_data3$pval > 0.05, 0.6, 1)) +  # Horizontal error bars
-  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +  # Reference line at 1
-  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = - 0.3),
-            hjust = 0, size = 5, # Add k values as text next to the points
-            fontface = ifelse(plot_data3$pval < 0.05, "bold", "plain")) + 
-  xlab("logOR") +
-  ylab("Health Outcome Group") +
-  ggtitle("B") +
-  theme_minimal() +  
-  annotate(geom = "text",
-           x = -0.15,
-           y = 5, 
-           label = paste0("italic(R)^{2} == ", round(r2_mod4[1],4)),
-           color ="black",
-           parse = TRUE, 
-           size = 5) +
-  labs(caption = "The plot displays only meta-analytic estimates that were pooled from at least two meta-analyses. Black estimates were statistically different from 0.") + 
-  theme(plot.caption = element_text(size = 10, color = "gray10", face = "italic"),
-    legend.position = "none",
-        panel.border = element_rect(colour = "black", fill = NA, size = 1),
-         plot.title = element_text(face = "bold", size = 18),
-       legend.title = element_text(size = 16),
-        legend.text = element_text(size = 15),
-        axis.title.x = element_text(size = 18),
-        axis.title.y = element_text(size = 18),
-        axis.text.y = element_text(size = 17),
-       axis.text.x = element_text(size = 17)) #+  
-   #scale_x_break(c(4, 6)) +
-   #scale_x_continuous(breaks = seq(0, 4, by = 1), limits = c(-0.21, 4))
-  
-forest_plot3
+
+
+# Calculations for prediction intervals
+# Extract model components
+mu <- as.numeric(mod_overall.2$b)  # overall effect size (log OR)
+se <- mod_overall.2$se             # standard error
+tau2 <- sum(mod_overall.2$sigma2)  # total between-study variance
+k <- length(mod_overall.2$yi)      # number of effect sizes
+df <- k - length(mod_overall.2$sigma2)  # conservative degrees of freedom
+
+# Calculate t critical value
+t_crit <- qt(0.975, df = df)
+
+# Calculate prediction interval (on log scale)
+pred_lower <- mu - t_crit * sqrt(tau2 + se^2)
+pred_upper <- mu + t_crit * sqrt(tau2 + se^2)
+
+# Convert to OR scale
+pred_int.2 <- data.frame(
+  OR_pred_lower = exp(pred_lower),
+  OR_pred_upper = exp(pred_upper),
+  OR = overall_point.2$OR
+)
 ```
 
 
+```{r}
+galaxy_data.2$col <- rep("col", nrow(galaxy_data.2))
 
+# Plot
+galaxy_plot.2 <- ggplot(galaxy_data.2, aes(x = OR, y = I2, size = 1 / se)) +
+  ## 1. individual studies (Blues 4)
+  geom_point(
+    shape  = 21,
+    fill   = "#2171B5",   # Blues 4
+    colour = "#2171B5",
+    alpha  = 0.6
+  ) +
+
+  ## 2. overall horizontal CI (OR) – black
+  geom_errorbarh(
+    data   = overall_point.2,
+    aes(xmin = OR_ci_lower, xmax = OR_ci_upper),
+    height = 2,
+    size   = 1.3,
+    colour = "black"
+  ) +
+
+  ## 5. overall vertical CI (I²) – black
+  geom_errorbar(
+    data   = overall_point.2,
+    aes(ymin = I2_ci_lower, ymax = I2_ci_upper),
+    width  = 0.03,
+    size   = 1.3,
+    colour = "black"
+  ) +
+
+  ## 6. pooled effect point (diamond)
+  geom_point(
+    data   = overall_point.2,
+    aes(x = OR, y = I2),
+    shape  = 23,
+    size   = 3,
+    fill   = "firebrick",
+    colour = "black",
+    stroke = 1.2
+  ) +
+
+  ## 7. quadrant labels
+  annotate("text", x = 0,    y = 85, label = "lack of association\nlow consistency",   hjust = 0, size = 4.5) +
+  annotate("text", x = 1.55, y = 85, label = "positive association\nlow consistency",  hjust = 0, size = 4.5) +
+  annotate("text", x = 1.55, y = 15, label = "positive association\nhigh consistency", hjust = 0, size = 4.5) +
+  annotate("text", x = 0,    y = 15, label = "lack of association\nhigh consistency",  hjust = 0, size = 4.5) +
+
+  ## 8. reference lines
+  geom_vline(xintercept = 1,   linetype = "dashed", colour = "firebrick") +
+  geom_vline(xintercept = 0.5, linetype = "dashed", colour = "grey40")    +
+  geom_vline(xintercept = 1.5, linetype = "dashed", colour = "grey40")    +
+  geom_hline(yintercept = 50,  linetype = "dashed", colour = "grey40")    +
+  geom_hline(yintercept = 25,  linetype = "dashed", colour = "grey40")    +
+  geom_hline(yintercept = 75,  linetype = "dashed", colour = "grey40")    +
+
+  ## 9. axes & theme
+  scale_x_continuous(limits = c(0, 2), breaks = seq(0, 2, 0.5)) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
+  scale_size(range = c(3, 12)) +
+  labs(
+    x    = "Odds Ratio",
+    y    = "Heterogeneity (I\u00b2 %)",
+    size = "Precision (1/SE):"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position  = "bottom",
+    legend.text      = element_text(size = 12),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border     = element_rect(colour = "black", fill = NA, size = 0.8),
+    axis.title       = element_text(size = 14),
+    axis.text        = element_text(size = 12)
+  )
+
+# Capture the plot returned by ggMarginal
+galaxy_plot_out.2 <- ggMarginal(
+  galaxy_plot.2,
+  type   = "histogram",
+  fill   = "#2171B5",   # Blues 7
+  colour = "black"
+)
+
+# Save to figures
+ggsave(
+  here::here("figures", "galaxy_plot.2.jpg"),
+  galaxy_plot_out.2,
+  width  = 9, height = 7, dpi = 300
+)
+
+
+```
 
