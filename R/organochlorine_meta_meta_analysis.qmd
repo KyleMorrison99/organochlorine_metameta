@@ -55,6 +55,7 @@ pacman::p_load(tidyverse,
 # Read the CSV files
 data <- read_csv(here("data", "organochlorine_meta_meta_data.csv"))
 study <- read_csv(here("data", "organochlorine_meta_meta_studies.csv"))
+pri_doi <-  read_csv(here("data", "organochlorine_meta_meta_primary_id.csv"))
 
 
 data <- left_join(data, study, by = "ma_aut_year")
@@ -508,6 +509,70 @@ VCV <- impute_covariance_matrix(
   r       = 0.5
 )
 
+
+prim_unique <- pri_doi %>%
+  filter(!is.na(primary_doi), primary_doi != "") %>%
+  distinct(measurement_id, primary_doi)
+
+inc_mat <- prim_unique %>%
+  mutate(val = 1L) %>%
+  pivot_wider(names_from = measurement_id, values_from = val, values_fill = 0L) %>%
+  column_to_rownames("primary_doi") %>%
+  as.matrix()
+
+K <- colSums(inc_mat)
+overlap_counts <- as.matrix(t(inc_mat) %*% inc_mat)
+dimnames(overlap_counts) <- list(colnames(inc_mat), colnames(inc_mat))
+
+all_ma_ids <- sort(unique(dat_quant$ma_e_id))  # SORTED to match pivot_wider
+
+# Force ALL MAs into incidence matrix
+missing_ma <- setdiff(all_ma_ids, colnames(inc_mat))
+if(length(missing_ma) > 0) {
+  # Add zero columns for missing MAs
+  zero_cols <- matrix(0L, nrow = nrow(inc_mat), ncol = length(missing_ma))
+  colnames(zero_cols) <- missing_ma
+  inc_full <- cbind(inc_mat, zero_cols)[, all_ma_ids]  # reorder to match all_ma_ids
+} else {
+  inc_full <- inc_mat[, all_ma_ids]
+}
+
+K_full <- colSums(inc_full)
+names(K_full) <- all_ma_ids
+
+overlap_full <- t(inc_full) %*% inc_full
+dimnames(overlap_full) <- list(all_ma_ids, all_ma_ids)
+
+# Average correlation from observed MAs only
+obs_ma_ids <- names(K_full)[K_full > 0]
+if(length(obs_ma_ids) > 1) {
+  K_obs <- K_full[obs_ma_ids]
+  obs_corrs <- overlap_full[obs_ma_ids, obs_ma_ids] / outer(sqrt(K_obs), sqrt(K_obs))
+  avg_corr <- mean(obs_corrs[upper.tri(obs_corrs)], na.rm = TRUE)
+} else {
+  avg_corr <- 0
+}
+cat("Average overlap correlation:", round(avg_corr, 3), "\n")
+
+# Impute zero-study pairs
+sqrtK <- sqrt(K_full)
+for(i in seq_along(all_ma_ids)) {
+  for(j in seq_len(i-1)) {
+    if(K_full[i] == 0 || K_full[j] == 0) {
+      overlap_full[i,j] <- overlap_full[j,i] <- avg_corr * sqrtK[i] * sqrtK[j]
+    }
+  }
+}
+
+# Safe R matrix
+R_full <- overlap_full / outer(sqrtK, sqrtK)
+R_full[is.na(R_full) | is.infinite(R_full)] <- 0
+diag(R_full) <- 1
+
+
+# VCV matrix (positive definite)
+V <- diag(dat_quant$se^2) %*% R_full %*% diag(dat_quant$se^2)
+
 ```
 
 ## *lnH & it's VCV*
@@ -587,13 +652,16 @@ het_plot <- ggplot(dist_df, aes(x = value, fill = statistic)) +
 ## *lnOR*
 ```{r}
 mod_overall <- rma.mv(yi = logOR,  
-                        V = VCV, 
+                        V = V, 
                         random = list(~1|ma_id, 
                                       ~1|ma_e_id), 
                         data = dat_quant,
                         test = "t")
 
-mod_overall <- robust(mod_overall, dat_quant$pair) 
+
+
+
+mod_overall <- robust(mod_overall, dat_quant$ma_id) 
 
 summary(mod_overall)
 
@@ -2818,6 +2886,51 @@ ggsave(
   galaxy_plot_out.2,
   width  = 9, height = 7, dpi = 300
 )
+
+
+```
+
+
+
+## Publication bias
+```{r}
+
+pub.bias <- rma.mv(yi = logOR,  
+                        V = V, 
+                   mods = ~ se, 
+                        random = list(~1|ma_id, 
+                                      ~1|ma_e_id), 
+                        data = dat_quant,
+                        test = "t")
+
+
+
+
+dat_quant$logOR
+
+pub.bias <- predict.rma(pub.bias)
+
+pub.bias <- as.data.frame(pub.bias)
+
+# Create Egger's regression plot
+egger_fig <- ggplot(pub.bias, aes(x = se, y = pred)) + geom_ribbon(aes(ymin = pi.lb,
+    ymax = pi.ub), alpha = 0.1, fill = "gray") + geom_ribbon(aes(ymin = ci.lb, ymax = ci.ub),
+    alpha = 0.3, fill = "gray") + geom_point(size = 2, shape = 21, alpha = 0.7, fill = RColorBrewer::brewer.pal(n = 8,
+    name = "Dark2")[1], col = "gray25", stroke = 1) 
+
+
+
+
+
++ geom_line(aes(y = fit), size = 1.2) +
+    labs(x = "Standard Error", y = "OR") + theme_bw() + geom_hline(yintercept = 0,
+    linetype = 2, colour = "black", alpha = 0.5) + theme(text = element_text(size = 18,
+    colour = "black", hjust = 0.5), legend.text = element_text(size = 14), legend.position = c(0,
+    0), legend.justification = c(0, 0), legend.background = element_blank(), legend.direction = "horizontal",
+    legend.title = element_text(size = 15), panel.border = element_rect(colour = "black",
+        fill = NA, size = 1.2))
+
+print(egger_fig)
 
 
 ```

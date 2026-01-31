@@ -1,0 +1,966 @@
+measurement_id,primary_study_id,identifier,primary_author_year,primary_doi
+ma_m_029,ma_m_029_p_001,Longnecker 2002,longnecker_2002,10.1093/aje/155.4.313
+ma_m_029,ma_m_029_p_002,Bhatia R 2005,bhatia_2005,10.1289/ehp.7382
+ma_m_029,ma_m_029_p_003,Giordano F 2010,giordano_2010,10.1002/bdra.20657
+ma_m_029,ma_m_029_p_004,Rignell-hydbom A 2012,rignell-hydbom_2012,10.1371/journal.pone.0044767
+ma_m_029,ma_m_029_p_005,Longnecker 2002,longnecker_2002,10.1093/aje/155.4.313
+ma_m_029,ma_m_029_p_006,Bhatia R 2005,bhatia_2005,10.1289/ehp.7382
+ma_m_029,ma_m_029_p_007,Brucker-Davis F 2008,brucker-davis_2008,10.1093/humrep/den186
+ma_m_029,ma_m_029_p_008,Hardell L 2003,hardell_2003,10.1289/ehp.5816
+ma_m_029,ma_m_029_p_009,Biggs 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_029,ma_m_029_p_010,McGlynn A 2008,mcglynn_2008,10.1093/jnci/djn101
+ma_m_029,ma_m_029_p_011,Purdue M 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_029,ma_m_029_p_012,Cohn B 2010,cohn_2010,10.1080/19338241003730887
+ma_m_029,ma_m_029_p_013,Giannandrea F 2011,giannandrea_2011,10.1080/03601234.2012.597704
+ma_m_054,ma_m_054_p_001,Cohn et al. 2010,cohn_2010,10.1080/19338241003730887
+ma_m_054,ma_m_054_p_002,Cohn et al. 2010,cohn_2010,10.1080/19338241003730887
+ma_m_054,ma_m_054_p_003,Cohn et al. 2010,cohn_2010,10.1080/19338241003730887
+ma_m_054,ma_m_054_p_004,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_054,ma_m_054_p_005,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_054,ma_m_054_p_006,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_054,ma_m_054_p_007,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_054,ma_m_054_p_008,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_054,ma_m_054_p_009,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_054,ma_m_054_p_010,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_055,ma_m_055_p_001,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_002,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_003,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_004,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_005,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_006,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_007,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_008,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_009,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_010,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_011,Biggs et al. 2008,biggs_2008,10.1158/1055-9965.EPI-08-0032
+ma_m_055,ma_m_055_p_012,Giannandrea 2011,giannandrea_2011,10.1080/03601234.2012.597704
+ma_m_055,ma_m_055_p_013,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_055,ma_m_055_p_014,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_055,ma_m_055_p_015,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_055,ma_m_055_p_016,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_055,ma_m_055_p_017,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_055,ma_m_055_p_018,Hardell et al. 2003,hardell_2003,10.1289/ehp.5816
+ma_m_055,ma_m_055_p_019,McGlynn et al. 2008,mcglynn_2008,10.1093/jnci/djn101
+ma_m_055,ma_m_055_p_020,McGlynn et al. 2008,mcglynn_2008,10.1093/jnci/djn101
+ma_m_055,ma_m_055_p_021,McGlynn et al. 2008,mcglynn_2008,10.1093/jnci/djn101
+ma_m_055,ma_m_055_p_022,McGlynn et al. 2008,mcglynn_2008,10.1093/jnci/djn101
+ma_m_055,ma_m_055_p_023,McGlynn et al. 2008,mcglynn_2008,10.1093/jnci/djn101
+ma_m_055,ma_m_055_p_024,McGlynn et al. 2008,mcglynn_2008,10.1093/jnci/djn101
+ma_m_055,ma_m_055_p_025,McGlynn et al. 2008,mcglynn_2008,10.1093/jnci/djn101
+ma_m_055,ma_m_055_p_026,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_027,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_028,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_029,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_030,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_031,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_032,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_033,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_034,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_035,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_055,ma_m_055_p_036,Purdue et al. 2009,purdue_2009,10.1289/ehp.0800359
+ma_m_021,ma_m_021_p_001,,hertzman_1994,10.1002/mds.870090111
+ma_m_021,ma_m_021_p_002,,kamel_2001,10.1289/ehp.7135
+ma_m_021,ma_m_021_p_003,,kuopio_1999,10.1002/1531-8257
+ma_m_021,ma_m_021_p_004,,seidler_1996,10.1289/ehp.7135
+ma_m_021,ma_m_021_p_005,,seidler_1996,10.1212/WNL.46.5.1275
+ma_m_021,ma_m_021_p_006,,weschler_1991,10.1111/j.1471-4159.1991.tb03784.x
+ma_m_004,ma_m_004_p_001,Tang-Péronard et al. 2015 EYHS (F),tang-peronard_2015,10.1159/000438834
+ma_m_004,ma_m_004_p_002,Høyer et al. 2014 INUENDO,hoyer_2014,10.1038/ijo.2014.58
+ma_m_004,ma_m_004_p_003,Warner et al. 2014 CHAMACOS,warner_2014,10.1093/aje/kwu046
+ma_m_004,ma_m_004_p_004,Cupul-Uicab et al. 2010 TAPACHULA (M),cupul-uicab_2010,10.1016/j.envres.2010.06.001
+ma_m_004,ma_m_004_p_005,Agay-Shay et al. 2015 INMA - Sabadell,agay-shay_2015,10.1289/ehp.1409049
+ma_m_004,ma_m_004_p_006,Tang-Péronard et al. 2015 EYHS (M),tang-peronard_2015,10.1159/000438834
+ma_m_004,ma_m_004_p_007,Delvaux et al. 2014 FLEHS I,delvaux_2014,10.1016/j.envres.2014.03.019
+ma_m_004,ma_m_004_p_008,Vafeiadi et al. 2015 RMCC,vafeiadi_2015,10.1289/ehp.1409062
+ma_m_004,ma_m_004_p_009,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_010,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_011,Upson et al. 2020,upson_2020,10.1055/s-0040-1718920
+ma_m_004,ma_m_004_p_012,Porpora et al. 2009,porpora_2009,10.1289/ehp.0800273
+ma_m_004,ma_m_004_p_013,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_014,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_015,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_016,Ploteau et al. 2017,ploteau_2017,10.1016/j.envint.2017.08.019
+ma_m_004,ma_m_004_p_017,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_018,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_019,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_020,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_021,Upson et al. 2017,upson_2017,not reported
+ma_m_004,ma_m_004_p_022,Cooney et al. 2010,cooney_2010,10.1016/j.reprotox.2010.05.011
+ma_m_004,ma_m_004_p_023,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_024,Ploteau et al. 2017,ploteau_2017,10.1016/j.envint.2017.08.019
+ma_m_004,ma_m_004_p_025,Buck Louis et al 2012,louis_2012,10.1289/ehp.1104432
+ma_m_004,ma_m_004_p_026,Upson et al. 2014,upson_2014,10.1289/ehp.1306648
+ma_m_004,ma_m_004_p_027,Upson et al. 2022,upson_2022,not reported
+ma_m_004,ma_m_004_p_028,Upson et al. 2016,upson_2016,10.1289/ehp.1509693
+ma_m_004,ma_m_004_p_029,Upson et al. 2018,upson_2018,not reported
+ma_m_004,ma_m_004_p_030,Upson et al. 2019,upson_2019,not reported
+ma_m_004,ma_m_004_p_031,Upson et al. 2023,upson_2023,not reported
+ma_m_004,ma_m_004_p_032,Cooney et al. 2010,cooney_2010,10.1016/j.reprotox.2010.05.011
+ma_m_004,ma_m_004_p_033,Upson et al. 2024,upson_2024,not reported
+ma_m_004,ma_m_004_p_034,Ploteau et al. 2017,ploteau_2017,10.1016/j.envint.2017.08.019
+ma_m_004,ma_m_004_p_035,Upson et al. 2013,upson_2013,10.1289/ehp.1306648
+ma_m_004,ma_m_004_p_036,Cooney et al. 2010,cooney_2010,10.1016/j.reprotox.2010.05.011
+ma_m_004,ma_m_004_p_037,Cooney et al. 2010,cooney_2010,10.1016/j.reprotox.2010.05.011
+ma_m_004,ma_m_004_p_038,Ploteau et al. 2017,ploteau_2017,10.1016/j.envint.2017.08.019
+ma_m_004,ma_m_004_p_039,Cooney et al. 2010,cooney_2010,10.1016/j.reprotox.2010.05.011
+ma_m_004,ma_m_004_p_040,Porpora et al. 2009,porpora_2009,10.1289/ehp.0800273
+ma_m_004,ma_m_004_p_041,Ploteau et al. 2017,ploteau_2017,10.1016/j.envint.2017.08.019
+ma_m_004,ma_m_004_p_042,Cooney et al. 2010,cooney_2010,10.1016/j.reprotox.2010.05.011
+ma_m_004,ma_m_004_p_043,Ploteau et al. 2017,ploteau_2017,10.1016/j.envint.2017.08.019
+ma_m_004,ma_m_004_p_044,Ploteau et al. 2017,ploteau_2017,10.1016/j.envint.2017.08.019
+ma_m_004,ma_m_004_p_045,Ploteau et al. 2017,ploteau_2017,10.1016/j.envint.2017.08.019
+ma_m_075,ma_m_075_p_001,"Delvaux, 2014, p,p-Dichlorodiphenylethylene",delvaux_2014,10.1016/j.envres.2014.03.019
+ma_m_075,ma_m_075_p_002,"Vafeiadi M, 2015, p,p-Dichlorodiphenylethylene",vafeiadi_2015,10.1289/ehp.1409062
+ma_m_083,ma_m_083_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_083,ma_m_083_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_083,ma_m_083_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_083,ma_m_083_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_084,ma_m_084_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_084,ma_m_084_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_084,ma_m_084_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_084,ma_m_084_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_085,ma_m_085_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_085,ma_m_085_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_085,ma_m_085_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_085,ma_m_085_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_086,ma_m_086_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_086,ma_m_086_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_086,ma_m_086_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_086,ma_m_086_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_087,ma_m_087_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_087,ma_m_087_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_087,ma_m_087_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_088,ma_m_088_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_088,ma_m_088_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_088,ma_m_088_p_003,not reported,dwivedi_2022,10.1016/j.envres.2021.112010
+ma_m_088,ma_m_088_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_088,ma_m_088_p_005,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_088,ma_m_088_p_006,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_089,ma_m_089_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_089,ma_m_089_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_089,ma_m_089_p_003,not reported,dwivedi_2022,10.1016/j.envres.2021.112010
+ma_m_089,ma_m_089_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_089,ma_m_089_p_005,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_089,ma_m_089_p_006,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_090,ma_m_090_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_090,ma_m_090_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_090,ma_m_090_p_003,not reported,dwivedi_2022,10.1016/j.envres.2021.112010
+ma_m_090,ma_m_090_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_090,ma_m_090_p_005,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_090,ma_m_090_p_006,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_091,ma_m_091_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_091,ma_m_091_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_091,ma_m_091_p_003,not reported,dwivedi_2022,10.1016/j.envres.2021.112010
+ma_m_091,ma_m_091_p_004,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_092,ma_m_092_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_092,ma_m_092_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_092,ma_m_092_p_003,not reported,dwivedi_2022,10.1016/j.envres.2021.112010
+ma_m_092,ma_m_092_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_092,ma_m_092_p_005,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_092,ma_m_092_p_006,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_093,ma_m_093_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_093,ma_m_093_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_093,ma_m_093_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_094,ma_m_094_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_094,ma_m_094_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_094,ma_m_094_p_003,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_094,ma_m_094_p_004,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_094,ma_m_094_p_005,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_095,ma_m_095_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_095,ma_m_095_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_095,ma_m_095_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_095,ma_m_095_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_095,ma_m_095_p_005,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_096,ma_m_096_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_096,ma_m_096_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_096,ma_m_096_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_096,ma_m_096_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_096,ma_m_096_p_005,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_097,ma_m_097_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_097,ma_m_097_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_097,ma_m_097_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_097,ma_m_097_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_097,ma_m_097_p_005,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_098,ma_m_098_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_098,ma_m_098_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_098,ma_m_098_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_099,ma_m_099_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_099,ma_m_099_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_099,ma_m_099_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_099,ma_m_099_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_099,ma_m_099_p_005,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_100,ma_m_100_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_100,ma_m_100_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_100,ma_m_100_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_101,ma_m_101_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_101,ma_m_101_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_101,ma_m_101_p_003,not reported,pathak_2010,10.1177/0748233710363334
+ma_m_101,ma_m_101_p_004,not reported,pathak_2011,10.1016/j.reprotox.2011.02.007
+ma_m_101,ma_m_101_p_005,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_102,ma_m_102_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_102,ma_m_102_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_102,ma_m_102_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_103,ma_m_103_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_103,ma_m_103_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_103,ma_m_103_p_003,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_103,ma_m_103_p_004,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_104,ma_m_104_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_104,ma_m_104_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_104,ma_m_104_p_003,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_104,ma_m_104_p_004,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_105,ma_m_105_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_105,ma_m_105_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_105,ma_m_105_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_106,ma_m_106_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_106,ma_m_106_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_106,ma_m_106_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_107,ma_m_107_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_107,ma_m_107_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_107,ma_m_107_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_108,ma_m_108_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_108,ma_m_108_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_108,ma_m_108_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_109,ma_m_109_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_109,ma_m_109_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_109,ma_m_109_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_110,ma_m_110_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_110,ma_m_110_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_110,ma_m_110_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_111,ma_m_111_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_111,ma_m_111_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_111,ma_m_111_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_112,ma_m_112_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_112,ma_m_112_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_112,ma_m_112_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_113,ma_m_113_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_113,ma_m_113_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_113,ma_m_113_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_114,ma_m_114_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_114,ma_m_114_p_002,not reported,abdollahdokht_2021,10.1007/s11356-021-14319-1
+ma_m_114,ma_m_114_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_115,ma_m_115_p_001,not reported,abbasijorjandi_2020,10.1016/j.envpol.2020.115424
+ma_m_115,ma_m_115_p_002,not reported, ,10.1007/s11356-021-14319-1
+ma_m_115,ma_m_115_p_003,not reported,samareh_2022,10.1177/07482337221106754
+ma_m_025,ma_m_025_p_001,Semtchlevian et al. 1992,senthilselvan_1992,10.1164/ajrccm/146.4.884
+ma_m_025,ma_m_025_p_002,Hoppin et al. 2009,hoppin_2009,10.1183/09031936.00005509
+ma_m_025,ma_m_025_p_003,Hoppin et al. 2009,hoppin_2009,10.1183/09031936.00005509
+ma_m_025,ma_m_025_p_004,Hoppin et al. 2009,hoppin_2009,10.1183/09031936.00005509
+ma_m_025,ma_m_025_p_005,Hoppin et al. 2009,hoppin_2009,10.1183/09031936.00005509
+ma_m_025,ma_m_025_p_006,Hoppin et al. 2009,hoppin_2009,10.1183/09031936.00005509
+ma_m_025,ma_m_025_p_007,Hoppin et al. 2009,hoppin_2009,10.1183/09031936.00005509
+ma_m_025,ma_m_025_p_008,Hoppin et al. 2009,hoppin_2009,10.1183/09031936.00005509
+ma_m_005,ma_m_005_p_001,only one sample size provided,arrebola_2015,10.1016/j.envres.2015.02.018
+ma_m_005,ma_m_005_p_002,only one sample size provided,henriquez-hernandez_2014,10.1016/j.envres.2014.05.036
+ma_m_005,ma_m_005_p_003,only one sample size provided,lind_2014,10.1016/j.envres.2013.12.003
+ma_m_005,ma_m_005_p_004,only one sample size provided,valera_2013,10.1016/j.envint.2013.06.019
+ma_m_005,ma_m_005_p_005,only one sample size provided,donat-vargas_2018,10.1161/HYPERTENSIONAHA.117.10691
+ma_m_005,ma_m_005_p_006,no sample size reported,smarr_2016,10.1016/j.scitotenv.2016.02.030
+ma_m_005,ma_m_005_p_007,only one sample size provided,lee_2012,10.1016/j.envint.2012.06.009
+ma_m_005,ma_m_005_p_008,only one sample size provided,lind_2012,10.1289/ehp.1103563
+ma_m_005,ma_m_005_p_009,only one sample size provided,lim_2017,10.1016/j.envpol.2017.12.031
+ma_m_005,ma_m_005_p_010,only one sample size provided,min_2011,10.1016/j.atherosclerosis.2011.04.044
+ma_m_005,ma_m_005_p_011,only one sample size provided,valera_2013,10.1016/j.envint.2013.06.019
+ma_m_006,ma_m_006_p_001,only one sample size provided,arrebola_2015,10.1016/j.envres.2015.02.018
+ma_m_006,ma_m_006_p_002,only one sample size provided,lind_2014,10.1016/j.envres.2013.12.003
+ma_m_006,ma_m_006_p_003,only one sample size provided,donat-vargas_2018,10.1161/HYPERTENSIONAHA.117.10691
+ma_m_006,ma_m_006_p_004,no sample size reported,smarr_2016,10.1016/j.scitotenv.2016.02.030
+ma_m_006,ma_m_006_p_005,only one sample size provided,lee_2012,10.1016/j.envint.2012.06.009
+ma_m_006,ma_m_006_p_006,only one sample size provided,lind_2012,10.1289/ehp.1103563
+ma_m_006,ma_m_006_p_007,only one sample size provided,valera_2013,10.1016/j.envint.2013.06.019
+ma_m_007,ma_m_007_p_001,only one sample size provided,arrebola_2015,10.1016/j.envres.2015.02.018
+ma_m_007,ma_m_007_p_002,only one sample size provided,valera_2013,10.1016/j.envint.2013.06.019
+ma_m_007,ma_m_007_p_003,no sample size reported,smarr_2016,10.1016/j.scitotenv.2016.02.030
+ma_m_007,ma_m_007_p_004,only one sample size provided,lim_2017,10.1016/j.envpol.2017.12.031
+ma_m_007,ma_m_007_p_005,only one sample size provided,min_2011,10.1016/j.atherosclerosis.2011.04.044
+ma_m_007,ma_m_007_p_006,only one sample size provided,valera_2013,10.1016/j.envint.2013.06.019
+ma_m_008,ma_m_008_p_001,only one sample size provided,lamerill_2013,10.1371/journal.pone.0103337
+ma_m_008,ma_m_008_p_002,only one sample size provided,arrebola_2015,10.1016/j.envres.2015.02.018
+ma_m_008,ma_m_008_p_003,only one sample size provided,vanlarebeke_2016,10.1016/j.ijheh.2014.11.002
+ma_m_008,ma_m_008_p_004,only one sample size provided,donat-vargas_2018,10.1161/HYPERTENSIONAHA.117.10691
+ma_m_009,ma_m_009_p_001,only one sample size provided,rignell-hydbom_2010,10.1371/journal.pone.0011281
+ma_m_009,ma_m_009_p_002,only one sample size provided,lee_2010,10.1289/ehp.0901480
+ma_m_009,ma_m_009_p_003,only one sample size provided,lee_2011,10.2337/dc10-2116
+ma_m_009,ma_m_009_p_004,only one sample size provided,wu_2013,10.1289/ehp.1205248
+ma_m_009,ma_m_009_p_005,only one sample size provided,wu_2013,10.1289/ehp.1205248
+ma_m_009,ma_m_009_p_006,only one sample size provided,rylander_2015,10.1016/j.envres.2015.07.002
+ma_m_009,ma_m_009_p_007,only one sample size provided,zong_2018,10.1016/j.envint.2017.12.010
+ma_m_009,ma_m_009_p_008,only one sample size provided,jaacks_2019,10.1016/j.envint.2019.105089
+ma_m_001,ma_m_001_p_001,"Raaschou-Nielsen et al., 2005",raaschou-nielsen_2005,10.1038/sj.jea.7500277
+ma_m_001,ma_m_001_p_002,"Cohn et al., 2007",cohn_2007,10.1289/ehp.10260
+ma_m_001,ma_m_001_p_003,"Krieger et al., 1994",krieger_1994,10.1093/jnci/86.8.589
+ma_m_001,ma_m_001_p_004,"Helzlsouer et al., 1999a",helzlsouer_1999,not reported
+ma_m_001,ma_m_001_p_005,"Hoyer et al., 1998",hoyer_1998,not reported
+ma_m_001,ma_m_001_p_006,"Hoyer et al., 2000",hoyer_2000,10.1023/A:1008926219539
+ma_m_001,ma_m_001_p_007,"Dorgan et al., 1999",dorgan_1999,10.1023/A:1008824131727
+ma_m_001,ma_m_001_p_008,"Wolff et al., 2000a",wolff_2000,10.1006/enrs.2000.4075
+ma_m_001,ma_m_001_p_009,"Wolff et al., 2000b",wolff_2000,10.1006/enrs.2000.4075
+ma_m_001,ma_m_001_p_010,"Helzlsouer et al., 1999a",helzlsouer_1999,not reported
+ma_m_001,ma_m_001_p_011,"Hunter et al., 1997",hunter_1997,10.1056/NEJM199710303371801
+ma_m_001,ma_m_001_p_012,"Laden et al., 2001",laden_2001,10.1093/jnci/93.10.768
+ma_m_001,ma_m_001_p_013,"Iwasaki et al., 2003",iwasaki_2008,10.1016/j.scitotenv.2008.05.009
+ma_m_001,ma_m_001_p_014,not reported,not reported,not reported
+ma_m_002,ma_m_002_p_001,veer et al 2000,veer_2000,10.1136/bmj.315.7100.81
+ma_m_002,ma_m_002_p_002,"Liljegren et al., 1998",liljegren_1998,10.1093/jnci/93.10.768
+ma_m_002,ma_m_002_p_003,"Stellman et al., 2000",stellman_2000,not reported
+ma_m_002,ma_m_002_p_004,"Zheng et al., 1999",zheng_1999,10.1006/enrs.2000.4075
+ma_m_002,ma_m_002_p_005,bagga et al 200,,not reported
+ma_m_002,ma_m_002_p_006,"Aronson et al., 2000",aronson_2000,not reported
+ma_m_002,ma_m_002_p_007,ibarluzea et al 2004,ibarluzea_2004,10.1023/B:CACO.0000036167.51236.86
+ma_m_002,ma_m_002_p_008,not reported,not reported,not reported
+ma_m_002,ma_m_002_p_009,rubin et al 2006,rubin_2006,10.3402/ijch.v65i1.17885
+ma_m_002,ma_m_002_p_010,moysich et al 1993,moysich_1993,not reported
+ma_m_002,ma_m_002_p_011,"Romieu et al., 2000",romieu_2000,10.1093/aje/152.4.363
+ma_m_002,ma_m_002_p_012,millikan et al 2000,millikan_2000,10.1002/(SICI)1097-0215(19991126)83:5<596::AID-IJC4>3.3.CO;2-G
+ma_m_002,ma_m_002_p_013,scheoper et al 2007,scheoper_2007,not reported
+ma_m_002,ma_m_002_p_014,lopes et al 1997,lopes_1997,not reported
+ma_m_002,ma_m_002_p_015,wolff et al 2000,wolff_2000,10.1006/enrs.2000.4075
+ma_m_002,ma_m_002_p_016,demers et al 2000,demers_2000,not reported
+ma_m_002,ma_m_002_p_017,demers et al 2000,demers_2000,not reported
+ma_m_002,ma_m_002_p_018,mendonza et al 1999,mendona_1999,10.1002/(sici)1097-0215(19991126)83:5<596::aid-ijc4>3.0.co;2-p
+ma_m_002,ma_m_002_p_019,olaya et al 1993,olaya-contreras_1998,10.1590/s0102-311x1998000700013
+ma_m_002,ma_m_002_p_020,zheng et al 2000,zheng_2000,10.1093/oxfordjournals.aje.a010033
+ma_m_002,ma_m_002_p_021,gatto et al 2007,gatto_2007,10.1007/s10552-006-0070-2
+ma_m_002,ma_m_002_p_022,gammon et al 2002,gammon_2002,not reported
+ma_m_002,ma_m_002_p_023,dello et al 1999,dello_1999,not reported
+ma_m_002,ma_m_002_p_024,pavuk et al 2003,pavuk_2003,10.1038/sj.jea.7500277
+ma_m_002,ma_m_002_p_025,boada et al 2012,boada_2012,10.1186/1476-069X-11-28
+ma_m_002,ma_m_002_p_026,sollman et al 2003,sollman_2003,not reported
+ma_m_002,ma_m_002_p_027,charlier et al 2004,charlier_2004,10.1515/cclm.2004.040
+ma_m_002,ma_m_002_p_028,iboh et al 2009,iboh_2009,not reported
+ma_m_002,ma_m_002_p_029,not reported,not reported,not reported
+ma_m_072,ma_m_072_p_001,"Attfield,K.R.(2019)",attfield_2019,10.1016/j.envres.2019.108551
+ma_m_072,ma_m_072_p_002,,denham_2005,
+ma_m_072,ma_m_072_p_003,,mary_2008,
+ma_m_072,ma_m_072_p_004,,mary_2008,
+ma_m_073,ma_m_073_p_001,"Attfield,K.R.(2019)",attfield_2019,10.1016/j.envres.2019.108551
+ma_m_073,ma_m_073_p_002,"Namulanda,G.(2016)",namulanda_2016,10.1016/j.envint.2016.06.001
+ma_m_073,ma_m_073_p_003,"Denham,M.(2005)",denham_2005,10.1542/peds.2004-1161
+ma_m_074,ma_m_074_p_001,"Attfield,K.R.(2019)",attfield_2019,10.1016/j.envres.2019.108551
+ma_m_074,ma_m_074_p_002,"Kristin,J.M.(2021)",kristin_2021,not reported
+ma_m_074,ma_m_074_p_003,"Windham,G.C.(2015)",winiquist_2014,10.1289/ehp.1408778
+ma_m_074,ma_m_074_p_004,"Windham,G.C.(2015)",winiquist_2014,10.1289/ehp.1408778
+ma_m_036,ma_m_036_p_001,,ritchie_2003,10.1097/01.jom.0000071510.96740.0b
+ma_m_036,ma_m_036_p_002,,hardell_2006,10.1097/01.jom.0000205989.46603.43
+ma_m_036,ma_m_036_p_003,,emeville_2015,10.1289/ehp.1408407
+ma_m_036,ma_m_036_p_004,,aronson_2010,10.1038/jes.2009.33
+ma_m_036,ma_m_036_p_005,,sawada_2010,10.1289/ehp.0901214
+ma_m_037,ma_m_037_p_001,,settimi_2003,10.1002/ijc.10955
+ma_m_037,ma_m_037_p_002,,band_2011,10.1002/pros.21232
+ma_m_037,ma_m_037_p_003,,hardell_2006,10.1097/01.jom.0000205989.46603.43
+ma_m_037,ma_m_037_p_004,,aronson_2010,10.1038/jes.2009.33
+ma_m_037,ma_m_037_p_005,,sawada_2010,10.1289/ehp.0901214
+ma_m_038,ma_m_038_p_001,,ritchie_2003,10.1097/01.jom.0000071510.96740.0b
+ma_m_038,ma_m_038_p_002,,hardell_2006,10.1097/01.jom.0000205989.46603.43
+ma_m_038,ma_m_038_p_003,,aronson_2010,10.1038/jes.2009.33
+ma_m_038,ma_m_038_p_004,,sawada_2010,10.1289/ehp.0901214
+ma_m_039,ma_m_039_p_001,,ritchie_2003,10.1097/01.jom.0000071510.96740.0b
+ma_m_039,ma_m_039_p_002,,aronson_2010,10.1038/jes.2009.33
+ma_m_039,ma_m_039_p_003,,sawada_2010,10.1289/ehp.0901214
+ma_m_039,ma_m_039_p_004,,settimi_2003,10.1002/ijc.10955
+ma_m_039,ma_m_039_p_005,,band_2011,10.1002/pros.21232
+ma_m_039,ma_m_039_p_006,,koutros_2013,10.1093/aje/kws225
+ma_m_040,ma_m_040_p_001,,mills_2003,10.1097/01.jom.0000058339.05741.0c
+ma_m_040,ma_m_040_p_002,,koutros_2013,10.1093/aje/kws225
+ma_m_041,ma_m_041_p_001,,mills_2003,10.1097/01.jom.0000058339.05741.0c
+ma_m_041,ma_m_041_p_002,,band_2011,10.1002/pros.21232
+ma_m_041,ma_m_041_p_003,,koutros_2013,10.1093/aje/kws225
+ma_m_026,ma_m_026_p_001,not reported,hardell_2006,10.1097/01.jom.0000205989.46603.43
+ma_m_026,ma_m_026_p_002,not reported,xu_2010,10.1289/ehp.0900919
+ma_m_026,ma_m_026_p_003,not reported,kumar_2010,10.1016/j.chemosphere.2010.07.067
+ma_m_026,ma_m_026_p_004,not reported,ritchie_2003,10.1097/01.jom.0000071510.96740.0b
+ma_m_026,ma_m_026_p_005,not reported,aronson_2010,10.1038/jes.2009.33
+ma_m_026,ma_m_026_p_006,not reported,sawada_2010,10.1289/ehp.0901214
+ma_m_026,ma_m_026_p_007,not reported,emeville_2015,10.1289/ehp.1408407
+ma_m_027,ma_m_027_p_001,not reported,hardell_2006,10.1097/01.jom.0000205989.46603.43
+ma_m_027,ma_m_027_p_002,not reported,xu_2010,10.1289/ehp.0900919
+ma_m_027,ma_m_027_p_003,not reported,ritchie_2003,10.1097/01.jom.0000071510.96740.0b
+ma_m_027,ma_m_027_p_004,not reported,aronson_2010,10.1038/jes.2009.33
+ma_m_027,ma_m_027_p_005,not reported,sawada_2010,10.1289/ehp.0901214
+ma_m_028,ma_m_028_p_001,not reported,hardell_2006,10.1097/01.jom.0000205989.46603.43
+ma_m_028,ma_m_028_p_002,not reported,ritchie_2003,10.1097/01.jom.0000071510.96740.0b
+ma_m_028,ma_m_028_p_003,not reported,aronson_2010,10.1038/jes.2009.33
+ma_m_028,ma_m_028_p_004,not reported,sawada_2010,10.1289/ehp.0901214
+ma_m_077,ma_m_077_p_001,"Wojtyniak (Greenland), 2010; Heterogeneity: Q=3.56, p=0.17; I^2=45.22%; N: 547/28",wojtyniak_2010,10.1186/1476-069X-9-56
+ma_m_077,ma_m_077_p_002,"Wojtyniak (Ukraine), 2010; N: 577/12",wojtyniak_2010,10.1186/1476-069X-9-56
+ma_m_077,ma_m_077_p_003,"Wojtyniak (Poland), 2010; N: 198/12",wojtyniak_2010,10.1186/1476-069X-9-56
+ma_m_078,ma_m_078_p_001,"Wojtyniak (Greenland), 2010; Heterogeneity: Q=19.70, p<0.001; I^2=72.17%; N: 54",wojtyniak_2010,10.1186/1476-069X-9-56
+ma_m_078,ma_m_078_p_002,"Wojtyniak (Ukraine), 2010; N: 577",wojtyniak_2010,10.1186/1476-069X-9-56
+ma_m_078,ma_m_078_p_003,"Wojtyniak (Poland), 2010; N: 198",wojtyniak_2010,10.1186/1476-069X-9-56
+ma_m_078,ma_m_078_p_004,"Fenster, 2006; N: 488",fenster_2006,10.1289/ehp.8423
+ma_m_078,ma_m_078_p_005,"Kalloo, 2020; N: 380",kalloo_2020,10.1016/j.envint.2019.105219
+ma_m_078,ma_m_078_p_006,"Lauritzen (Norway), 2016; N: 265",lauritzen_2017,10.1038/pr.2016.187
+ma_m_078,ma_m_078_p_007,"Lauritzen (Sweden), 2016; N: 159",lauritzen_2017,10.1038/pr.2016.187
+ma_m_078,ma_m_078_p_008,"Wolf, 2007; N: 404",wolf_2007,10.1203/pdr.0b013e31802d77f0
+ma_m_079,ma_m_079_p_001,"Fenster, 2006; Heterogeneity: Q=2.77, p=0.60; I^2=2.94%; N: 340",fenster_2006,10.1289/ehp.8423
+ma_m_079,ma_m_079_p_002,"Kalloo, 2020; N: 380",kalloo_2020,10.1016/j.envint.2019.105219
+ma_m_079,ma_m_079_p_003,"Vafeiadi, 2014; N: 524",vafeiadi_2014,10.1016/j.envint.2013.12.015
+ma_m_079,ma_m_079_p_004,"Lauritzen (Norway), 2016; N: 265",lauritzen_2017,10.1038/pr.2016.187
+ma_m_079,ma_m_079_p_005,"Lauritzen (Sweden), 2016; N: 159",lauritzen_2017,10.1038/pr.2016.187
+ma_m_048,ma_m_048_p_001,"Kim,2012",kim_2012,10.3961/jpmph.2012.45.2.62
+ma_m_048,ma_m_048_p_002,"Turyk,2015",turyk_2015,10.1016/j.envres.2015.03.037
+ma_m_048,ma_m_048_p_003,"Kim,2012",kim_2012,10.3961/jpmph.2012.45.2.62
+ma_m_048,ma_m_048_p_004,"Kim,2012",kim_2012,10.3961/jpmph.2012.45.2.62
+ma_m_048,ma_m_048_p_005,"Kim,2012",kim_2012,10.3961/jpmph.2012.45.2.62
+ma_m_048,ma_m_048_p_006,"Kumar,2014",kumar_2014,10.1289/ehp.1307613
+ma_m_048,ma_m_048_p_007,"Schaebel,2017",schaebel_2017,10.1371/journal.pone.0177781
+ma_m_048,ma_m_048_p_008,"Teixeira,2015 (1)",teixeira_2015,10.1210/jc.2014-4136
+ma_m_048,ma_m_048_p_009,"Teixeira,2015 (2)",teixeira_2015,10.1210/jc.2014-4136
+ma_m_049,ma_m_049_p_001,"Bapayeva,2018",bapayeva_2018,10.1007/s12026-018-9049-9
+ma_m_049,ma_m_049_p_002,"Bapayeva,2018",bapayeva_2018,10.1007/s12026-018-9049-9
+ma_m_049,ma_m_049_p_003,"Bapayeva,2018",bapayeva_2018,10.1007/s12026-018-9049-9
+ma_m_049,ma_m_049_p_004,"Daniel,2001",daniel_2001,10.2307/3434772
+ma_m_049,ma_m_049_p_005,"Bapayeva,2018",bapayeva_2018,10.1007/s12026-018-9049-9
+ma_m_050,ma_m_050_p_001,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_002,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_003,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_004,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_005,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_006,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_007,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_008,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_009,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_010,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_011,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_012,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_013,"Mustafa,2015 (3)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_014,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_015,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_016,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_017,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_018,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_019,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_020,"Daniel,2002",daniel_2002,10.1080/00039890209602086
+ma_m_050,ma_m_050_p_021,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_050,ma_m_050_p_022,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_001,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_002,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_003,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_004,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_005,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_006,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_007,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_008,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_009,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_010,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_011,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_012,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_013,"Daniel,2001",daniel_2001,10.2307/3434772
+ma_m_051,ma_m_051_p_014,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_015,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_016,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_017,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_018,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_019,"Mustafa,2015 (2)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_020,"Daniel,2002",daniel_2002,10.1080/00039890209602086
+ma_m_051,ma_m_051_p_021,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_051,ma_m_051_p_022,"Ferro,2019",ferro_2019,10.1080/19338244.2018.1535480
+ma_m_051,ma_m_051_p_023,"Teixeira,2015 (1)",teixeira_2015,10.1210/jc.2014-4136
+ma_m_051,ma_m_051_p_024,"Teixeira,2015 (2)",teixeira_2015,10.1210/jc.2014-4136
+ma_m_051,ma_m_051_p_025,"Mustafa,2015 (1)",mustafa_2015,10.1016/j.reprotox.2015.05.018
+ma_m_057,ma_m_057_p_001,Mekonen et al. (2021),mekonen_2021,10.1371/journal.pone.0257704
+ma_m_057,ma_m_057_p_002,Bachelet et al. (2019),bachelet_2019,10.3390/ijerph16020271
+ma_m_057,ma_m_057_p_003,Huang et al. (2019),huang_2019,10.1007/s11356-019-06404-3
+ma_m_057,ma_m_057_p_004,Kaur et al. (2019),kaur_2019,10.4103/sajc.sajc_427_18
+ma_m_057,ma_m_057_p_005,WielsÃ¸e et al. (2018),wielsoe_2017,10.1186/s12940-017-0269-6
+ma_m_057,ma_m_057_p_006,Pastor-Barriuso et al. (2016),pastor-barriuso_2016,10.1289/ehp157
+ma_m_057,ma_m_057_p_007,Arrebola et al. (2015),arrebola_2015,10.1016/j.scitotenv.2015.03.045
+ma_m_057,ma_m_057_p_008,Holmes et al. (2014),holmes_2014,10.3402/ijch.v73.25760
+ma_m_057,ma_m_057_p_009,Tang et al. (2014),tang_2014,10.1016/j.envint.2014.08.001
+ma_m_057,ma_m_057_p_010,Boada et al. (2012),boada_2012,10.1186/1476-069x-11-28
+ma_m_057,ma_m_057_p_011,Itoh et al. (2009),itoh_2009,10.1007/s10552-008-9265-z
+ma_m_057,ma_m_057_p_012,Iwasaki et al. (2008),iwasaki_2008,10.1016/j.scitotenv.2008.05.009
+ma_m_057,ma_m_057_p_013,Cohn et al. (2007),cohn_2007,10.1289/ehp.10260
+ma_m_057,ma_m_057_p_014,Gatto et al. (2007),gatto_2007,10.1007/s10552-006-0070-2
+ma_m_057,ma_m_057_p_015,Raaschou-Nielsen et al. (2005),raaschou-nielsen_2005,10.1038/sj.jea.7500277
+ma_m_057,ma_m_057_p_016,Charlier et al. (2004),charlier_2004,10.1515/cclm.2004.040
+ma_m_057,ma_m_057_p_017,McCready et al. (2004),mccready_2004,10.1023/B:CACO.0000027505.32564.c2
+ma_m_057,ma_m_057_p_018,Pavuk et al. (2003),pavuk_2003,10.1038/sj.jea.7500277
+ma_m_057,ma_m_057_p_019,Gammon et al. (2002),gammon_2002,not reported
+ma_m_057,ma_m_057_p_020,Laden et al. (2001),laden_2001,10.1002/1097-0215(200002)9999:9999<::aid-ijc1081>3.0.co;2-w
+ma_m_057,ma_m_057_p_021,Aronson et al. (2000),aronson_2000,not reported
+ma_m_057,ma_m_057_p_022,Bagga et al. (2000),bagga_2000,10.1093/jnci/92.9.750
+ma_m_057,ma_m_057_p_023,Demers et al. (2000),demers_2000,not reported
+ma_m_057,ma_m_057_p_024,HÃ¸yer et al. (2000),hoyer_2000,10.1023/a:1008926219539
+ma_m_057,ma_m_057_p_025,Millikan et al. (2000),millikan_2000,10.1002/(SICI)1097-0215(19991126)83:5<596::AID-IJC4>3.3.CO;2-G
+ma_m_057,ma_m_057_p_026,Romieu et al. (2000),romieu_2000,10.1093/aje/152.4.363
+ma_m_057,ma_m_057_p_027,Stellman et al. (2000),stellman_2000,not reported
+ma_m_057,ma_m_057_p_028,Wolff et al. (2000),wolff_2000,10.1006/enrs.2000.4075
+ma_m_057,ma_m_057_p_029,Dorgan et al. (1999),dorgan_1999,10.1023/a:1008824131727
+ma_m_057,ma_m_057_p_030,MendonÃ§a et al. (1999),mendona_1999,10.1002/(sici)1097-0215(19991126)83:5<596::aid-ijc4>3.0.co;2-p
+ma_m_057,ma_m_057_p_031,HÃ¸yer et al. (1998),ha_1998,10.1016/s0140-6736(98)04504-8
+ma_m_057,ma_m_057_p_032,LÃ³pez-Carrillo et al. (1997),la_1997,not reported
+ma_m_057,ma_m_057_p_033,Schecter et al. (1997),schecter_1997,10.1007/s002449900276
+ma_m_057,ma_m_057_p_034,Wolf et al. (1993),wolf_1993,10.1093/jnci/85.8.648
+ma_m_058,ma_m_058_p_001,Mekonen et al. (2021),mekonen_2021,10.1371/journal.pone.0257704
+ma_m_058,ma_m_058_p_002,Miao et al. (2021),miao_2021,10.1016/j.envpol.2021.117386
+ma_m_058,ma_m_058_p_003,Cohn et al. (2019)a,cohn_2019,10.1093/jnci/djy198
+ma_m_058,ma_m_058_p_004,Cohn et al. (2019)b,cohn_2019,10.1093/jnci/djy198
+ma_m_058,ma_m_058_p_005,Huang et al. (2019),huang_2019,10.1007/s11356-019-06404-3
+ma_m_058,ma_m_058_p_006,Kaur et al. (2019),kaur_2019,10.4103/sajc.sajc_427_18
+ma_m_058,ma_m_058_p_007,WielsÃ¸e et al. (2018),wielsoe_2017,10.1186/s12940-017-0269-6
+ma_m_058,ma_m_058_p_008,Holmes et al. (2014),holmes_2014,10.3402/ijch.v73.25760
+ma_m_058,ma_m_058_p_009,Tang et al. (2014),tang_2014,10.1016/j.envint.2014.08.001
+ma_m_058,ma_m_058_p_010,Boada et al. (2012),boada_2012,10.1186/1476-069x-11-28
+ma_m_058,ma_m_058_p_011,Itoh et al. (2009),itoh_2009,10.1007/s10552-008-9265-z
+ma_m_058,ma_m_058_p_012,Iwasaki et al. (2008),iwasaki_2008,10.1016/j.scitotenv.2008.05.009
+ma_m_058,ma_m_058_p_013,Cohn et al. (2007),cohn_2007,10.1289/ehp.10260
+ma_m_058,ma_m_058_p_014,Raaschou-Nielsen et al. (2005),raaschou-nielsen_2005,10.1038/sj.jea.7500277
+ma_m_058,ma_m_058_p_015,McCready et al. (2004),mccready_2004,10.1023/B:CACO.0000027505.32564.c2
+ma_m_058,ma_m_058_p_016,Pavuk et al. (2003),pavuk_2003,10.1038/sj.jea.7500277
+ma_m_058,ma_m_058_p_017,Gammon et al. (2002),gammon_2002,not reported
+ma_m_058,ma_m_058_p_018,Aronson et al. (2000),aronson_2000,not reported
+ma_m_058,ma_m_058_p_019,Bagga et al. (2000),bagga_2000,10.1093/jnci/92.9.750
+ma_m_058,ma_m_058_p_020,Demers et al. (2000),demers_2000,not reported
+ma_m_058,ma_m_058_p_021,HÃ¸yer et al. (2000),hoyer_2000,10.1023/a:1008926219539
+ma_m_058,ma_m_058_p_022,Wolff et al. (2000),wolff_2000,10.1006/enrs.2000.4075
+ma_m_058,ma_m_058_p_023,Dorgan et al. (1999),dorgan_1999,10.1023/a:1008824131727
+ma_m_058,ma_m_058_p_024,HÃ¸yer et al. (1998),ha_1998,10.1016/s0140-6736(98)04504-8
+ma_m_058,ma_m_058_p_025,Schecter et al. (1997),schecter_1997,10.1007/s002449900276
+ma_m_059,ma_m_059_p_001,Miao et al. (2021)a,miao_2021,10.1016/j.envpol.2021.117386
+ma_m_059,ma_m_059_p_002,Miao et al. (2021)b,miao_2021,10.1016/j.envpol.2021.117386
+ma_m_059,ma_m_059_p_003,Miao et al. (2021)c,miao_2021,10.1016/j.envpol.2021.117386
+ma_m_059,ma_m_059_p_004,Miao et al. (2021)d,miao_2021,10.1016/j.envpol.2021.117386
+ma_m_059,ma_m_059_p_005,Kaur et al. (2019)a,kaur_2019,10.4103/sajc.sajc_427_18
+ma_m_059,ma_m_059_p_006,Kaur et al. (2019)b,kaur_2019,10.4103/sajc.sajc_427_18
+ma_m_059,ma_m_059_p_007,Kaur et al. (2019)c,kaur_2019,10.4103/sajc.sajc_427_18
+ma_m_059,ma_m_059_p_008,WielsÃ¸e et al. (2018),wielsoe_2017,10.1186/s12940-017-0269-6
+ma_m_059,ma_m_059_p_009,Arrebola et al. (2015),arrebola_2015,10.1016/j.scitotenv.2015.03.045
+ma_m_059,ma_m_059_p_010,Holmes et al. (2014)a,holmes_2014,10.3402/ijch.v73.25760
+ma_m_059,ma_m_059_p_011,Holmes et al. (2014)b,holmes_2014,10.3402/ijch.v73.25760
+ma_m_059,ma_m_059_p_012,Xu et al. (2010),xu_2010,10.1289/ehp.0900919
+ma_m_059,ma_m_059_p_013,Itoh et al. (2009),itoh_2009,10.1007/s10552-008-9265-z
+ma_m_059,ma_m_059_p_014,Iwasaki et al. (2008),iwasaki_2008,10.1016/j.scitotenv.2008.05.009
+ma_m_059,ma_m_059_p_015,Raaschou-Nielsen et al. (2005),raaschou-nielsen_2005,10.1038/sj.jea.7500277
+ma_m_059,ma_m_059_p_016,McCready et al. (2004),mccready_2004,10.1023/B:CACO.0000027505.32564.c2
+ma_m_059,ma_m_059_p_017,LÃ³pez-Carrillo et al. (2002),la_2002,not reported
+ma_m_059,ma_m_059_p_018,Aronson et al. (2000),aronson_2000,not reported
+ma_m_059,ma_m_059_p_019,Demers et al. (2000),demers_2000,not reported
+ma_m_059,ma_m_059_p_020,HÃ¸yer et al. (2000),hoyer_2000,10.1023/a:1008926219539
+ma_m_059,ma_m_059_p_021,Dorgan et al. (1999),dorgan_1999,10.1023/a:1008824131727
+ma_m_059,ma_m_059_p_022,HÃ¸yer et al. (1998),ha_1998,10.1016/s0140-6736(98)04504-8
+ma_m_060,ma_m_059_p_023,WielsÃ¸e et al. (2018),wielsoe_2017,10.1186/s12940-017-0269-6
+ma_m_060,ma_m_060_p_001,Pastor-Barriuso et al. (2016),pastor-barriuso_2016,10.1289/ehp157
+ma_m_060,ma_m_060_p_002,Arrebola et al. (2015),arrebola_2015,10.1016/j.scitotenv.2015.03.045
+ma_m_060,ma_m_060_p_003,Holmes et al. (2014),holmes_2014,10.3402/ijch.v73.25760
+ma_m_060,ma_m_060_p_004,Itoh et al. (2009),itoh_2009,10.1007/s10552-008-9265-z
+ma_m_060,ma_m_060_p_005,Iwasaki et al. (2008),iwasaki_2008,10.1016/j.scitotenv.2008.05.009
+ma_m_060,ma_m_060_p_006,Raaschou-Nielsen et al. (2005),raaschou-nielsen_2005,10.1038/sj.jea.7500277
+ma_m_060,ma_m_060_p_007,Charlier et al. (2004),charlier_2004,10.1515/cclm.2004.040
+ma_m_060,ma_m_060_p_008,McCready et al. (2004),mccready_2004,10.1023/B:CACO.0000027505.32564.c2
+ma_m_060,ma_m_060_p_009,Pavuk et al. (2003),pavuk_2003,10.1038/sj.jea.7500277
+ma_m_060,ma_m_060_p_010,LÃ³pez-Carrillo et al. (2002),la_2002,not reported
+ma_m_060,ma_m_060_p_011,Aronson et al. (2000),aronson_2000,not reported
+ma_m_060,ma_m_060_p_012,Dorgan et al. (1999),dorgan_1999,10.1023/a:1008824131727
+ma_m_060,ma_m_060_p_013,Moysich et al. (1998),moysich_1998,not reported
+ma_m_014,ma_m_014_p_001,Rothman et al. 1997,rothman_1997,10.1016/S0140-6736(97)02088-6
+ma_m_014,ma_m_014_p_002,Quintana et al. 2004a,quintana_2004,10.1289/ehp.6726
+ma_m_014,ma_m_014_p_003,Brauner et al. 2011e,brauner_2011,10.1289/ehp.1103573
+ma_m_014,ma_m_014_p_004,Spinelli et al. 2007c,spinelli_2007,10.1002/ijc.23005
+ma_m_014,ma_m_014_p_005,De Roos et al. 2005d,de_2005,10.1158/0008-5472.CAN-05-1755
+ma_m_015,ma_m_015_p_001,Quintana et al. 2004b,quintana_2004,10.1289/ehp.6726
+ma_m_015,ma_m_015_p_002,Bertrand et al. 2010,bertrand_2010,10.1097/EDE.0b013e3181cb610b
+ma_m_015,ma_m_015_p_003,Laden et al. 2010,laden_2010,10.1158/1055-9965.EPI-10-0125
+ma_m_015,ma_m_015_p_004,Engel et al. 2007a,engel_2007,10.1158/0008-5472.CAN-06-3906
+ma_m_015,ma_m_015_p_005,Engel et al. 2007b,engel_2007,10.1158/0008-5472.CAN-06-3906
+ma_m_015,ma_m_015_p_006,Brauner et al. 2011a,brauner_2011,10.1289/ehp.1103573
+ma_m_015,ma_m_015_p_007,Hardell et al. 2000b,hardell_2000,10.1002/(SICI)1097-0274(199801)33:1<82::AID-AJIM9>3.0.CO;2-Y
+ma_m_015,ma_m_015_p_008,Hardell et al. 2009b,hardell_2009,10.3892/or_00000389
+ma_m_015,ma_m_015_p_009,Spinelli et al. 2007b,spinelli_2007,10.1002/ijc.23005
+ma_m_015,ma_m_015_p_010,De Roos et al. 2005c,de_2005,10.1158/0008-5472.CAN-05-1755
+ma_m_015,ma_m_015_p_011,Cocco et al. 2007c,cocco_2007,10.1136/oem.2007.033548
+ma_m_016,ma_m_016_p_001,Quintana et al. 2004c,quintana_2004,10.1289/ehp.6726
+ma_m_016,ma_m_016_p_002,Cantor et al. 2002b,cantor_2002,10.1289/ehp.4347
+ma_m_016,ma_m_016_p_003,Brauner et al. 2011b,brauner_2011,10.1289/ehp.1103573
+ma_m_016,ma_m_016_p_004,Spinelli et al. 2007a,spinelli_2007,10.1002/ijc.23005
+ma_m_016,ma_m_016_p_005,De Roos et al. 2005b,de_2005,10.1158/0008-5472.CAN-05-1755
+ma_m_016,ma_m_016_p_006,Cocco et al. 2007a,cocco_2007,10.1136/oem.2007.033548
+ma_m_017,ma_m_017_p_001,Quintana et al. 2004d,quintana_2004,10.1289/ehp.6726
+ma_m_017,ma_m_017_p_002,Cantor et al. 2002a,cantor_2002,10.1289/ehp.4347
+ma_m_017,ma_m_017_p_003,Brauner et al. 2011d,brauner_2011,10.1289/ehp.1103573
+ma_m_017,ma_m_017_p_004,Hardell et al. 2000c,hardell_2000,10.1002/(SICI)1097-0274(199801)33:1<82::AID-AJIM9>3.0.CO;2-Y
+ma_m_017,ma_m_017_p_005,Hardell et al. 1996,hardell_1996,not reported
+ma_m_017,ma_m_017_p_006,Spinelli et al. 2007e,spinelli_2007,10.1002/ijc.23005
+ma_m_017,ma_m_017_p_007,De Roos et al. 2005a,de_2005,10.1158/0008-5472.CAN-05-1755
+ma_m_018,ma_m_018_p_001,Quintana et al. 2004e,quintana_2004,10.1289/ehp.6726
+ma_m_018,ma_m_018_p_002,Cantor et al. 2002c,cantor_2002,10.1289/ehp.4347
+ma_m_018,ma_m_018_p_003,Brauner et al. 2011c,brauner_2011,10.1289/ehp.1103573
+ma_m_018,ma_m_018_p_004,Hardell et al. 2000a,hardell_2000,10.1002/(SICI)1097-0274(199801)33:1<82::AID-AJIM9>3.0.CO;2-Y
+ma_m_018,ma_m_018_p_005,Hardell et al. 2009a,hardell_2009,10.3892/or_00000389
+ma_m_018,ma_m_018_p_006,Spinelli et al. 2007d,spinelli_2007,10.1002/ijc.23005
+ma_m_018,ma_m_018_p_007,Cocco et al. 2007b,cocco_2007,10.1136/oem.2007.033548
+ma_m_116,ma_m_116_p_001,,brown_2018,10.1176/appi.ajp.2018.17101129
+ma_m_116,ma_m_116_p_002,,brown_2018,10.1176/appi.ajp.2018.17101129
+ma_m_116,ma_m_116_p_003,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_004,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_005,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_006,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_007,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_008,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_009,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_010,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_011,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_012,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_013,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_116,ma_m_116_p_014,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_001,,brown_2018,10.1176/appi.ajp.2018.17101129
+ma_m_117,ma_m_117_p_002,,brown_2018,10.1176/appi.ajp.2018.17101129
+ma_m_117,ma_m_117_p_003,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_004,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_005,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_006,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_007,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_008,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_009,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_010,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_011,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_012,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_013,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_117,ma_m_117_p_014,,cheslack-postava_2013,10.1016/j.ntt.2013.04.001
+ma_m_030,ma_m_030_p_001,"Hue et al., 2006 [Fig2]",hue_2006,10.1381/096089206778392356
+ma_m_030,ma_m_030_p_002,"Jaacks et al., 2016 [Fig2]",jaacks_2016,10.3390/ijerph13090905
+ma_m_030,ma_m_030_p_003,"Kim et al., 2018 [Fig2]",kim_2018,10.1007/s11356-017-0382-7
+ma_m_030,ma_m_030_p_004,"Lee et al., 2006 [Fig2]",lee_2006,10.2337/dc06-0543
+ma_m_030,ma_m_030_p_005,"Magnusdottir et al., 2005 [Fig2]",magnusdottir_2005,10.1093/humrep/deh569
+ma_m_030,ma_m_030_p_006,"Pelletier et al., 2002 [Fig2]",pelletier_2002,10.1097/00005768-200212000-00017
+ma_m_030,ma_m_030_p_007,"Rosenbaum et al., 2017 [Fig2]",rosenbaum_2017,10.1016/j.envint.2017.07.017
+ma_m_031,ma_m_031_p_001,"Hue et al., 2006 [Fig3]",hue_2006,10.1381/096089206778392356
+ma_m_031,ma_m_031_p_002,"Jaacks et al., 2016 [Fig3]",jaacks_2016,10.3390/ijerph13090905
+ma_m_031,ma_m_031_p_003,"Kim et al., 2018 [Fig3]",kim_2018,10.1007/s11356-017-0382-7
+ma_m_031,ma_m_031_p_004,"Lee et al., 2006 [Fig3]",lee_2006,10.2337/dc06-0543
+ma_m_031,ma_m_031_p_005,"Magnusdottir et al., 2005 [Fig3]",magnusdottir_2005,10.1093/humrep/deh569
+ma_m_031,ma_m_031_p_006,"Pelletier et al., 2002 [Fig3]",pelletier_2002,10.1097/00005768-200212000-00017
+ma_m_031,ma_m_031_p_007,"Rosenbaum et al., 2017 [Fig3]",rosenbaum_2017,10.1016/j.envint.2017.07.017
+ma_m_032,ma_m_032_p_001,"Airaksinen et al., 2011 [Fig4]",airaksinen_2011,10.2337/dc10-2303
+ma_m_032,ma_m_032_p_002,"Cox et al., 2007 [Fig4]",cox_2007,10.1289/ehp.10258
+ma_m_032,ma_m_032_p_003,"Eden et al., 2016 [Fig4]",eden_2016,10.1038/jes.2014.69
+ma_m_032,ma_m_032_p_004,"Everett et al., 2010 [Fig4]",everett_2010,10.1016/j.envint.2010.02.010
+ma_m_032,ma_m_032_p_005,"Grice et al., 2017 [Fig4]",grice_2017,10.1136/oemed-2016-103948
+ma_m_032,ma_m_032_p_006,"Lee et al., 2010 [Fig4]",lee_2010,10.1289/ehp.0901480
+ma_m_032,ma_m_032_p_007,"Lee et al., 2011 [Fig4]",lee_2011,10.2337/dc10-2116
+ma_m_032,ma_m_032_p_008,"Rylander et al., 2015 [Fig4]",rylander_2015,10.1016/j.envres.2015.07.002
+ma_m_033,ma_m_033_p_001,"Son et al., 2010 [Fig4]",son_2010,10.1016/j.envint.2010.02.012
+ma_m_033,ma_m_033_p_002,"Airaksinen et al., 2011 [Fig5]",airaksinen_2011,10.2337/dc10-2303
+ma_m_033,ma_m_033_p_003,"Cox et al., 2007 [Fig5]",cox_2007,10.1289/ehp.10258
+ma_m_033,ma_m_033_p_004,"Eden et al., 2016 [Fig5]",eden_2016,10.1038/jes.2014.69
+ma_m_033,ma_m_033_p_005,"Everett et al., 2010 [Fig5]",everett_2010,10.1016/j.envint.2010.02.010
+ma_m_033,ma_m_033_p_006,"Grice et al., 2017 [Fig5]",grice_2017,10.1136/oemed-2016-103948
+ma_m_033,ma_m_033_p_007,"Han et al., 2020 [Fig5]",han_2020,10.1016/j.ecoenv.2019.110125
+ma_m_033,ma_m_033_p_008,"Lee et al., 2010 [Fig5]",lee_2010,10.1289/ehp.0901480
+ma_m_033,ma_m_033_p_009,"Lee et al., 2011 [Fig5]",lee_2011,10.2337/dc10-2116
+ma_m_033,ma_m_033_p_010,"Rylander et al., 2015 [Fig5]",rylander_2015,10.1016/j.envres.2015.07.002
+ma_m_034,ma_m_034_p_001,"Son et al., 2010 [Fig5]",son_2010,10.1016/j.envint.2010.02.012
+ma_m_034,ma_m_034_p_002,"Son et al., 2010 [Fig6]",son_2010,10.1016/j.envint.2010.02.012
+ma_m_034,ma_m_034_p_003,"Starling et al., 2014 [Fig6]",starling_2014,10.1136/oemed-2013-101659
+ma_m_020,ma_m_020_p_001,Gasull et al,gasull_2012,10.1021/es300712g
+ma_m_020,ma_m_020_p_002,Gasull et al,gasull_2012,10.1021/es300712g
+ma_m_020,ma_m_020_p_003,Gasull et al,gasull_2012,10.1021/es300712g
+ma_m_020,ma_m_020_p_004,Arrebola et al,arrebola_2013,10.1016/j.envres.2012.12.001
+ma_m_020,ma_m_020_p_005,Arrebola et al,arrebola_2013,10.1016/j.envres.2012.12.001
+ma_m_020,ma_m_020_p_006,Al-Othman et al,al-othman_2014,10.3390/ijerph110908984
+ma_m_020,ma_m_020_p_007,Al-Othman et al,al-othman_2014,10.3390/ijerph110908984
+ma_m_020,ma_m_020_p_008,Ukropec et al,ukropec_2010,10.1007/s00125-010-1683-2
+ma_m_020,ma_m_020_p_009,Codru et al,codru_2007,10.1289/ehp.10315
+ma_m_020,ma_m_020_p_010,Codru et al,codru_2007,10.1289/ehp.10315
+ma_m_020,ma_m_020_p_011,Codru et al,codru_2007,10.1289/ehp.10315
+ma_m_020,ma_m_020_p_012,Codru et al,codru_2007,10.1289/ehp.10315
+ma_m_020,ma_m_020_p_013,Cox et al,cox_2007,10.1289/ehp.10258
+ma_m_020,ma_m_020_p_014,Son et al,son_2010,10.1016/j.envint.2010.02.012
+ma_m_020,ma_m_020_p_015,Son et al,son_2010,10.1016/j.envint.2010.02.012
+ma_m_020,ma_m_020_p_016,Lee et al,lee_2011,10.2337/dc10-2116
+ma_m_020,ma_m_020_p_017,Wu et al,not reported,not reported
+ma_m_020,ma_m_020_p_018,Wu et al,not reported,not reported
+ma_m_020,ma_m_020_p_019,Burns et al,burns_2014,10.1093/aje/kwu212
+ma_m_003,ma_m_003_p_001,,aronson_2000,not reported
+ma_m_003,ma_m_003_p_002,,charlier_2004,10.1515/cclm.2004.040
+ma_m_003,ma_m_003_p_003,,cohn_2007,10.1289/ehp.10260
+ma_m_003,ma_m_003_p_004,,delloiacovo_2009,not reported
+ma_m_003,ma_m_003_p_005,,demers_2004,not reported
+ma_m_003,ma_m_003_p_006,,demers_2000,not reported
+ma_m_003,ma_m_003_p_007,,dorgan_1999,10.1023/A:1008824131727
+ma_m_003,ma_m_003_p_008,,gammon_2002,not reported
+ma_m_003,ma_m_003_p_009,,gatto_2007,10.1007/s10552-006-0070-2
+ma_m_003,ma_m_003_p_010,,helzlsouer_1999,not reported
+ma_m_003,ma_m_003_p_011,,helzlsouer_1999,not reported
+ma_m_003,ma_m_003_p_012,,hoyer_1998,not reported
+ma_m_003,ma_m_003_p_013,,hoyer_2000,10.1023/A:1008926219539
+ma_m_003,ma_m_003_p_014,,ibarlucea_2004,10.1023/B:CACO.0000036167.51236.86
+ma_m_003,ma_m_003_p_015,Itoh et al. (2009),itoh_2009,10.1007/s10552-008-9265-z
+ma_m_003,ma_m_003_p_016,,iwasaki_2008,10.1016/j.scitotenv.2008.05.009
+ma_m_003,ma_m_003_p_017,,krieger_1994,10.1093/jnci/86.8.589
+ma_m_003,ma_m_003_p_018,,laden_2001,10.1002/1097-0215(200002)9999:9999<::AID-IJC1081>3.0.CO;2-W
+ma_m_003,ma_m_003_p_019,,liljegren_1998,10.1093/jnci/93.10.768
+ma_m_003,ma_m_003_p_020,,lopezcarrillo_1997,not reported
+ma_m_003,ma_m_003_p_021,,mccready_2004,10.1023/B:CACO.0000027505.32564.c2
+ma_m_003,ma_m_003_p_022,,mccready_2004,10.1023/B:CACO.0000027505.32564.c2
+ma_m_003,ma_m_003_p_023,,millikan_2000,10.1002/(SICI)1097-0215(19991126)83:5<596::AID-IJC4>3.3.CO;2-G
+ma_m_003,ma_m_003_p_024,,moysich_1998,not reported
+ma_m_003,ma_m_003_p_025,,olaya-contreras_1998,10.1590/s0102-311x1998000700013
+ma_m_003,ma_m_003_p_026,,pavuk_2003,10.1038/sj.jea.7500277
+ma_m_003,ma_m_003_p_027,,raaschou-nielsen_2005,10.1038/sj.jea.7500277
+ma_m_003,ma_m_003_p_028,,romieu_2000,10.1093/aje/152.4.363
+ma_m_003,ma_m_003_p_029,,rubin_2005,10.1093/aje/152.4.363
+ma_m_003,ma_m_003_p_030,,schecter_1997,10.1007/s002449900276
+ma_m_003,ma_m_003_p_031,,stillman_2000,10.1007/s002449900276
+ma_m_003,ma_m_003_p_032,,vantveer_1997,10.1136/bmj.315.7100.81
+ma_m_003,ma_m_003_p_033,,wolff_1993,10.1093/jnci/85.8.648
+ma_m_003,ma_m_003_p_034,,wolff_1993,10.1093/jnci/85.8.648
+ma_m_003,ma_m_003_p_035,,wolff_2000,10.1006/enrs.2000.4075
+ma_m_003,ma_m_003_p_036,,zheng_1999,10.1006/enrs.2000.4075
+ma_m_003,ma_m_003_p_037,,zheng_2000,10.1093/oxfordjournals.aje.a010033
+ma_m_003,ma_m_003_p_038,"Valera et al., 2013a",valera_2013,10.1016/j.envint.2013.06.019
+ma_m_003,ma_m_003_p_039,"Lind et al., 2014",lind_2014,10.1016/j.envres.2013.12.003
+ma_m_003,ma_m_003_p_040,"Valera et al., 2013b",valera_2013,10.1016/j.envres.2012.12.006
+ma_m_003,ma_m_003_p_041,"Lee et al., 2007",lee_2007,10.1007/s00125-007-0755-4
+ma_m_003,ma_m_003_p_042,"Henriquez-Hernandez et al., 2014",henriquez-hernandez_2014,10.1016/j.envres.2014.05.036
+ma_m_003,ma_m_003_p_043,"Arrebola et al., 2015",arrebola_2015,10.1016/j.envres.2015.02.018
+ma_m_076,ma_m_076_p_001,Goldner 2010,goldner_2010,10.1093/aje/kwp404
+ma_m_076,ma_m_076_p_002,Goldner 2010,goldner_2010,10.1093/aje/kwp404
+ma_m_076,ma_m_076_p_003,Goldner 2010,goldner_2010,10.1093/aje/kwp404
+ma_m_076,ma_m_076_p_004,Goldner 2010,goldner_2010,10.1093/aje/kwp404
+ma_m_076,ma_m_076_p_005,Goldner 2010,goldner_2010,10.1093/aje/kwp404
+ma_m_076,ma_m_076_p_006,Goldner 2010,goldner_2010,10.1093/aje/kwp404
+ma_m_076,ma_m_076_p_007,Goldner 2013,goldner_2013,10.1097/JOM.0b013e31829b290b
+ma_m_076,ma_m_076_p_008,Goldner 2013,goldner_2013,10.1097/JOM.0b013e31829b290b
+ma_m_076,ma_m_076_p_009,Goldner 2013,goldner_2013,10.1097/JOM.0b013e31829b290b
+ma_m_076,ma_m_076_p_010,Goldner 2013,goldner_2013,10.1097/JOM.0b013e31829b290b
+ma_m_076,ma_m_076_p_011,Goldner 2013,goldner_2013,10.1097/JOM.0b013e31829b290b
+ma_m_076,ma_m_076_p_012,Goldner 2013,goldner_2013,10.1097/JOM.0b013e31829b290b
+ma_m_076,ma_m_076_p_013,Goldner 2013,goldner_2013,10.1097/JOM.0b013e31829b290b
+ma_m_076,ma_m_076_p_014,Lerro 2017,lerro_2017,10.1136/oemed-2017-104431
+ma_m_076,ma_m_076_p_015,Lerro 2017,lerro_2017,10.1136/oemed-2017-104431
+ma_m_076,ma_m_076_p_016,Lerro 2017,lerro_2017,10.1136/oemed-2017-104431
+ma_m_076,ma_m_076_p_017,Lerro 2017,lerro_2017,10.1136/oemed-2017-104431
+ma_m_076,ma_m_076_p_018,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_019,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_020,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_021,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_022,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_023,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_024,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_025,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_026,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_027,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_028,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_029,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_030,Shrestha 2018a,shrestha_2018a,10.1289/ehp3194
+ma_m_076,ma_m_076_p_031,Shrestha 2018b,shrestha_2018,10.1016/j.envint.2018.05.041
+ma_m_076,ma_m_076_p_032,Shrestha 2018b,shrestha_2018,10.1016/j.envint.2018.05.041
+ma_m_076,ma_m_076_p_033,Wei 2016,wei_2016,10.1016/j.jpeds.2016.06.085
+ma_m_076,ma_m_076_p_034,Wei 2016,wei_2016,10.1016/j.jpeds.2016.06.085
+ma_m_076,ma_m_076_p_035,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_036,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_037,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_038,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_039,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_040,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_041,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_042,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_043,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_044,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_045,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_046,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_047,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_048,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_049,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_050,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_051,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_052,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_053,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_054,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_055,Londoño 2018,londono_2018,10.15446/rsap.v20n2.57694
+ma_m_076,ma_m_076_p_056,Dufour 2020,dufour_2020,10.1016/j.envres.2019.108922
+ma_m_012,ma_m_012_p_001,only one sample size reported,vafeiadi_2015,10.1289/ehp.1409062
+ma_m_012,ma_m_012_p_002,only one sample size reported,lauritzen_2018,10.1186/s12940-017-0338-x
+ma_m_012,ma_m_012_p_003,only one sample size reported,lauritzen_2018,10.1186/s12940-017-0338-x
+ma_m_012,ma_m_012_p_004,only one sample size reported,hoyer_2014,10.1038/ijo.2014.58
+ma_m_012,ma_m_012_p_005,only one sample size reported,hoyer_2014,10.1038/ijo.2014.58
+ma_m_012,ma_m_012_p_006,only one sample size reported,hoyer_2014,10.1038/ijo.2014.58
+ma_m_012,ma_m_012_p_007,only one sample size reported,valvi_2012,10.1289/ehp.1103862
+ma_m_012,ma_m_012_p_008,only one sample size reported,agay-shay_2015,10.1289/ehp.1409049
+ma_m_012,ma_m_012_p_009,only one sample size reported,delvaux_2014,10.1016/j.envres.2014.03.019
+ma_m_012,ma_m_012_p_010,only one sample size reported,warner_2013,10.1289/ehp.1205656
+ma_m_013,ma_m_013_p_001,only one sample size reported,vafeiadi_2015,10.1289/ehp.1409062
+ma_m_013,ma_m_013_p_002,only one sample size reported,lauritzen_2018,10.1186/s12940-017-0338-x
+ma_m_013,ma_m_013_p_003,only one sample size reported,lauritzen_2018,10.1186/s12940-017-0338-x
+ma_m_013,ma_m_013_p_004,only one sample size reported,agay-shay_2015,10.1289/ehp.1409049
+ma_m_013,ma_m_013_p_005,only one sample size reported,delvaux_2014,10.1016/j.envres.2014.03.019
+ma_m_011,ma_m_011_p_001,,chevrier_2019,10.1016/j.envint.2019.104958
+ma_m_011,ma_m_011_p_002,,chevrier_2007,10.1289/ehp.9843
+ma_m_011,ma_m_011_p_003,,freire_2011,10.1016/j.scitotenv.2011.05.037
+ma_m_011,ma_m_011_p_004,,freire_2011,10.1016/j.scitotenv.2011.05.037
+ma_m_011,ma_m_011_p_005,,freire_2011,10.1016/j.scitotenv.2011.05.037
+ma_m_011,ma_m_011_p_006,,freire_2011,10.1016/j.scitotenv.2011.05.037
+ma_m_011,ma_m_011_p_007,,freire_2011,10.1016/j.scitotenv.2011.05.037
+ma_m_011,ma_m_011_p_008,,freire_2011,10.1016/j.scitotenv.2011.05.037
+ma_m_011,ma_m_011_p_009,,freire_2011,10.1016/j.scitotenv.2011.05.037
+ma_m_011,ma_m_011_p_010,,kim_2015,10.1371/journal.pone.0125213
+ma_m_011,ma_m_011_p_011,,kim_2015,10.1371/journal.pone.0125213
+ma_m_011,ma_m_011_p_012,,kim_2015,10.1371/journal.pone.0125213
+ma_m_011,ma_m_011_p_013,,lopez-espinosa_2010,10.1038/jes.2009.47
+ma_m_011,ma_m_011_p_014,,lopez-espinosa_2010,10.1038/jes.2009.47
+ma_m_011,ma_m_011_p_015,,lopez-espinosa_2010,10.1038/jes.2009.47
+ma_m_011,ma_m_011_p_016,,lopez-espinosa_2010,10.1038/jes.2009.47
+ma_m_011,ma_m_011_p_017,,yamazaki_2020,10.1016/j.envres.2020.109840
+ma_m_011,ma_m_011_p_018,,yamazaki_2020,10.1016/j.envres.2020.109840
+ma_m_011,ma_m_011_p_019,,yamazaki_2020,10.1016/j.envres.2020.109840
+ma_m_011,ma_m_011_p_020,,yamazaki_2020,10.1016/j.envres.2020.109840
+ma_m_011,ma_m_011_p_021,,yamazaki_2020,10.1016/j.envres.2020.109840
+ma_m_011,ma_m_011_p_022,,yamazaki_2020,10.1016/j.envres.2020.109840
+ma_m_010,ma_m_010_p_001,no sample size reported,airaksinen_2011,10.2337/dc10-2303
+ma_m_010,ma_m_010_p_002,no sample size reported,airaksinen_2011,10.2337/dc10-2303
+ma_m_010,ma_m_010_p_003,no sample size reported,airaksinen_2011,10.2337/dc10-2303
+ma_m_010,ma_m_010_p_004,no sample size reported,airaksinen_2011,10.2337/dc10-2303
+ma_m_010,ma_m_010_p_005,no sample size reported,arrebola_2013,10.1016/j.envres.2012.12.001
+ma_m_010,ma_m_010_p_006,no sample size reported,codru_2007,10.1289/ehp.10315
+ma_m_010,ma_m_010_p_007,no sample size reported,cox_2007,10.1289/ehp.10258
+ma_m_010,ma_m_010_p_008,no sample size reported,everett_2010,10.1016/j.envint.2010.02.010
+ma_m_010,ma_m_010_p_009,no sample size reported,gasull_2012,10.1021/es300712g
+ma_m_010,ma_m_010_p_010,no sample size reported,grandjean_2011,10.1097/EDE.0b013e318212fab9
+ma_m_010,ma_m_010_p_011,no sample size reported,lee_2006,10.2337/dc06-0543
+ma_m_010,ma_m_010_p_012,no sample size reported,lee_2010,10.1289/ehp.0901480
+ma_m_010,ma_m_010_p_013,no sample size reported,lee_2011,10.2337/dc10-2116
+ma_m_010,ma_m_010_p_014,no sample size reported,philibert_2009,10.3390/ijerph6123179
+ma_m_010,ma_m_010_p_015,no sample size reported,rignell-hydbom_2007,10.1177/0960327107076886
+ma_m_010,ma_m_010_p_016,no sample size reported,rignell-hydbom_2009,10.1371/journal.pone.0007503
+ma_m_010,ma_m_010_p_017,no sample size reported,rylander_2005,10.1186/1476-069X-4-28
+ma_m_010,ma_m_010_p_018,no sample size reported,son_2010,10.1016/j.envint.2010.02.012
+ma_m_010,ma_m_010_p_019,no sample size reported,turyk_2009,10.1289/ehp.0800281
+ma_m_010,ma_m_010_p_020,no sample size reported,ukropec_2010,10.1007/s00125-010-1683-2
+ma_m_010,ma_m_010_p_021,no sample size reported,wu_2012,10.1289/ehp.1205248
+ma_m_010,ma_m_010_p_022,no sample size reported,wu_2012,10.1289/ehp.1205248
+ma_m_071,ma_m_071_p_001,Binder 2018,binder_2018,10.1186/s12940-018-0376-z
+ma_m_071,ma_m_071_p_002,Binder 2018,binder_2018,10.1186/s12940-018-0376-z
+ma_m_071,ma_m_071_p_003,Buttke 2012,buttke_2012,10.1289/ehp.1104748
+ma_m_071,ma_m_071_p_004,Buttke 2012,buttke_2012,10.1289/ehp.1104748
+ma_m_071,ma_m_071_p_005,Wolff 2017,lind_2017,10.1016/j.reprotox.2016.08.019
+ma_m_056,ma_m_056_p_001,study not provided with each effect,NA,not reported
+ma_m_056,ma_m_056_p_002,study not provided with each effect,NA,not reported
+ma_m_056,ma_m_056_p_003,study not provided with each effect,NA,not reported
+ma_m_056,ma_m_056_p_004,study not provided with each effect,NA,not reported
+ma_m_056,ma_m_056_p_005,study not provided with each effect,NA,not reported
+ma_m_044,ma_m_044_p_001,Rignell-Hydbom et al. 2009,rignell-hydbom_2009,10.1371/journal.pone.0007503
+ma_m_044,ma_m_044_p_002,Turyk et al. 2009,turyk_2009,10.1289/ehp.0800281
+ma_m_044,ma_m_044_p_003,Lee et al. 2010,lee_2010,10.1289/ehp.0901480
+ma_m_044,ma_m_044_p_004,Lee et al. 2011,lee_2011,10.2337/dc10-2116
+ma_m_044,ma_m_044_p_005,NHS (breast cancer),not reported,not reported
+ma_m_044,ma_m_044_p_006,NHS (NHL),not reported,not reported
+ma_m_045,ma_m_045_p_001,Lee et al. 2010,lee_2010,10.1289/ehp.0901480
+ma_m_045,ma_m_045_p_002,NHS (breast cancer),not reported,not reported
+ma_m_045,ma_m_045_p_003,NHS (NHL),not reported,not reported
+ma_m_046,ma_m_046_p_001,Lee et al. 2010,lee_2010,10.1289/ehp.0901480
+ma_m_046,ma_m_046_p_002,Lee et al. 2011,lee_2011,10.2337/dc10-2116
+ma_m_046,ma_m_046_p_003,NHS (breast cancer),not reported,not reported
+ma_m_046,ma_m_046_p_004,NHS (NHL),not reported,not reported
+ma_m_022,ma_m_022_p_001,the same sample size for a few papers is reported for the multiple pollutants,longnecker_2001,10.1016/S0140-6736(01)05329-6
+ma_m_022,ma_m_022_p_002,Torres-Arreola,torresarreola_2003,10.1016/S1047-2797(02)00424-6
+ma_m_022,ma_m_022_p_003,Farhang,farhang_2005,10.1093/aje/kwi276
+ma_m_022,ma_m_022_p_004,Wojtyniak,wojtyniak_2010,10.1186/1476-069X-9-56
+ma_m_022,ma_m_022_p_005,Bell,bell_2019,10.1097/EDE.0000000000001095
+ma_m_061,ma_m_061_p_001,"Vested A., Denmark (2014)",vested_2014,10.1530/REP-13-0488
+ma_m_061,ma_m_061_p_002,"Specht I.O., Ukraine (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_061,ma_m_061_p_003,"Specht I.O., Poland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_061,ma_m_061_p_004,"Specht I.O., Greenland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_061,ma_m_061_p_005,"Bonde J.P., Inuits (2008)",bonde_2008,10.1289/ehp.10700
+ma_m_061,ma_m_061_p_006,"Bonde J.P., Europeans (2008)",bonde_2008,10.1289/ehp.10700
+ma_m_061,ma_m_061_p_007,"Aneck-Hahn N.H., South Africa (2007)",aneckhahn_2007,10.2164/jandrol.106.001701
+ma_m_062,ma_m_062_p_001,"Vested A., Denmark (2014)",vested_2014,10.1530/REP-13-0488
+ma_m_062,ma_m_062_p_002,"Toft G., Ukraine (2006)",toft_2006,10.1097/01.ede.0000221769.41028.d2
+ma_m_062,ma_m_062_p_003,"Toft G., Swedish (2006)",toft_2006,10.1097/01.ede.0000221769.41028.d2
+ma_m_062,ma_m_062_p_004,"Toft G., Poland (2006)",toft_2006,10.1097/01.ede.0000221769.41028.d2
+ma_m_062,ma_m_062_p_005,"Toft G., Greenland (2006)",toft_2006,10.1097/01.ede.0000221769.41028.d2
+ma_m_062,ma_m_062_p_006,"Specht I.O., Ukraine (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_062,ma_m_062_p_007,"Specht I.O., Poland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_062,ma_m_062_p_008,"Specht I.O., Greenland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_062,ma_m_062_p_009,"Messaros B.M., Michigan (2009)",messaros_2009,10.1016/j.envres.2009.02.009
+ma_m_062,ma_m_062_p_010,"Dalvie M.A., South Africa (2004)",dalvie_2004,10.1016/j.envres.2003.09.002
+ma_m_062,ma_m_062_p_011,"Charlier C.J., Belgium (2005)",charlier_2005,10.1016/j.reprotox.2005.03.007
+ma_m_062,ma_m_062_p_012,"Bonde J.P., Inuits (2008)",bonde_2008,10.1289/ehp.10700
+ma_m_062,ma_m_062_p_013,"Bonde J.P., Europeans (2008)",bonde_2008,10.1289/ehp.10700
+ma_m_063,ma_m_063_p_001,"Vested A., Denmark (2014)",vested_2014,10.1530/REP-13-0488
+ma_m_063,ma_m_063_p_002,"Toft G., Ukraine (2006)",toft_2006,10.1097/01.ede.0000221769.41028.d2
+ma_m_063,ma_m_063_p_003,"Toft G., Swedish (2006)",toft_2006,10.1097/01.ede.0000221769.41028.d2
+ma_m_063,ma_m_063_p_004,"Toft G., Poland (2006)",toft_2006,10.1097/01.ede.0000221769.41028.d2
+ma_m_063,ma_m_063_p_005,"Specht I.O., Poland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_063,ma_m_063_p_006,"Specht I.O., Greenland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_063,ma_m_063_p_007,"Sergerd S.L., America (2015)",sergerd_2015,not reported
+ma_m_063,ma_m_063_p_008,"Messaros B.M., Michigan (2009)",messaros_2009,10.1016/j.envres.2009.02.009
+ma_m_063,ma_m_063_p_009,"Charlier C.J., Belgium (2005)",charlier_2005,10.1016/j.reprotox.2005.03.007
+ma_m_064,ma_m_064_p_001,"Vested A., Denmark (2014)",vested_2014,10.1530/REP-13-0488
+ma_m_064,ma_m_064_p_002,"Specht I.O., Ukraine (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_064,ma_m_064_p_003,"Specht I.O., Poland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_064,ma_m_064_p_004,"Specht I.O., Greenland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_064,ma_m_064_p_005,"Bonde J.P., Europeans (2008)",bonde_2008,10.1289/ehp.10700
+ma_m_065,ma_m_065_p_001,"Specht I.O., Ukraine (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_065,ma_m_065_p_002,"Specht I.O., Poland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_065,ma_m_065_p_003,"Specht I.O., Greenland (2015)",specht_2015,10.1016/j.reprotox.2015.07.074
+ma_m_065,ma_m_065_p_004,"Sergerd S.L., America (2015)",sergerd_2015,not reported
+ma_m_065,ma_m_065_p_005,"Messaros B.M., Michigan (2009)",messaros_2009,10.1016/j.envres.2009.02.009
+ma_m_065,ma_m_065_p_006,"de Jager C., Mexico (2006)",dejager_2006,10.2164/jandrol.05121
+ma_m_065,ma_m_065_p_007,"Charlier C.J., Belgium (2005)",charlier_2005,10.1016/j.reprotox.2005.03.007
+ma_m_047,ma_m_047_m_001,Fenster et al. 2006,fenster_2006,10.1289/ehp.8423
+ma_m_047,ma_m_047_m_002,Lopez-Espinosa et al. 2011,lopez-espinosa_2011a,10.1542/peds.2010-1951
+ma_m_047,ma_m_047_m_003,Callan et al. 2016,callan_2016a,10.1016/j.ijheh.2016.09.018
+ma_m_047,ma_m_047_m_004,Lauritzen et al. 2017 (Norway),lauritzen_2017,10.1038/pr.2016.187
+ma_m_047,ma_m_047_m_005,Lauritzen et al. 2017 (Sweden),lauritzen_2017,10.1038/pr.2016.187
+ma_m_047,ma_m_047_m_006,Fang et al. 2019,fang_2019,10.1016/j.scitotenv.2018.10.384
+ma_m_047,ma_m_047_m_007,Yang et al. 2019,yang_2019,not reported
+ma_m_023,ma_m_023_p_001,Al-Othman et al,al-othman_2014,10.3390/ijerph110908984
+ma_m_023,ma_m_023_p_002,"Berg et al., 2021",berg_2021,not reported
+ma_m_023,ma_m_023_p_003,"Cox et al., 2007",cox_2007,10.1289/ehp.10258
+ma_m_023,ma_m_023_p_004,"Daniels et al., 2018",daniels_2018,not reported
+ma_m_023,ma_m_023_p_005,"Everett et al., 2007",everett_2007,not reported
+ma_m_023,ma_m_023_p_006,"Everett et al., 2010",everett_2010,10.1016/j.envint.2010.02.010
+ma_m_023,ma_m_023_p_007,"Everett et al., 2017",everett_2017,10.1016/j.envint.2010.02.010
+ma_m_023,ma_m_023_p_008,"Gasull et al., 2012",gasull_2012,10.1021/es300712g
+ma_m_023,ma_m_023_p_009,"Grice et al., 2017",grice_2017,10.1136/oemed-2016-103948
+ma_m_023,ma_m_023_p_010,"Han et al., 2020",han_2020,10.1016/j.ecoenv.2019.110125
+ma_m_023,ma_m_023_p_011,"Kim et al., 2014",kim_2014,10.1016/j.chemosphere.2013.09.066
+ma_m_023,ma_m_023_p_012,"La Merrill et al., 2019",lamerrill_2019,10.1021/acs.est.9b03373
+ma_m_023,ma_m_023_p_013,"Lee et al., 2010",lee_2010,10.1289/ehp.0901480
+ma_m_023,ma_m_023_p_014,"Son et al., 2010",son_2010,10.1016/j.envint.2010.02.012
+ma_m_023,ma_m_023_p_015,"Ukropec et al., 2010",ukropec_2010,10.1007/s00125-010-1683-2
+ma_m_023,ma_m_023_p_016,"Wu et al., 2013 (a)",wu_2012,10.1289/ehp.1205248
+ma_m_024,ma_m_024_p_001,"Wu et al., 2013 (a)",wu_2012,10.1289/ehp.1205248
+ma_m_024,ma_m_024_p_002,"Airaksinen et al., 2011",airaksinen_2011,10.2337/dc10-2303
+ma_m_024,ma_m_024_p_003,"Al-Othman et al., 2014",al-othman_2014,10.3390/ijerph110908984
+ma_m_024,ma_m_024_p_004,"Aminov et al., 2016",aminov_2016,not reported
+ma_m_024,ma_m_024_p_005,"Arrebola et al., 2013",arrebola_2013,10.1016/j.envres.2012.12.001
+ma_m_024,ma_m_024_p_006,"Arrebola et al., 2013",arrebola_2013,10.1016/j.envres.2012.12.001
+ma_m_024,ma_m_024_p_007,"Berg et al., 2021",berg_2021,not reported
+ma_m_024,ma_m_024_p_008,"Codru et al., 2007",codru_2007,10.1289/ehp.10315
+ma_m_024,ma_m_024_p_009,"Cox et al., 2007",cox_2007,10.1289/ehp.10258
+ma_m_024,ma_m_024_p_010,"Daniels et al., 2018",daniels_2018,not reported
+ma_m_024,ma_m_024_p_011,"Eden et al., 2016",eden_2016,10.1038/jes.2014.69
+ma_m_024,ma_m_024_p_012,"Everett et al., 2010",everett_2010,10.1016/j.envint.2010.02.010
+ma_m_024,ma_m_024_p_013,"Everett et al., 2017",everett_2017,10.1016/j.envint.2010.02.010
+ma_m_024,ma_m_024_p_014,"Gasull et al., 2012",gasull_2012,10.1021/es300712g
+ma_m_024,ma_m_024_p_015,"Grandjean et al., 2011",grandjean_2011,10.1097/EDE.0b013e318212fab9
+ma_m_024,ma_m_024_p_016,"Grice et al., 2017",grice_2017,10.1136/oemed-2016-103948
+ma_m_024,ma_m_024_p_017,"Han et al., 2020",han_2020,10.1016/j.ecoenv.2019.110125
+ma_m_024,ma_m_024_p_018,"Henríquez-Hernández et al., 2017",henriquez-hernandez_2017,not reported
+ma_m_024,ma_m_024_p_019,"Jaacks et al., 2019",jaacks_2019,10.1016/j.envint.2019.105089
+ma_m_024,ma_m_024_p_020,"Kim et al., 2014",kim_2014,10.1016/j.chemosphere.2013.09.066
+ma_m_024,ma_m_024_p_021,"Lee et al., 2006",lee_2006,10.2337/dc06-0543
+ma_m_024,ma_m_024_p_022,"Lee et al., 2010",lee_2010,10.1289/ehp.0901480
+ma_m_024,ma_m_024_p_023,"Lee et al., 2011",lee_2011,10.2337/dc10-2116
+ma_m_024,ma_m_024_p_024,"Lee et al., 2011",lee_2011,10.2337/dc10-2116
+ma_m_024,ma_m_024_p_025,"Mansouri et al., 2021",mansouri_2021,10.1016/j.chemosphere.2020.128596
+ma_m_024,ma_m_024_p_026,"Marushka et al., 2017",marushka_2017,not reported
+ma_m_024,ma_m_024_p_027,"Marushka et al., 2018",marushka_2018,not reported
+ma_m_024,ma_m_024_p_028,"Marushka et al., 2021",marushka_2021,not reported
+ma_m_024,ma_m_024_p_029,"Meek et al., 2019",meek_2019,not reported
+ma_m_024,ma_m_024_p_030,"Philibert et al., 2009",philibert_2009,10.3390/ijerph6123179
+ma_m_024,ma_m_024_p_031,"Rignell-Hydbom et al., 2007",rignell-hydbom_2007,10.1177/0960327107076886
+ma_m_024,ma_m_024_p_032,"Rignell-Hydbom et al., 2009",rignell-hydbom_2009,10.1371/journal.pone.0007503
+ma_m_024,ma_m_024_p_033,"Rylander et al., 2015",rylander_2015,10.1016/j.envres.2015.07.002
+ma_m_024,ma_m_024_p_034,"Rylander et al., 2005",rylander_2005,10.1186/1476-069X-4-28
+ma_m_024,ma_m_024_p_035,"Singh et al., 2017",singh_2017,not reported
+ma_m_024,ma_m_024_p_036,"Son et al., 2010",son_2010,10.1016/j.envint.2010.02.012
+ma_m_024,ma_m_024_p_037,"Tornevi et al., 2019",tornevi_2019,not reported
+ma_m_024,ma_m_024_p_038,"Turyk et al., 2009",turyk_2009,10.1289/ehp.0800281
+ma_m_024,ma_m_024_p_039,"Turyk et al., 2013",turyk_2013,not reported
+ma_m_024,ma_m_024_p_040,"Ukropec et al., 2010",ukropec_2010,10.1007/s00125-010-1683-2
+ma_m_024,ma_m_024_p_041,"Van Larebeke et al., 2006",vanlarebeke_2006,not reported
+ma_m_024,ma_m_024_p_042,"Wu et al., 2013",wu_2012,10.1289/ehp.1205248
+ma_m_024,ma_m_024_p_043,"Wu et al., 2013",wu_2012,10.1289/ehp.1205248
+ma_m_024,ma_m_024_p_044,"Zong et al., 2018",zong_2018,10.1016/j.envint.2017.12.010
