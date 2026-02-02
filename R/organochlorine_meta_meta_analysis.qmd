@@ -425,7 +425,7 @@ dat_quant <- dat_quant %>%
 ### *Testing the impact of the conversion strategy* 
 ```{r}
 mod_test <- rma.mv(yi = logOR,  
-              V = se^2, 
+              V = I(se^2), 
               random = list(~1|ma_id, 
                             ~1|ma_e_id), 
               mods = ~ ma_es_measure - 1,
@@ -1636,6 +1636,46 @@ galaxy_health <- ggplot(plot_data_health_merged,   aes(
 #)
 
 ```
+
+## *biomarker meta-regression & plot*
+```{r}
+biomark_model <- rma.mv(yi = logOR,  
+                      V = V,
+                      random = list(~1|ma_id,
+                                    ~1|ma_e_id),
+                      test = "t", 
+                      sparse = TRUE,
+                      data = dat_quant,
+                      mods = ~ biomarker, 
+                      control = list(iter.max = 1000, rel.tol = 1e-8))
+
+
+
+
+biomarker_plot <-  orchard_plot(
+  biomark_model,                       # the metafor rma.mv object
+  group      = "ma_id",           # cluster/grouping variable for k labels
+  data       = dat_quant,    
+  mod        = "biomarker",       # original data frame
+  g          = TRUE,              # include the global (pooled) estimate
+  k.pos      = "right",           # show study counts on the right
+  xlab       = "Log Odds Ratio",
+  trunk.size = 3,                 # size of the pooled effect symbol
+  branch.size = 1.2, 
+  twig.size  = 0.9,
+  alpha      = 0.5,
+  legend.pos = "none") +           
+  scale_fill_brewer(palette = "Dark2", guide = "none") +
+  theme_bw(base_size = 15) +
+  theme(
+    panel.grid  = element_blank(),
+    plot.title  = element_text(face = "bold"),
+    plot.margin = margin(10, 10, 10, 10)
+  )
+
+
+```
+
 
 # **Sensitivity Analysis**
 
@@ -2895,42 +2935,70 @@ ggsave(
 ## Publication bias
 ```{r}
 
-pub.bias <- rma.mv(yi = logOR,  
-                        V = V, 
-                   mods = ~ se, 
-                        random = list(~1|ma_id, 
-                                      ~1|ma_e_id), 
-                        data = dat_quant,
-                        test = "t")
+
+V_pub <- dat_quant$se^2
+
+dat_quant$V_pub <- dat_quant$se^2
+
+# Fit publication bias model (Egger's regression)
+pub.bias <- rma.mv(
+  yi    = logOR,
+  V     = V,
+  mods  = ~ V_pub,
+  random = list(~1 | ma_id, ~1 | ma_e_id),
+  data  = dat_quant,
+  test  = "t"
+) 
 
 
+# Fit publication bias model (Egger's regression)
+pub.bias.plot <- rma.mv(
+  yi    = logOR,
+  V     = V,
+  mods  = ~ se,
+  random = list(~1 | ma_id, ~1 | ma_e_id),
+  data  = dat_quant,
+  test  = "t"
+) 
 
 
-dat_quant$logOR
+# Extracting data from the model
+pub.results <- tibble(
+  lnOR = as.numeric(pub.bias$b),
+  lnOR_ci_lower = pub.bias$ci.lb,
+  lnOR_ci_upper = pub.bias$ci.ub,
+  lnOR_p_value = pub.bias$pval,
+  lnOR_tau2 = sum(pub.bias$sigma2)
+)
 
-pub.bias <- predict.rma(pub.bias)
-
-pub.bias <- as.data.frame(pub.bias)
-
-# Create Egger's regression plot
-egger_fig <- ggplot(pub.bias, aes(x = se, y = pred)) + geom_ribbon(aes(ymin = pi.lb,
-    ymax = pi.ub), alpha = 0.1, fill = "gray") + geom_ribbon(aes(ymin = ci.lb, ymax = ci.ub),
-    alpha = 0.3, fill = "gray") + geom_point(size = 2, shape = 21, alpha = 0.7, fill = RColorBrewer::brewer.pal(n = 8,
-    name = "Dark2")[1], col = "gray25", stroke = 1) 
+pub.results <- tibble(
+  OR          = exp(as.numeric(pub.bias$b)),           # Intercept + moderator slope
+  OR_ci_lower = exp(pub.bias$ci.lb),
+  OR_ci_upper = exp(pub.bias$ci.ub),
+  lnOR_p_value = pub.bias$pval,
+  lnOR_tau2   = sum(pub.bias$sigma2)
+)
 
 
+# Get predictions and prediction intervals
+pub.bias_pred <- predict(pub.bias)
 
 
-
-+ geom_line(aes(y = fit), size = 1.2) +
-    labs(x = "Standard Error", y = "OR") + theme_bw() + geom_hline(yintercept = 0,
-    linetype = 2, colour = "black", alpha = 0.5) + theme(text = element_text(size = 18,
-    colour = "black", hjust = 0.5), legend.text = element_text(size = 14), legend.position = c(0,
-    0), legend.justification = c(0, 0), legend.background = element_blank(), legend.direction = "horizontal",
-    legend.title = element_text(size = 15), panel.border = element_rect(colour = "black",
-        fill = NA, size = 1.2))
-
-print(egger_fig)
+pub.bias.bubble <- bubble_plot(pub.bias, mod = "V_pub", group = "ma_id", data = dat_quant) +
+  labs(
+    x = "Sampling Variance",
+    y = "Log Odds Ratio",
+  ) +
+  xlim(0, 2) +  # Cap x-axis as requested
+  geom_smooth(method = "lm", se = TRUE, color = "red", alpha = 0.2) +  # Regression line + CI
+  scale_fill_brewer(palette = "Dark2", name = "Precision") +  # Better colors
+  theme_bw(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom",
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.title = element_text(size = 13, face = "bold")
+  )
 
 
 ```
