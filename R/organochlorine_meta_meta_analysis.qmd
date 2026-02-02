@@ -612,6 +612,19 @@ VCV_H2 <- impute_covariance_matrix(
   r       = 0.5
 )
 
+
+
+# Subset the DOI‑overlap correlation matrix to the MAs in dat_H2
+ma_ids_H2 <- unique(dat_H2$ma_e_id)
+R_H2      <- R_full[ma_ids_H2, ma_ids_H2]
+
+# Map each row of dat_H2 to the appropriate MA correlation
+R_H2_row  <- R_full[dat_H2$ma_e_id, dat_H2$ma_e_id]
+
+# VCV for lnH using DOI overlap
+V_H2 <- diag(dat_H2$SElnH^2) %*% R_H2_row %*% diag(dat_H2$SElnH^2)
+
+
 ```
 
 ### *Plot heterogeneity distributions (extracted vs back-transformed)*
@@ -658,13 +671,9 @@ mod_overall <- rma.mv(yi = logOR,
                         data = dat_quant,
                         test = "t")
 
-
-
-
 mod_overall <- robust(mod_overall, dat_quant$ma_id) 
 
 summary(mod_overall)
-
 
 #Extracting data from the model
 overall_results <- tibble(
@@ -700,12 +709,15 @@ overall_value_OR <- data.frame(
 ```{r}
 mod_overall_H2 <- rma.mv(
   yi = lnH, 
-  V = VCV_H2, 
+  V = V_H2, 
   random = list(~1|ma_id,
                 ~1|ma_e_id), 
   data = dat_H2,
   test = "t"
 )
+
+mod_overall_H2 <- robust(mod_overall_H2, dat_H2$ma_id) 
+
 
 summary(mod_overall_H2)
 
@@ -1033,25 +1045,29 @@ results_list <- map_dfr(chemicals, function(chem) {
   
   if (n_distinct(dat_sub$ma_e_id) > 1) {  # Require at least 2 meta-analytic estimates
     tryCatch({
-      # Calculate VCV matrix for this subset
-      VCV_sub <- impute_covariance_matrix(vi = dat_sub$se^2,
-                                          cluster = dat_sub$pair,
-                                          r = 0.5)
+      # Get ma_e_id for this chemical (sorted to match R_full)
+      ma_ids_sub <- sort(unique(dat_sub$ma_e_id))
       
-      model <- rma.mv(yi = logOR,  
-                      V = VCV_sub,
-                      random = list(~1|ma_id,
-                                    ~1|ma_e_id),
-                      test = "t", 
-                      sparse = TRUE,
-                      data = dat_sub,
-                      control = list(iter.max = 1000, rel.tol = 1e-8))
+      # Subset R_full to this chemical's meta-analyses
+      R_sub <- R_full[ma_ids_sub, ma_ids_sub]
       
-      # Calculate heterogeneity statistics
-      # tau2_raw <- sum(model$sigma2)
-      # sigma2_v <- sum(1 / model$vi) * (model$k - 1) / (sum(1 / model$vi)^2 - sum((1 / model$vi)^2))
-      # I2_raw <- 100 * (tau2_raw / (tau2_raw + sigma2_v))
-      # CV_raw <- sqrt(tau2_raw) / abs(model$b[1,1])
+      # Map each row of dat_sub to the correlation in R_sub
+      row_map <- match(dat_sub$ma_e_id, ma_ids_sub)
+      R_row_sub <- R_sub[row_map, row_map]
+      
+      # Construct V = diag(se^2) %*% R_sub %*% diag(se^2)
+      V_sub <- diag(dat_sub$se^2) %*% R_row_sub %*% diag(dat_sub$se^2)
+      
+      model <- rma.mv(
+        yi     = dat_sub$logOR,        # Fixed: use dat_sub$logOR
+        V      = V_sub,                # NEW: DOI-overlap VCV
+        random = list(~1 | ma_id, ~1 | ma_e_id),
+        test   = "t", 
+        sparse = TRUE,
+        data   = dat_sub,
+        control = list(iter.max = 1000, rel.tol = 1e-8)
+      ) %>% robust(model, dat_sub$ma_id) 
+
       
       tibble(
         chemical_id = chem,
@@ -1059,27 +1075,47 @@ results_list <- map_dfr(chemicals, function(chem) {
         ci.lb = model$ci.lb,
         ci.ub = model$ci.ub,
         pval = model$pval,
-        # tau2 = tau2_raw,
-        # I2 = I2_raw,
-        # CV = CV_raw,
         k = nrow(dat_sub),
         n = n_distinct(dat_sub$ma_id)
       )
     }, error = function(e) {
       tibble(chemical_id = chem, logOR = NA, ci.lb = NA, ci.ub = NA, pval = NA,
-             #tau2 = NA, I2 = NA, CV = NA,
              k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id))
     })
   } else {
-     tibble(chemical_id = chem, logOR = NA, ci.lb = NA, ci.ub = NA, pval = NA,
-           #tau2 = NA, I2 = NA, CV = NA,
+    tibble(chemical_id = chem, logOR = NA, ci.lb = NA, ci.ub = NA, pval = NA,
            k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id))
   }
 })
-```
+
+
+
+# Convert to OR scale + add prediction interval (using available columns)
+results_list <- results_list %>%
+  mutate(
+    OR     = exp(logOR),
+    OR_lb  = exp(ci.lb),
+    OR_ub  = exp(ci.ub),
+    
+    # Approximate SE from Wald CI (conservative)
+    se_approx = (logOR - ci.lb) / 1.96,
+    
+    # Prediction interval using t-distribution (df = k-2 for multilevel)
+    OR_pi_lb  = exp(logOR - qt(0.975, df = pmax(3, k-2)) * se_approx),
+    OR_pi_ub  = exp(logOR + qt(0.975, df = pmax(3, k-2)) * se_approx),
+    
+    # Prediction interval width
+    OR_pi_width = OR_pi_ub - OR_pi_lb
+  ) %>%
+  select(chemical_id, logOR, se_approx, ci.lb, ci.ub, pval, k, n, 
+         OR, OR_lb, OR_ub, OR_pi_lb, OR_pi_ub, OR_pi_width)
+
+print(results_list)
+
+
 
 ### *Organochlorine pesticides odds ratio plot*
-```{r}
+
 plot_data_chemical <- results_list %>% 
   filter(!is.na(logOR)) %>% 
   arrange(logOR) %>% 
@@ -1124,55 +1160,61 @@ forest_plot_chemical <- ggplot(plot_data_chemical, aes(y = reorder(chemical_id, 
 
 ## *Organochlorine pesticides heterogeneity*
 ```{r}
-# Run separate meta-analyses for each chemical_id
+# Run separate meta-analyses for each chemical_id USING DOI-OVERLAP V
+
 results_list2 <- map_dfr(chemicals, function(chem) {
   dat_sub <- dat_H2 %>% filter(chemical_id == chem)
   
   if (n_distinct(dat_sub$ma_e_id) > 1) {  # Require at least 2 meta-analytic estimates
     tryCatch({
-      # Calculate VCV matrix for this subset
-      VCV_sub <- impute_covariance_matrix(vi = dat_sub$se^2,
-                                          cluster = dat_sub$pair,
-                                          r = 0.5)
+      # Get ma_e_id for this chemical (sorted to match R_full)
+      ma_ids_sub <- sort(unique(dat_sub$ma_e_id))
       
-      model <- rma.mv(yi = lnH,  
-                      V = VCV_sub,
-                      random = list(~1|ma_id,
-                                    ~1|ma_e_id),
-                      test = "t", 
-                      sparse = TRUE,
-                      data = dat_sub,
-                      control = list(iter.max = 1000, rel.tol = 1e-8))
+      # Subset R_full to this chemical's meta-analyses
+      R_sub <- R_full[ma_ids_sub, ma_ids_sub]
       
-      # Calculate heterogeneity statistics
-      # tau2_raw <- sum(model$sigma2)
-      # sigma2_v <- sum(1 / model$vi) * (model$k - 1) / (sum(1 / model$vi)^2 - sum((1 / model$vi)^2))
-      # I2_raw <- 100 * (tau2_raw / (tau2_raw + sigma2_v))
-      # CV_raw <- sqrt(tau2_raw) / abs(model$b[1,1])
+      # Map each row of dat_sub to the correlation in R_sub
+      row_map <- match(dat_sub$ma_e_id, ma_ids_sub)
+      R_row_sub <- R_sub[row_map, row_map]
+      
+      # Construct V = diag(se^2) %*% R_row_sub %*% diag(se^2)
+      V_sub <- diag(dat_sub$se^2) %*% R_row_sub %*% diag(dat_sub$se^2)
+      
+      model <- rma.mv(
+        yi     = dat_sub$lnH,      # now using lnH
+        V      = V_sub,            # DOI-overlap VCV
+        random = list(~1 | ma_id,
+                      ~1 | ma_e_id),
+        test   = "t",
+        sparse = TRUE,
+        data   = dat_sub,
+        control = list(iter.max = 1000, rel.tol = 1e-8)
+      ) %>% robust(model, dat_sub$ma_id) 
+
       
       tibble(
         chemical_id = chem,
-        lnH = model$b[1,1],
+        lnH   = model$b[1,1],
         ci.lb = model$ci.lb,
         ci.ub = model$ci.ub,
-        pval = model$pval,
-        # tau2 = tau2_raw,
-        # I2 = I2_raw,
-        # CV = CV_raw,
-        k = nrow(dat_sub),
-        n = n_distinct(dat_sub$ma_id)
+        pval  = model$pval,
+        k     = nrow(dat_sub),
+        n     = n_distinct(dat_sub$ma_id)
       )
     }, error = function(e) {
-      tibble(chemical_id = chem, lnH = NA, ci.lb = NA, ci.ub = NA, pval = NA,
-             #tau2 = NA, I2 = NA, CV = NA,
-             k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id))
+      tibble(
+        chemical_id = chem, lnH = NA, ci.lb = NA, ci.ub = NA, pval = NA,
+        k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id)
+      )
     })
   } else {
-     tibble(chemical_id = chem, lnH = NA, ci.lb = NA, ci.ub = NA, pval = NA,
-           #tau2 = NA, I2 = NA, CV = NA,
-           k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id))
+    tibble(
+      chemical_id = chem, lnH = NA, ci.lb = NA, ci.ub = NA, pval = NA,
+      k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id)
+    )
   }
 })
+
 
 
 ```
@@ -1325,82 +1367,94 @@ galaxy_chemicals <- ggplot(
 dat_quant$health_outcome_group <- as.factor(dat_quant$health_outcome_group)
 
 dat_quant <- dat_quant %>% 
-mutate(health_outcome_group = recode(
+  mutate(health_outcome_group = recode(
     health_outcome_group,
     "Endocrine, nutritional or metabolic diseases" = "Endocrine diseases",
-    "Diseases of the circulatory system" = "Diseases of the\ncirculatory system",
-    "Pregnancy, childbirth or the puerperium" = "Pregnancy or\nchildbirth",
+    "Diseases of the circulatory system" = "Diseases of the\\ncirculatory system",
+    "Pregnancy, childbirth or the puerperium" = "Pregnancy or\\nchildbirth",
     "Conditions originating in the perinatal period" = "Perinatal period",
-    "Mental, behavioural or neurodevelopmental disorders" = "Neurodevelopmental\ndisorders",
-    "Diseases of the musculoskeletal system or connective tissue" = "Diseases of the\nmusculoskeletal system",
-    "Symptoms, signs or clinical findings, not elsewhere classified" = "Symptoms not\nelsewhere classified",
-    "Diseases of the respiratory system" = "Diseases of the\nrespiratory system",
-    "Diseases of the genitourinary system" = "Diseases of the\ngenitourinary system"
+    "Mental, behavioural or neurodevelopmental disorders" = "Neurodevelopmental\\ndisorders",
+    "Diseases of the musculoskeletal system or connective tissue" = "Diseases of the\\nmusculoskeletal system",
+    "Symptoms, signs or clinical findings, not elsewhere classified" = "Symptoms not\\nelsewhere classified",
+    "Diseases of the respiratory system" = "Diseases of the\\nrespiratory system",
+    "Diseases of the genitourinary system" = "Diseases of the\\ngenitourinary system"
   ))
 
 # Get a list of outcome groups
 outcomes <- unique(dat_quant$health_outcome_group)
 
-# Loop over each health outcome group
+# Loop over each health outcome group USING DOI-OVERLAP V
 results_health <- map_dfr(outcomes, function(outcome) {
   dat_sub <- dat_quant %>% filter(health_outcome_group == outcome)
   
   if (n_distinct(dat_sub$ma_e_id) > 1) { # requires at least 2 meta-analytic estimates
     tryCatch({
+      # Get ma_e_id for this outcome (sorted to match R_full)
+      ma_ids_sub <- sort(unique(dat_sub$ma_e_id))
       
-      VCV_sub <- impute_covariance_matrix(vi = dat_sub$se^2,
-                                          cluster = dat_sub$pair,
-                                          r = 0.5)
+      # Subset R_full to this outcome's meta-analyses
+      R_sub <- R_full[ma_ids_sub, ma_ids_sub]
       
-      model <- rma.mv(yi = logOR,  
-                      V = se^2,
-                      random = list(~1|ma_id,
-                                    ~1|ma_e_id),
-                      test = "t", 
-                      sparse = TRUE,
-                      data = dat_sub,
-                      control = list(iter.max = 1000, rel.tol = 1e-8))
+      # Map each row of dat_sub to the correlation in R_sub
+      row_map <- match(dat_sub$ma_e_id, ma_ids_sub)
+      R_row_sub <- R_sub[row_map, row_map]
       
-      # Calculate heterogeneity statistics
-      # tau2_raw <- sum(model$sigma2)
-      # sigma2_v <- sum(1 / model$vi) * (model$k - 1) / (sum(1 / model$vi)^2 - sum((1 / model$vi)^2))
-      # I2_raw <- 100 * (tau2_raw / (tau2_raw + sigma2_v))
-      # CV_raw <- sqrt(tau2_raw) / abs(model$b[1,1])
+      # Construct V = diag(se^2) %*% R_row_sub %*% diag(se^2)
+      V_sub <- diag(dat_sub$se^2) %*% R_row_sub %*% diag(dat_sub$se^2)
+      
+      model <- rma.mv(
+        yi     = dat_sub$logOR,
+        V      = V_sub,                # DOI-overlap VCV
+        random = list(~1 | ma_id,
+                      ~1 | ma_e_id),
+        test   = "t",
+        sparse = TRUE,
+        data   = dat_sub,
+        control = list(iter.max = 1000, rel.tol = 1e-8)
+      ) %>% robust(model, dat_sub$ma_id) 
+
       
       tibble(
         health_outcome_group = outcome,
         logOR = model$b[1,1],
         ci.lb = model$ci.lb,
         ci.ub = model$ci.ub,
-        pval = model$pval,
-        # tau2 = tau2_raw,
-        # I2 = I2_raw,
-        # CV = CV_raw,
-        k = nrow(dat_sub),
-        n = n_distinct(dat_sub$ma_id)
+        pval  = model$pval,
+        k     = nrow(dat_sub),
+        n     = n_distinct(dat_sub$ma_id)
       )
     }, error = function(e) {
-      tibble(health_outcome_group = outcome, logOR = NA, ci.lb = NA, ci.ub = NA, pval = NA,
-             #tau2 = NA, I2 = NA, CV = NA,
-             k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id))
+      tibble(
+        health_outcome_group = outcome, logOR = NA, ci.lb = NA, ci.ub = NA, pval = NA,
+        k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id)
+      )
     })
   } else {
-    tibble(health_outcome_group = outcome, logOR = NA, ci.lb = NA, ci.ub = NA, pval = NA,
-             #tau2 = NA, I2 = NA, CV = NA,
-             k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id))
+    tibble(
+      health_outcome_group = outcome, logOR = NA, ci.lb = NA, ci.ub = NA, pval = NA,
+      k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id)
+    )
   }
 })
+
 ```
 
 ### *Adverse health outcome odds ratio plot*
 ```{r}
 plot_data_health <- results_health %>% 
   filter(!is.na(logOR)) %>% 
-  arrange(logOR)  %>% 
+  arrange(logOR) %>% 
   mutate(
-    OR = exp(logOR),
-    OR_ci_lower = exp(ci.lb),
-    OR_ci_upper = exp(ci.ub)
+    OR           = exp(logOR),
+    OR_ci_lower  = exp(ci.lb),
+    OR_ci_upper  = exp(ci.ub),
+    
+    # Approximate SE from Wald CI
+    se_approx    = (logOR - ci.lb) / 1.96,
+    
+    # Prediction intervals (t-distribution, df = k-2)
+    OR_pi_lower  = exp(logOR - qt(0.975, df = pmax(3, k-2)) * se_approx),
+    OR_pi_upper  = exp(logOR + qt(0.975, df = pmax(3, k-2)) * se_approx)
   )
 
 
@@ -1437,71 +1491,76 @@ forest_plot_health <- ggplot(plot_data_health, aes(y = reorder(health_outcome_gr
 ## *Adverse health outcome lnH*
 ```{r}
 dat_H2 <- dat_H2 %>% 
-mutate(health_outcome_group = recode(
+  mutate(health_outcome_group = recode(
     health_outcome_group,
     "Endocrine, nutritional or metabolic diseases" = "Endocrine diseases",
-    "Diseases of the circulatory system" = "Diseases of the\ncirculatory system",
-    "Pregnancy, childbirth or the puerperium" = "Pregnancy or\nchildbirth",
+    "Diseases of the circulatory system" = "Diseases of the\\ncirculatory system",
+    "Pregnancy, childbirth or the puerperium" = "Pregnancy or\\nchildbirth",
     "Conditions originating in the perinatal period" = "Perinatal period",
-    "Mental, behavioural or neurodevelopmental disorders" = "Neurodevelopmental\ndisorders",
-    "Diseases of the musculoskeletal system or connective tissue" = "Diseases of the\nmusculoskeletal system",
-    "Symptoms, signs or clinical findings, not elsewhere classified" = "Symptoms not\nelsewhere classified",
-    "Diseases of the respiratory system" = "Diseases of the\nrespiratory system",
-    "Diseases of the genitourinary system" = "Diseases of the\ngenitourinary system"
+    "Mental, behavioural or neurodevelopmental disorders" = "Neurodevelopmental\\ndisorders",
+    "Diseases of the musculoskeletal system or connective tissue" = "Diseases of the\\nmusculoskeletal system",
+    "Symptoms, signs or clinical findings, not elsewhere classified" = "Symptoms not\\nelsewhere classified",
+    "Diseases of the respiratory system" = "Diseases of the\\nrespiratory system",
+    "Diseases of the genitourinary system" = "Diseases of the\\ngenitourinary system"
   )) 
 
 # Get a list of outcome groups
 outcomes <- unique(dat_H2$health_outcome_group)
 
-# Loop over each health outcome group
+# Loop over each health outcome group USING DOI-OVERLAP V
 results_health_H2 <- map_dfr(outcomes, function(outcome) {
   dat_sub <- dat_H2 %>% filter(health_outcome_group == outcome)
   
   if (n_distinct(dat_sub$ma_e_id) > 1) { # requires at least 2 meta-analytic estimates
     tryCatch({
+      # Get ma_e_id for this outcome (sorted to match R_full)
+      ma_ids_sub <- sort(unique(dat_sub$ma_e_id))
       
-      VCV_sub <- impute_covariance_matrix(vi = dat_sub$se^2,
-                                          cluster = dat_sub$pair,
-                                          r = 0.5)
+      # Subset R_full to this outcome's meta-analyses
+      R_sub <- R_full[ma_ids_sub, ma_ids_sub]
       
-      model <- rma.mv(yi = lnH,  
-                      V = VCV_sub,
-                      random = list(~1|ma_id,
-                                    ~1|ma_e_id),
-                      test = "t", 
-                      sparse = TRUE,
-                      data = dat_sub,
-                      control = list(iter.max = 1000, rel.tol = 1e-8))
+      # Map each row of dat_sub to the correlation in R_sub
+      row_map <- match(dat_sub$ma_e_id, ma_ids_sub)
+      R_row_sub <- R_sub[row_map, row_map]
       
-      # Calculate heterogeneity statistics
-      # tau2_raw <- sum(model$sigma2)
-      # sigma2_v <- sum(1 / model$vi) * (model$k - 1) / (sum(1 / model$vi)^2 - sum((1 / model$vi)^2))
-      # I2_raw <- 100 * (tau2_raw / (tau2_raw + sigma2_v))
-      # CV_raw <- sqrt(tau2_raw) / abs(model$b[1,1])
+      # Construct V = diag(se^2) %*% R_row_sub %*% diag(se^2)
+      V_sub <- diag(dat_sub$se^2) %*% R_row_sub %*% diag(dat_sub$se^2)
+      
+      model <- rma.mv(
+        yi     = dat_sub$lnH,
+        V      = V_sub,                # DOI-overlap VCV
+        random = list(~1 | ma_id,
+                      ~1 | ma_e_id),
+        test   = "t",
+        sparse = TRUE,
+        data   = dat_sub,
+        control = list(iter.max = 1000, rel.tol = 1e-8)
+      ) %>% robust(model, dat_sub$ma_id) 
+
       
       tibble(
         health_outcome_group = outcome,
-        lnH = model$b[1,1],
+        lnH   = model$b[1,1],
         ci.lb = model$ci.lb,
         ci.ub = model$ci.ub,
-        pval = model$pval,
-        # tau2 = tau2_raw,
-        # I2 = I2_raw,
-        # CV = CV_raw,
-        k = nrow(dat_sub),
-        n = n_distinct(dat_sub$ma_id)
+        pval  = model$pval,
+        k     = nrow(dat_sub),
+        n     = n_distinct(dat_sub$ma_id)
       )
     }, error = function(e) {
-      tibble(health_outcome_group = outcome, lnH = NA, ci.lb = NA, ci.ub = NA, pval = NA,
-             #tau2 = NA, I2 = NA, CV = NA,
-             k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id))
+      tibble(
+        health_outcome_group = outcome, lnH = NA, ci.lb = NA, ci.ub = NA, pval = NA,
+        k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id)
+      )
     })
   } else {
-    tibble(health_outcome_group = outcome, lnH = NA, ci.lb = NA, ci.ub = NA, pval = NA,
-             #tau2 = NA, I2 = NA, CV = NA,
-             k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id))
+    tibble(
+      health_outcome_group = outcome, lnH = NA, ci.lb = NA, ci.ub = NA, pval = NA,
+      k = nrow(dat_sub), n = n_distinct(dat_sub$ma_id)
+    )
   }
 })
+
 ```
 
 ### *Adverse health outcome lnH plot*
@@ -1561,7 +1620,6 @@ forest_plot_lnH_health <- ggplot(plot_data_health_H2, aes(y = reorder(health_out
 
 ## *galaxy plot adverse health outcome*
 ```{r}
-
 # ── 0. Data with numeric IDs ──────────────────────────────────────────────
 plot_data_health_merged <- plot_data_health_merged %>% 
   arrange(OR) %>% 
@@ -1647,8 +1705,8 @@ biomark_model <- rma.mv(yi = logOR,
                       sparse = TRUE,
                       data = dat_quant,
                       mods = ~ biomarker, 
-                      control = list(iter.max = 1000, rel.tol = 1e-8))
-
+                      control = list(iter.max = 1000, rel.tol = 1e-8)) %>% 
+                      robust(biomark_model, dat_quant$ma_id) 
 
 
 
@@ -1768,7 +1826,6 @@ percentages <- tibble(
 effect_col   <- "logOR"      # ← change to "lnRR", "lnH", …
 variance_col <- "se"         # ← matching SE column (e.g. "lnRR_se")
 y_axis_label <- "Overall log Odds Ratio"
-corr_r       <- 0.50         # assumed correlation (for VCV imputation)
 
 # ── Identify all CEESAT columns --------------------------------------------
 ceesat_cols <- grep("^CEESAT2_", names(dat_quant), value = TRUE)
@@ -1797,13 +1854,12 @@ for (i in seq_along(ceesat_cols)) {
     next
   }
   
-  # Impute VCV
-  vcv <- impute_covariance_matrix(
-    vi      = (data_i[[variance_col]])^2,
-    cluster = data_i$pair,
-    r       = corr_r
-  )
-  if (is.list(vcv)) vcv <- vcv[[1]]
+  # **DOI-OVERLAP VCV CONSTRUCTION** (replaces impute_covariance_matrix)
+  ma_ids_sub <- sort(unique(data_i$ma_e_id))
+  R_sub <- R_full[ma_ids_sub, ma_ids_sub]
+  row_map <- match(data_i$ma_e_id, ma_ids_sub)
+  R_row_sub <- R_sub[row_map, row_map]
+  vcv <- diag(data_i[[variance_col]]^2) %*% R_row_sub %*% diag(data_i[[variance_col]]^2)
   ceesat_VCV[[i]] <- vcv <- as.matrix(vcv)
   
   # Multilevel model + robust SEs
@@ -1814,7 +1870,7 @@ for (i in seq_along(ceesat_cols)) {
                   ~1 | ma_e_id),
     test   = "t",
     data   = data_i
-  ) %>% robust(data_i$pair)
+  ) %>% robust(data_i$ma_id)
 }
 
 # ── Tidy model results ------------------------------------------------------
@@ -1842,13 +1898,13 @@ results_ceesat <- map2_dfr(ceesat_cols, seq_along(ceesat_cols), \(col, idx) {
   }
 })
 
-
-
- results_ceesat <-  results_ceesat %>% mutate(
+results_ceesat <- results_ceesat %>% 
+  mutate(
     OR = exp(logOR),
     OR_ci_lower = exp(ci.lb),
     OR_ci_upper = exp(ci.ub)
   )
+
 
 
 
@@ -1965,12 +2021,10 @@ leave_red_out_forest <- ggplot(
 
 ### *Leave red out heterogeneity*
 ```{r}
-
 # ── USER SETTINGS -----------------------------------------------------------
-effect_col   <- "lnH"      # ← change to "lnRR", "lnH", …
-variance_col <- "se"         # ← matching SE column (e.g. "lnRR_se")
+effect_col   <- "lnH"        # outcome for Hedges' g meta-analysis
+variance_col <- "se"         # matching SE column
 y_axis_label <- "I2"
-corr_r       <- 0.50         # assumed correlation (for VCV imputation)
 
 # ── Identify all CEESAT columns --------------------------------------------
 ceesat_cols <- grep("^CEESAT2_", names(dat_H2), value = TRUE)
@@ -1999,13 +2053,12 @@ for (i in seq_along(ceesat_cols)) {
     next
   }
   
-  # Impute VCV
-  vcv <- impute_covariance_matrix(
-    vi      = (data_i[[variance_col]])^2,
-    cluster = data_i$pair,
-    r       = corr_r
-  )
-  if (is.list(vcv)) vcv <- vcv[[1]]
+  # **DOI-OVERLAP VCV CONSTRUCTION** (replaces impute_covariance_matrix)
+  ma_ids_sub <- sort(unique(data_i$ma_e_id))
+  R_sub <- R_full[ma_ids_sub, ma_ids_sub]
+  row_map <- match(data_i$ma_e_id, ma_ids_sub)
+  R_row_sub <- R_sub[row_map, row_map]
+  vcv <- diag(data_i[[variance_col]]^2) %*% R_row_sub %*% diag(data_i[[variance_col]]^2)
   ceesat_VCV[[i]] <- vcv <- as.matrix(vcv)
   
   # Multilevel model + robust SEs
@@ -2016,7 +2069,7 @@ for (i in seq_along(ceesat_cols)) {
                   ~1 | ma_e_id),
     test   = "t",
     data   = data_i
-  ) %>% robust(data_i$pair)
+  ) %>% robust(data_i$ma_id)
 }
 
 # ── Tidy model results ------------------------------------------------------
@@ -2173,7 +2226,6 @@ leave_red_out_forest_het <- ggplot(
 #  LEAVE-ONE-STUDY-OUT  MULTILEVEL  META-ANALYSIS  –  FULL  SCRIPT          #
 ###############################################################################
 
-
 #  USER SETTINGS -------------------------------------------------------------
 effect_col   <- "logOR"   # ← change to "lnRR", "lnH", etc.
 variance_col <- "se"      # ← matching SE column (e.g. "lnRR_se")
@@ -2204,13 +2256,13 @@ for (i in seq_along(study_levels)) {
     next
   }
   
-  # 2c. Variance–covariance matrix
-  vcv_obj <- impute_covariance_matrix(
-               vi      = (data_i[[variance_col]])^2,
-               cluster = data_i$pair,
-               r       = 0.5)
-  if (is.list(vcv_obj)) vcv_obj <- vcv_obj[[1]]
-  vcv_i <- as.matrix(vcv_obj)
+  # 2c. **DOI-OVERLAP VCV** (replaces impute_covariance_matrix)
+  ma_ids_sub <- sort(unique(data_i$ma_e_id))
+  R_sub <- R_full[ma_ids_sub, ma_ids_sub]
+  row_map <- match(data_i$ma_e_id, ma_ids_sub)
+  R_row_sub <- R_sub[row_map, row_map]
+  vcv_i <- diag(data_i[[variance_col]]^2) %*% R_row_sub %*% diag(data_i[[variance_col]]^2)
+  vcv_i <- as.matrix(vcv_i)
   loo_VCV[[i]] <- vcv_i
   
   # 2d. Multilevel model
@@ -2222,8 +2274,9 @@ for (i in seq_along(study_levels)) {
     test   = "t",
     data   = data_i
   ) %>% 
-    robust(data_i$pair)
+    robust(data_i$ma_id)
 }
+
 
 #  3.  TIDY RESULTS TABLE ----------------------------------------------------
 results_loo <- map2_dfr(study_levels, seq_along(study_levels), function(study, idx) {
@@ -2375,29 +2428,27 @@ loo_study_tau <- ggplot(tau2_plot_df, aes(x = reorder(study_id, tau2_diff),
 ```{r}
 dat_quant_OR <- dat_quant %>% filter(ma_es_measure == "Odds ratio")
 
-
 dat_quant_OR <- dat_quant_OR %>%
   mutate(pair = paste0(health_outcome_group, chemical_id))
 
-VCV_OR <- impute_covariance_matrix(
-  vi      = dat_quant_OR$se^2,
-  cluster = dat_quant_OR$pair,
-  r       = 0.5
-)
-
+# **DOI-OVERLAP VCV** (replaces impute_covariance_matrix)
+ma_ids_OR <- sort(unique(dat_quant_OR$ma_e_id))
+R_OR <- R_full[ma_ids_OR, ma_ids_OR]
+row_map_OR <- match(dat_quant_OR$ma_e_id, ma_ids_OR)
+R_row_OR <- R_OR[row_map_OR, row_map_OR]
+VCV_OR <- diag(dat_quant_OR$se^2) %*% R_row_OR %*% diag(dat_quant_OR$se^2)
 
 mod_overall_filter.OR <- rma.mv(
-  yi     = logOR,
+  yi     = dat_quant_OR$logOR,     # use column reference
   V      = VCV_OR,
   random = list(~1 | ma_id,
                 ~1 | ma_e_id),
   data   = dat_quant_OR,
   test   = "t"
 ) %>% 
-  robust(dat_quant_OR$pair)   # robust (clustered) SEs
+  robust(dat_quant_OR$ma_id)   # robust (clustered) SEs
 
-
-#Extracting data from the model
+# Extracting data from the model
 overall_results_filter.OR <- tibble(
   lnOR = as.numeric(mod_overall_filter.OR$b),
   lnOR_ci_lower = mod_overall_filter.OR$ci.lb,
@@ -2405,7 +2456,7 @@ overall_results_filter.OR <- tibble(
   lnOR_p_value = mod_overall_filter.OR$pval
 )
 
-i2_values  <- i2_ml(mod_overall_filter.OR)
+i2_values <- i2_ml(mod_overall_filter.OR)
 
 # Forest plot logOR
 
@@ -2444,24 +2495,25 @@ dat_H2_OR <- dat_H2 %>%                               # start from the full H² 
 ###############################################################################
 # 2.  V-COV MATRIX  -----------------------------------------------------------
 ###############################################################################
-VCV_H2_OR <- impute_covariance_matrix(
-  vi      = dat_H2_OR$se^2,   # <-- replace with the column holding SE² for lnH
-  cluster = dat_H2_OR$pair,
-  r       = 0.5
-)
+# **DOI-OVERLAP VCV** (replaces impute_covariance_matrix)
+ma_ids_H2_OR <- sort(unique(dat_H2_OR$ma_e_id))
+R_H2_OR <- R_full[ma_ids_H2_OR, ma_ids_H2_OR]
+row_map_H2_OR <- match(dat_H2_OR$ma_e_id, ma_ids_H2_OR)
+R_row_H2_OR <- R_H2_OR[row_map_H2_OR, row_map_H2_OR]
+VCV_H2_OR <- diag(dat_H2_OR$se^2) %*% R_row_H2_OR %*% diag(dat_H2_OR$se^2)
 
 ###############################################################################
 # 3.  MULTI-LEVEL META-ANALYSIS  ---------------------------------------------
 ###############################################################################
 mod_overall_H2_OR <- rma.mv(
-  yi     = lnH,
+  yi     = dat_H2_OR$lnH,        # fixed column reference
   V      = VCV_H2_OR,
   random = list(~1 | ma_id,
                 ~1 | ma_e_id),
   data   = dat_H2_OR,
   test   = "t"
 ) %>% 
-  robust(dat_H2_OR$pair)     # clustered (robust) SEs
+  robust(dat_H2_OR$ma_id)     # clustered (robust) SEs
 
 ###############################################################################
 # 4.  SUMMARY TABLE  ----------------------------------------------------------
@@ -2695,28 +2747,29 @@ ggsave(
 
 ## *different dependency*
 ```{r}
-VCV.2 <- impute_covariance_matrix(
+VCV <- impute_covariance_matrix(
   vi      = dat_quant$se^2,
   cluster = dat_quant$pair,
-  r       = 0.8
+  r       = 0.5
 )
 
 
-VCV_H2.2<- impute_covariance_matrix(
+VCV_H2 <- impute_covariance_matrix(
   vi      = dat_H2$se^2,   # <-- replace with the column holding SE² for lnH
   cluster = dat_H2$pair,
-  r       = 0.8
+  r       = 0.5
 )
 
 
 
 
 mod_overall.2 <- rma.mv(yi = logOR,  
-                        V = VCV.2, 
+                        V = VCV, 
                         random = list(~1|ma_id, 
                                       ~1|ma_e_id), 
                         data = dat_quant,
-                        test = "t") 
+                        test = "t") %>% 
+  
 
 
 
@@ -2733,7 +2786,7 @@ overall_value.2 <- data.frame(
 
 mod_overall_H2.2 <- rma.mv(
   yi     = lnH,
-  V      = VCV_H2.2,
+  V      = VCV_H2,
   random = list(~1 | ma_id,
                 ~1 | ma_e_id),
   data   = dat_H2,
@@ -2931,11 +2984,8 @@ ggsave(
 ```
 
 
-
 ## Publication bias
 ```{r}
-
-
 V_pub <- dat_quant$se^2
 
 dat_quant$V_pub <- dat_quant$se^2
@@ -3002,4 +3052,6 @@ pub.bias.bubble <- bubble_plot(pub.bias, mod = "V_pub", group = "ma_id", data = 
 
 
 ```
+
+
 
