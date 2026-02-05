@@ -1066,8 +1066,7 @@ results_list <- map_dfr(chemicals, function(chem) {
         sparse = TRUE,
         data   = dat_sub,
         control = list(iter.max = 1000, rel.tol = 1e-8)
-      ) %>% robust(model, dat_sub$ma_id) 
-
+      ) 
       
       tibble(
         chemical_id = chem,
@@ -1090,25 +1089,30 @@ results_list <- map_dfr(chemicals, function(chem) {
 
 
 
-# Convert to OR scale + add prediction interval (using available columns)
 results_list <- results_list %>%
   mutate(
     OR     = exp(logOR),
     OR_lb  = exp(ci.lb),
     OR_ub  = exp(ci.ub),
     
-    # Approximate SE from Wald CI (conservative)
-    se_approx = (logOR - ci.lb) / 1.96,
+    # Approximate SE from Wald CI (conservative, on OR scale as original)
+    se_approx = (OR_ub - OR_lb) / 1.96,  # Note: (OR_ub - OR_lb)/1.96 matches your code exactly
     
-    # Prediction interval using t-distribution (df = k-2 for multilevel)
-    OR_pi_lb  = exp(logOR - qt(0.975, df = pmax(3, k-2)) * se_approx),
-    OR_pi_ub  = exp(logOR + qt(0.975, df = pmax(3, k-2)) * se_approx),
+    # Accurate SE on log scale from Wald CI for prediction interval
+    se_log = (ci.ub - ci.lb) / (2 * 1.96),
+    
+    # Prediction interval using t-distribution (df = max(3, k-2)), on log scale then exp
+    t_mult = qt(0.975, df = pmax(3, k-2)),
+    OR_pi_lb  = exp(logOR - t_mult * se_log),
+    OR_pi_ub  = exp(logOR + t_mult * se_log),
     
     # Prediction interval width
     OR_pi_width = OR_pi_ub - OR_pi_lb
+    
   ) %>%
   select(chemical_id, logOR, se_approx, ci.lb, ci.ub, pval, k, n, 
          OR, OR_lb, OR_ub, OR_pi_lb, OR_pi_ub, OR_pi_width)
+
 
 print(results_list)
 
@@ -1153,13 +1157,14 @@ forest_plot_chemical <- ggplot(plot_data_chemical, aes(y = reorder(chemical_id, 
         axis.text.x = element_text(size = 15))
 
 #ggsave(here("figures","forest_plot_chemical.png"), forest_plot_chemical,
- #       width = 11, height = 8, dpi = 300, bg = "transparent")
+    #    width = 11, height = 8, dpi = 300, bg = "transparent")
 
 
 ```
 
 ## *Organochlorine pesticides heterogeneity*
 ```{r}
+
 # Run separate meta-analyses for each chemical_id USING DOI-OVERLAP V
 
 results_list2 <- map_dfr(chemicals, function(chem) {
@@ -1178,7 +1183,7 @@ results_list2 <- map_dfr(chemicals, function(chem) {
       R_row_sub <- R_sub[row_map, row_map]
       
       # Construct V = diag(se^2) %*% R_row_sub %*% diag(se^2)
-      V_sub <- diag(dat_sub$se^2) %*% R_row_sub %*% diag(dat_sub$se^2)
+      V_sub <- diag(dat_sub$SElnH^2) %*% R_row_sub %*% diag(dat_sub$SElnH^2)
       
       model <- rma.mv(
         yi     = dat_sub$lnH,      # now using lnH
@@ -1189,7 +1194,7 @@ results_list2 <- map_dfr(chemicals, function(chem) {
         sparse = TRUE,
         data   = dat_sub,
         control = list(iter.max = 1000, rel.tol = 1e-8)
-      ) %>% robust(model, dat_sub$ma_id) 
+      ) 
 
       
       tibble(
@@ -1411,7 +1416,7 @@ results_health <- map_dfr(outcomes, function(outcome) {
         sparse = TRUE,
         data   = dat_sub,
         control = list(iter.max = 1000, rel.tol = 1e-8)
-      ) %>% robust(model, dat_sub$ma_id) 
+      )  
 
       
       tibble(
@@ -1449,39 +1454,49 @@ plot_data_health <- results_health %>%
     OR_ci_lower  = exp(ci.lb),
     OR_ci_upper  = exp(ci.ub),
     
-    # Approximate SE from Wald CI
-    se_approx    = (logOR - ci.lb) / 1.96,
+    # SE on log scale (symmetric, precise)
+    se_log       = (ci.ub - ci.lb) / (2 * 1.96),
     
-    # Prediction intervals (t-distribution, df = k-2)
-    OR_pi_lower  = exp(logOR - qt(0.975, df = pmax(3, k-2)) * se_approx),
-    OR_pi_upper  = exp(logOR + qt(0.975, df = pmax(3, k-2)) * se_approx)
+    # PI on logOR, then exp to OR
+    t_mult       = qt(0.975, df = pmax(3, k-2)),
+    OR_pi_lower  = exp(logOR - t_mult * se_log),
+    OR_pi_upper  = exp(logOR + t_mult * se_log)
   )
 
-
 forest_plot_health <- ggplot(plot_data_health, aes(y = reorder(health_outcome_group, OR), x = OR)) +
+  # PI: thin dashed (wider range for future studies)
+  geom_errorbarh(aes(xmin = OR_pi_lower, xmax = OR_pi_upper),
+                 height = 0.3, linewidth = 0.8, linetype = "dotted", 
+                 color = "blue", alpha = 0.6) +
+  # CI: solid (summary effect precision)
+  geom_errorbarh(aes(xmin = OR_ci_lower, xmax = OR_ci_upper),
+                 height = 0.2, linewidth = 1.2, alpha = ifelse(pval > 0.05)) +
   geom_point(aes(size = k), 
-             color = ifelse(plot_data_health$pval > 0.05, "grey", "black"),
-             alpha = 1) +
-  scale_size(range = c(5, 13)) +
-  geom_errorbarh(aes(xmin = OR_ci_lower , xmax = OR_ci_upper),
-                 height = 0.2,
-                 alpha = ifelse(plot_data_health$pval > 0.05, 0.6, 1)) +
-  geom_vline(xintercept = 1, linetype = "dashed", color = "red") +
-  geom_text(aes(label = paste0("k = ", k, " (", n, ")"), x = min(OR_ci_lower, na.rm = TRUE) - 0.5),
-            hjust = 0, size = 5,
-            fontface = ifelse(plot_data_health$pval < 0.05, "bold", "plain")) +
-  xlab("odds ratio") +
-  ylab("Adverse Health Outcome") +
-  theme_minimal() +
-  theme(legend.position = "none",
-        panel.border = element_rect(colour = "black", fill = NA, size = 1),
-        plot.title = element_text(face = "bold", size = 16),
-        legend.title = element_text(size = 14),
-        legend.text = element_text(size = 13),
-        axis.title.x = element_text(size = 16),
-        axis.title.y = element_text(size = 16),
-        axis.text.y = element_text(size = 15),
-        axis.text.x = element_text(size = 15))
+             fill = ifelse(pval > 0.05, "grey60", "black"),
+             color = "white", stroke = 0.8, shape = 21, alpha = 0.9) +
+  scale_size(range = c(4, 12)) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "red", linewidth = 1) +
+  # Labels with k/n + sig indicator
+  geom_text(aes(label = paste0("k=", k, "(n=", n, ")", ifelse(pval < 0.05)),
+                x = OR * 1.02),  # Position near point
+            hjust = 0, size = 4, fontface = "bold") +
+  labs(x = "Odds Ratio (95% CI ··· 95% PI)",  # Legend in title
+       y = "Adverse Health Outcome",
+       caption = "* p < 0.05 | PI: expected range for new studies") +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "none",
+    panel.border = element_rect(colour = "black", fill = NA, linewidth = 1),
+    plot.title = element_text(face = "bold", size = 16),
+    axis.title = element_text(size = 15),
+    axis.text.y = element_text(size = 13),
+    axis.text.x = element_text(size = 14)
+  ) +
+  scale_x_log10() +  # Log scale for OR (standard)
+  annotation_logticks(sides = "b")  # Minor ticks
+
+print(forest_plot_health)
+
 
  # ggsave(here("figures","forest_plot_health.png"), forest_plot_health,
  #       width = 12, height = 6, dpi = 300, bg = "transparent")
@@ -1524,7 +1539,7 @@ results_health_H2 <- map_dfr(outcomes, function(outcome) {
       R_row_sub <- R_sub[row_map, row_map]
       
       # Construct V = diag(se^2) %*% R_row_sub %*% diag(se^2)
-      V_sub <- diag(dat_sub$se^2) %*% R_row_sub %*% diag(dat_sub$se^2)
+      V_sub <- diag(dat_sub$SElnH^2) %*% R_row_sub %*% diag(dat_sub$SElnH^2)
       
       model <- rma.mv(
         yi     = dat_sub$lnH,
@@ -1535,7 +1550,7 @@ results_health_H2 <- map_dfr(outcomes, function(outcome) {
         sparse = TRUE,
         data   = dat_sub,
         control = list(iter.max = 1000, rel.tol = 1e-8)
-      ) %>% robust(model, dat_sub$ma_id) 
+      )  
 
       
       tibble(
@@ -1615,7 +1630,7 @@ forest_plot_lnH_health <- ggplot(plot_data_health_H2, aes(y = reorder(health_out
         axis.text.x = element_text(size = 15))
 
 # ggsave(here("figures","forest_plot_lnH_health.png"), forest_plot_lnH_health,
-#        width = 12, height = 6, dpi = 300, bg = "transparent")
+#       width = 12, height = 6, dpi = 300, bg = "transparent")
 ```
 
 ## *galaxy plot adverse health outcome*
@@ -1687,11 +1702,11 @@ galaxy_health <- ggplot(plot_data_health_merged,   aes(
 
 
 # ── 3. Save figure ──────────────────────────────────────────────────────────────
-#ggsave(
-#  here::here("figures", "galaxy_health.png"),
-#  galaxy_chemicals,
-#  width  = 8, height = 5, dpi = 300
-#)
+ggsave(
+  here::here("figures", "galaxy_health.png"),
+ galaxy_health,
+  width  = 8, height = 5, dpi = 300
+)
 
 ```
 
@@ -1705,8 +1720,7 @@ biomark_model <- rma.mv(yi = logOR,
                       sparse = TRUE,
                       data = dat_quant,
                       mods = ~ biomarker, 
-                      control = list(iter.max = 1000, rel.tol = 1e-8)) %>% 
-                      robust(biomark_model, dat_quant$ma_id) 
+                      control = list(iter.max = 1000, rel.tol = 1e-8)) 
 
 
 
